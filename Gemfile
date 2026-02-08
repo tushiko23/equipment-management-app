@@ -37,13 +37,22 @@ gem "bootsnap", require: false
 # Use scss
 gem "sassc-rails"
 
+# schema.rbにテーブル・カラムをメモするため
 gem "annotate"
+
+# 開発用にダミーデータを使用するときのため
+gem "faker"
+# errorメッセージを見やすくする&chrome上でコンソールを使えるようにする
 gem "better_errors"
 gem "binding_of_caller"
-gem "devise"
-gem "faker"
-gem "haml-rails"
+# 構文チェック
 gem "rubocop-rails"
+
+# 新規登録・ログイン・ログアウト機能の実装
+gem "devise"
+
+# hamlテンプレート変更が必要になった時のため
+gem "haml-rails"
 
 # 検索機能のライブラリ
 gem "ransack"
@@ -55,6 +64,9 @@ gem "active_storage_validations"
 gem "rails-i18n", "~> 7.0"
 gem "devise-i18n"
 gem "devise-i18n-views"
+
+# envファイルをrailsで使うためのgem
+gem "dotenv-rails"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
