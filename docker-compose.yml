@@ -1,3 +1,5 @@
+volumes:
+  db-volume:
 services:
   db:
     image: postgres:16
@@ -5,17 +7,21 @@ services:
     environment: 
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      ports:
-        - "5432:5432"
-      volumes:
-        - 'db-volume:/var/liv/postgressql/data'
+    ports:
+      - '5432:5432'
+    volumes:
+      - 'db-volume:/var/lib/postgressql/data'
   web-app:
     build: .
-    working_dir: /ToDo-app 
+    working_dir: /ToDo-app
+    ports:
+      - '3000:3000'
+    volumes:
+      - '.:/ToDo-app'
     environment:
-      - POSTGRES_USER: ${POSTGRES_USER}
-      - POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      - DATABASE_HOST: db
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      DATABASE_HOST: db
     depends_on: 
       - db
     tty: true
