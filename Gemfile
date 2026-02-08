@@ -34,6 +34,28 @@ gem "bootsnap", require: false
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
+# Use scss
+gem "sassc-rails"
+
+gem "annotate"
+gem "better_errors"
+gem "binding_of_caller"
+gem "devise"
+gem "faker"
+gem "haml-rails"
+gem "rubocop-rails"
+
+# 検索機能のライブラリ
+gem "ransack"
+
+# 画像アップロードのバリデーション
+gem "active_storage_validations"
+
+# Railsのメッセージの日本語化
+gem "rails-i18n", "~> 7.0"
+gem "devise-i18n"
+gem "devise-i18n-views"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
@@ -48,6 +70,7 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
+  gem "html2haml"
 end
 
 group :test do
