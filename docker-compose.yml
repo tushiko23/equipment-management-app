@@ -26,3 +26,4 @@ services:
       - db
     tty: true
     stdin_open: true
+    command: tail -f /dev/null
