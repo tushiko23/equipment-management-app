@@ -2,8 +2,18 @@
 
 <section class="profile-section">
   <h3>プロフィール設定</h3>
-  <%= form_with model: @user, url: user_registration_path, method: :put, local: true do |f| %>
-    <%= render "devise/shared/error_messages", resource: resource %>
+  <%= form_with model: resource, url: user_registration_path, method: :put, local: true do |f| %>
+    <%= render "devise/shared/error_messages" %>
+
+    <div class="field">
+      <% if resource.avatar.attached? %>
+        <%= image_tag resource.avatar.variant(resize_to_limit: [100, 100]), class: "avatar-preview" %><br>
+      <% else %>
+        <%= image_tag 'default-avatar.png', class: "avatar-preview" %><br>
+      <% end %>
+        <%= f.label :avatar %><br />
+        <%= f.file_field :avatar, autofocus: true %>
+    </div>
 
     <div class="field">
       <%= f.label :name %><br />
@@ -20,7 +30,7 @@
 
 <section class="account-section">
   <h3>アカウント設定（メール・パスワード）</h3>
-  <%= form_with  model: @user, url: user_registration_path, method: :put, local: true do |f| %>
+  <%= form_with  model: resource, url: user_registration_path, method: :put, local: true do |f| %>
     <div class="field">
       <%= f.label :email %><br />
       <%= f.email_field :email %>

@@ -40,6 +40,9 @@ gem "sassc-rails"
 # schema.rbにテーブル・カラムをメモするため
 gem "annotate"
 
+# Active Strage に画像をリサイズした時に表示するためのgem
+gem "image_processing", "~> 1.2"
+
 # 開発用にダミーデータを使用するときのため
 gem "faker"
 # errorメッセージを見やすくする&chrome上でコンソールを使えるようにする
