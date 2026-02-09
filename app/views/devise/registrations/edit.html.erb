@@ -1,53 +1,93 @@
-<h2>設定</h2>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      
+      <h2 class="text-center mb-4">設定</h2>
 
-<section class="profile-section">
-  <h3>プロフィール設定</h3>
-  <%= form_with model: resource, url: user_registration_path, method: :put, local: true do |f| %>
-    <%= render "devise/shared/error_messages" %>
+      <ul class="nav nav-tabs mb-4" id="settingTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="true">
+            プロフィール編集
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="account-tab" data-bs-toggle="tab" data-bs-target="#account" type="button" role="tab" aria-controls="account" aria-selected="false">
+            アカウント設定
+          </button>
+        </li>
+      </ul>
 
-    <div class="field">
-      <% if resource.persisted? && resource.avatar.attached? %>
-        <%= image_tag resource.avatar.variant(resize_to_limit: [100, 100]), class: "avatar-preview" %><br>
-      <% else %>
-        <%= image_tag 'default-avatar.png', class: "avatar-preview" %><br>
-      <% end %>
-        <%= f.label :avatar %><br />
-        <%= f.file_field :avatar, autofocus: true %>
+      <div class="tab-content" id="settingTabContent">
+
+        <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+          <div class="card shadow-sm border-0">
+            <div class="card-body">
+              <%= form_with model: resource, url: user_registration_path, method: :put, local: true do |f| %>
+                <%= render "devise/shared/error_messages", resource: resource %>
+
+                <div class="mb-4 text-center">
+                  <% if resource.persisted? && resource.avatar.attached? %>
+                    <%= image_tag resource.avatar.variant(resize_to_limit: [150, 150]), class: "rounded-circle img-thumbnail mb-3" %>
+                  <% else %>
+                    <%= image_tag 'default-avatar.png', class: "rounded-circle img-thumbnail mb-3", style: "width: 150px; height: 150px; object-fit: cover;" %>
+                  <% end %>
+                  
+                  <div class="input-group">
+                    <%= f.file_field :avatar, class: "form-control", id: "inputGroupFile04" %>
+                  </div>
+                  <div class="form-text">新しいアイコン画像を選択</div>
+                </div>
+
+                <div class="mb-3">
+                  <%= f.label :name, "ユーザー名", class: "form-label fw-bold" %>
+                  <%= f.text_field :name, class: "form-control", placeholder: "表示名を入力" %>
+                </div>
+
+                <div class="d-grid gap-2 mt-4">
+                  <%= f.submit "プロフィールを更新", class: "btn btn-primary" %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-pane fade" id="account" role="tabpanel" aria-labelledby="account-tab">
+          <div class="card shadow-sm border-0">
+            <div class="card-body">
+              <%= form_with model: resource, url: user_registration_path, method: :put, local: true do |f| %>
+
+                
+                
+                <div class="mb-3">
+                  <%= f.label :email, "メールアドレス", class: "form-label fw-bold" %>
+                  <%= f.email_field :email, class: "form-control", autocomplete: "email" %>
+                </div>
+
+                <div class="mb-3">
+                  <%= f.label :password, "新しいパスワード", class: "form-label fw-bold" %>
+                  <%= f.password_field :password, class: "form-control", autocomplete: "new-password", placeholder: "変更しない場合は空欄" %>
+                  <div class="form-text">6文字以上で入力してください</div>
+                </div>
+
+                <div class="mb-3">
+                  <%= f.label :current_password, "現在のパスワード", class: "form-label fw-bold text-danger" %>
+                  <%= f.password_field :current_password, class: "form-control border-danger", autocomplete: "current-password", placeholder: "変更には必須です" %>
+                  <div class="form-text text-danger">メールアドレスやパスワードを変更する場合は入力が必要です</div>
+                </div>
+
+                <div class="d-grid gap-2 mt-4">
+                  <%= f.submit "アカウント情報を更新", class: "btn btn-danger" %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div> 
+
+      <div class="mt-3 text-center">
+        <%= link_to "戻る", :back, class: "text-muted text-decoration-none" %>
+      </div>
+
     </div>
-
-    <div class="field">
-      <%= f.label :name %><br />
-      <%= f.text_field :name, autofocus: true %>
-    </div>
-
-    <div class="actions">
-      <%= f.submit "プロフィールを更新" %>
-    </div>
-  <% end %>
-</section>
-
-<hr>
-
-<section class="account-section">
-  <h3>アカウント設定（メール・パスワード）</h3>
-  <%= form_with  model: resource, url: user_registration_path, method: :put, local: true do |f| %>
-    <div class="field">
-      <%= f.label :email %><br />
-      <%= f.email_field :email %>
-    </div>
-
-    <div class="field">
-      <%= f.label :password %> <i>(変更したくない場合は空白のまま)</i><br />
-      <%= f.password_field :password, autocomplete: "new-password" %>
-    </div>
-
-    <div class="field">
-      <%= f.label :current_password %> <i>(変更には現在のパスワードが必要です)</i><br />
-      <%= f.password_field :current_password, autocomplete: "current-password" %>
-    </div>
-
-    <div class="actions">
-      <%= f.submit "アカウント情報を更新" %>
-    </div>
-  <% end %>
-</section>
+  </div>
+</div>
