@@ -2,7 +2,7 @@
   <div class="row justify-content-center">
     <div class="col-md-8 col-lg-6">
       
-      <h2 class="text-center mb-4">設定</h2>
+      <h2 class="text-center mb-4">ユーザ設定</h2>
 
       <ul class="nav nav-tabs mb-4" id="settingTab" role="tablist">
         <li class="nav-item" role="presentation">
@@ -23,7 +23,6 @@
           <div class="card shadow-sm border-0">
             <div class="card-body">
               <%= form_with model: resource, url: user_registration_path, method: :put, local: true do |f| %>
-                <%= render "devise/shared/error_messages", resource: resource %>
 
                 <div class="mb-4 text-center">
                   <% if resource.persisted? && resource.avatar.attached? %>
@@ -56,23 +55,33 @@
             <div class="card-body">
               <%= form_with model: resource, url: user_registration_path, method: :put, local: true do |f| %>
 
-                
-                
+              <%= render "devise/shared/error_messages", resource: resource %>
+
                 <div class="mb-3">
                   <%= f.label :email, "メールアドレス", class: "form-label fw-bold" %>
                   <%= f.email_field :email, class: "form-control", autocomplete: "email" %>
+                    <%# メールアドレス用の個別エラー表示 %>
+                  <% if resource.errors.include?(:email) %>
+                    <div style="color: red;", class="mt-3"><%= resource.errors.full_messages_for(:email).first %></div>
+                  <% end %>
                 </div>
 
                 <div class="mb-3">
                   <%= f.label :password, "新しいパスワード", class: "form-label fw-bold" %>
+                  <p class="form-text">8文字以上20字以内で入力してください</p>
                   <%= f.password_field :password, class: "form-control", autocomplete: "new-password", placeholder: "変更しない場合は空欄" %>
-                  <div class="form-text">8文字以上20字以内で入力してください</div>
+                  <% if resource.errors.include?(:password) %>
+                    <div style="color: red;", class="mt-3"><%= resource.errors.full_messages_for(:password).first %></div>
+                  <% end %>
                 </div>
 
                 <div class="mb-3">
                   <%= f.label :current_password, "現在のパスワード", class: "form-label fw-bold text-danger" %>
+                  <p class="form-text text-danger">メールアドレスやパスワードを変更する場合は入力が必要です</p>
                   <%= f.password_field :current_password, class: "form-control border-danger", autocomplete: "current-password", placeholder: "変更には必須です" %>
-                  <div class="form-text text-danger">メールアドレスやパスワードを変更する場合は入力が必要です</div>
+                  <% if resource.errors.include?(:current_password) %>
+                    <div style="color: red;", class="mt-3" ><%= resource.errors.full_messages_for(:current_password).first %></div>
+                  <% end %>
                 </div>
 
                 <div class="d-grid gap-2 mt-4">
