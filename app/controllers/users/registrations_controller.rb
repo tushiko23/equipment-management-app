@@ -41,11 +41,25 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   protected
 
-  def update_resource(resource, params)
-    if params[:email].present? || params[:password].present?
+def update_resource(resource, params)
+    email_changed = params[:email].present? && resource.email != params[:email]
+    password_provided = params[:password].present?
+
+    if email_changed || password_provided
       super
+    elsif params[:name].present? || params[:icon].present?
+      resource.update_without_password(params.except(:current_password))
     else
-      resource.update_without_password(params)
+      clean_params = params.except(:current_password)
+
+      resource.assign_attributes(clean_params)
+
+      if resource.changed?
+        resource.save
+      else
+        resource.errors.add(:base, "変更内容がありません。")
+        false
+      end
     end
   end
 
