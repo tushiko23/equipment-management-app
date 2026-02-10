@@ -18,7 +18,7 @@ class User < ApplicationRecord
 
   validates :password,
     length: { minimum: 8, maximum: 20 },
-    format: { with: VALID_PASSWORD_REGEX, message: "は8文字以上20字以内で入力してください" },
+    format: { with: VALID_PASSWORD_REGEX },
     allow_blank: true,
     confirmation: true
 end
