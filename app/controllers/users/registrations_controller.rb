@@ -53,7 +53,6 @@ def update_resource(resource, params)
       clean_params = params.except(:current_password)
 
       resource.assign_attributes(clean_params)
-
       if resource.changed?
         resource.save
       else
@@ -61,7 +60,7 @@ def update_resource(resource, params)
         false
       end
     end
-  end
+end
 
   def configure_account_update_params
     devise_parameter_sanitizer.permit(:account_update, keys: [:name, :avatar])
