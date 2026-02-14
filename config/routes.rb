@@ -10,6 +10,10 @@ Rails.application.routes.draw do
     resources :lendings, only: [:create]
   end
 
+  namespace :admin do
+    resources :items, only: [ :index, :new, :create, :edit, :update, :destroy ]
+  end
+
   # 【追加】マイページへのルート
   resources :lendings, only: [ :index ]
 
