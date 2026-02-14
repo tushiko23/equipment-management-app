@@ -1,0 +1,68 @@
+<div class="container py-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold">備品一覧</h2>
+    <% #将来的にここに「備品を登録する」ボタンなどを置けます %>
+    <%= link_to "#", class: "btn btn-primary rounded-pill px-4 disabled" do %>
+      <i class="bi bi-plus-lg"></i>
+      備品登録 (準備中)
+    <% end %>
+  </div>
+
+  <% # 検索バーのモック（見た目だけ）%>
+  <div class="card shadow-sm mb-5 border-0">
+    <div class="card-body p-4">
+      <form class="row g-3">
+        <div class="col-md-10">
+          <input type="text" placeholder="備品名やカテゴリで検索..." class="form-control form-control-lg">
+        </div>
+        <div class="col-md-2">
+          <button type="submit" class="btn btn-primary w-100 btn-lg">検索</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <% # 備品リスト（グリッド表示）%>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <% @items.each do |item| %>
+      <div class="col">
+        <div style="transition: transform 0.2s;" class="card h-100 shadow-sm border-0">
+          <% # 画像プレースホルダー（将来的に画像機能を入れたらここを置き換え）%>
+          <div style="height: 200px; border-radius: 0.5rem 0.5rem 0 0;" class="bg-light d-flex justify-content-center align-items-center">
+            <span class="text-muted fs-1">📦</span>
+          </div>
+
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <% # カテゴリバッジ %>
+              <span class="badge bg-light text-dark border">
+                <%= item.category.name %>
+              </span>
+
+              <% # ステータス表示 %>
+              <% if item.available? %>
+                <span class="badge bg-success-subtle text-success rounded-pill ">貸出可</span>
+              <% elsif item.borrowed? %>
+                <span class="badge bg-danger-subtle text-danger rounded-pill">貸出中</span>
+              <% else %>
+                <span class="badge bg-secondary rounded-pill">メンテ中</span>
+              <% end %>
+            </div>
+            
+            <h5 class="card-title fw-bold mt-2"><%= item.name %></h5>
+            <p class="card-text text-muted small text-truncate">
+              <%= item.description %>
+            </p>
+          </div>
+
+          <div class="card-footer bg-white border-0 pb-3">
+            <%= link_to item_path(item), class: "btn btn-primary w-100 rounded-pill" do %>
+            詳細を見る
+            <% end %>
+          </div>
+
+        </div>
+      </div>
+  <% end %>
+  </div>
+</div>
