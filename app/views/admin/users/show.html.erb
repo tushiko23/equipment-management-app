@@ -1,0 +1,63 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      
+      <h2 class="text-center mb-4">ユーザー詳細</h2>
+
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+          
+          <%# ▼▼▼ アイコン・ユーザー名・権限 ▼▼▼ %>
+          <div class="text-center border-bottom pb-4 mb-4">
+            <div class="mb-3">
+              <% if @user.avatar.attached? %>
+                <%= image_tag @user.avatar.variant(resize_to_limit: [150, 150]), class: "rounded-circle img-thumbnail" %>
+              <% else %>
+                <%= image_tag 'default-avatar.png', class: "rounded-circle img-thumbnail", style: "width: 150px; height: 150px; object-fit: cover;" %>
+              <% end %>
+            </div>
+            
+            <h3 class="mb-2"><%= @user.name %></h3>
+            
+            <%# 権限の表示（モデルのメソッド名に合わせて変更してください） %>
+            <span class="badge <%= @user.admin? ? 'bg-danger' : 'bg-secondary' %>">
+              <%= @user.role_i18n %>
+            </span>
+          </div>
+
+          <%# ▼▼▼ 詳細情報 ▼▼▼ %>
+          <div class="mb-3">
+            <label class="text-muted small">メールアドレス</label>
+            <p class="fs-5 fw-bold"><%= @user.email %></p>
+          </div>
+
+          <div class="mb-3">
+            <label class="text-muted small">パスワード</label>
+            <p class="fs-5 fw-bold text-muted">********</p>
+          </div>
+
+          <div class="mb-4">
+            <label class="text-muted small">登録日</label>
+            <p class="fs-5 fw-bold"><%= @user.created_at.strftime("%Y年%m月%d日") %></p>
+          </div>
+
+          <%# ▼▼▼ アクションボタン ▼▼▼ %>
+          <div class="d-grid gap-3 mt-4">
+            <%# 編集ボタン %>
+            <%= link_to "編集する", edit_admin_user_path(@user), class: "btn btn-primary" %>
+            <%# 削除ボタン %>
+            <%= link_to "削除する", admin_user_path(@user), data: { turbo_method: :delete, turbo_confirm: "本当にこのユーザーを削除しますか？" }, class: "btn btn-outline-danger" %>
+          </div>
+
+        </div>
+      </div>
+
+      <%# 一覧へ戻るリンク %>
+      <div class="mt-4 text-center">
+        <%= link_to "一覧に戻る", admin_users_path, class: "text-muted text-decoration-none" %>
+      </div>
+
+    </div>
+  </div>
+</div>
+
