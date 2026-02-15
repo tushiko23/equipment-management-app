@@ -4,3 +4,8 @@ ja:
       role:
         general: 一般
         admin: 管理者
+  activerecord:
+    errors:
+      messages:
+        file_too_large: "は、5MB以下のサイズにしてください"
+        file_type_not_image: "は、JPEG, PNG, SVG形式のいずれかを選択してください"
