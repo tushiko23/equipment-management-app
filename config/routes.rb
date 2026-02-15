@@ -1,9 +1,12 @@
 Rails.application.routes.draw do
   root to: 'home#index'
 
-  devise_for :users, controllers: {
-    registrations: 'users/registrations'
-  }
+  devise_for :users, skip: [ :registrations ]
+  devise_scope :user do
+    get '/users/edit', to: 'users/registrations#edit', as: 'edit_user_registration'
+    put '/users', to: 'users/registrations#update', as: 'user_registration'
+  end
+
   resources :users, only: [ :show ]
 
   resources :items, only: [ :index, :show ] do
@@ -11,7 +14,17 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :items, only: [ :index, :new, :create, :edit, :update, :destroy ]
+    devise_scope :user do
+      get '/register', to: 'users/registrations#new'
+      post '/register', to: 'users/registrations#create'
+
+      get 'login', to: 'sessions#new'
+      post 'login', to: 'sessions#create'
+      delete 'logout', to: 'sessions#destroy'
+
+    resources :dashboard, only: [:index]
+      root to: 'dashboard#index'
+    end
   end
 
   # 【追加】マイページへのルート
