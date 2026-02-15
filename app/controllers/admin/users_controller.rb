@@ -1,4 +1,5 @@
 class Admin::UsersController < Admin::BaseController
+  before_action :set_user, only: [ :show, :edit, :update, :destroy ]
   def index
     @users = User.all
   end
@@ -18,15 +19,14 @@ class Admin::UsersController < Admin::BaseController
   end
 
   def show
-    @user = User.find(params[:id])
+    #before_actionでユーザー情報を取得
   end
 
   def edit
-    @user = User.find(params[:id])
+    #before_actionでユーザー情報を取得
   end
 
   def update
-    @user = User.find(params[:id])
     # user_paramsからパスワード関連だけを除外して、updateに渡す！
     update_params = user_params.except(:password, :password_confirmation, :current_password)
 
@@ -38,10 +38,22 @@ class Admin::UsersController < Admin::BaseController
   end
 
   def destroy
+    @user.destroy
+
+    if @user == current_user
+      sign_out(current_user)
+      redirect_to root_path, notice: "自身のユーザーを削除しました"
+    else
+      redirect_to admin_users_path, notice: "ユーザーの削除に成功しました。"
+    end
   end
 
   private
     def user_params
       params.require(:user).permit(:email, :password, :password_confirmation, :name, :role, :avatar)
+    end
+
+    def set_user
+      @user = User.find(params[:id])
     end
 end
