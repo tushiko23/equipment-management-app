@@ -14,17 +14,7 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    devise_scope :user do
-      get '/register', to: 'users/registrations#new'
-      post '/register', to: 'users/registrations#create'
-
-      get 'login', to: 'sessions#new'
-      post 'login', to: 'sessions#create'
-      delete 'logout', to: 'sessions#destroy'
-
-    resources :dashboard, only: [:index]
-      root to: 'dashboard#index'
-    end
+    resources :users
   end
 
   # 【追加】マイページへのルート
