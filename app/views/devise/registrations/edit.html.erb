@@ -50,16 +50,18 @@
               <%= form_with model: resource, url: user_registration_path, method: :put, local: true do |f| %>
                 <%= hidden_field_tag :active_tab, 'profile' %>
                 <div class="mb-4 text-center">
-                  <% if resource.persisted? && resource.avatar.attached? %>
+                  <% if resource.persisted? && resource.avatar.attached? && resource.image? %>
                     <%= image_tag resource.avatar.variant(resize_to_limit: [150, 150]), class: "rounded-circle img-thumbnail mb-3" %>
                   <% else %>
                     <%= image_tag 'default-avatar.png', class: "rounded-circle img-thumbnail mb-3", style: "width: 150px; height: 150px; object-fit: cover;" %>
                   <% end %>
-                  
-                  <div class="input-group">
+                  <% if resource.errors.include?(:avatar) %>
+                    <div style="color: red;" class="my-3"><%= resource.errors.full_messages_for(:avatar).first %></div>
+                  <% end %>
+                  <div class="input-group justify-content-center">
                     <%= f.file_field :avatar, class: "form-control", id: "inputGroupFile04" %>
                   </div>
-                  <div class="form-text">新しいアイコン画像を選択</div>
+                  <div class="form-text mt-2">新しいアイコン画像を選択</div>
                 </div>
 
                 <div class="mb-3">

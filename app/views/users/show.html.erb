@@ -27,7 +27,7 @@
               
               <%# アバター画像 %>
               <div class="mb-4">
-                <% if @user.avatar.attached? %>
+                <% if @user.persisted? && @user.avatar.attached? && @user.image? %>
                   <%= image_tag @user.avatar.variant(resize_to_limit: [150, 150]), class: "rounded-circle img-thumbnail" %>
                 <% else %>
                   <%= image_tag 'default-avatar.png', class: "rounded-circle img-thumbnail", style: "width: 150px; height: 150px; object-fit: cover;" %>
