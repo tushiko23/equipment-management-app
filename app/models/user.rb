@@ -29,4 +29,22 @@ class User < ApplicationRecord
     format: { with: VALID_PASSWORD_REGEX },
     allow_blank: true,
     confirmation: true
+
+  validate :avatar_type_and_size_validation
+
+  def image?
+    avatar.content_type.in?(%w[image/jpeg image/jpg image/png image/svg+xml])
+  end
+
+  def avatar_type_and_size_validation
+    return unless avatar.attached?
+
+    if !image?
+      errors.add(:avatar, :file_type_not_image)
+    end
+    # 画像サイズの制限
+    if avatar.blob.byte_size > 5.megabytes
+      errors.add(:avatar, :file_too_large)
+    end
+  end
 end
