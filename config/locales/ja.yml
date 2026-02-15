@@ -4,7 +4,18 @@ ja:
       role:
         general: 一般
         admin: 管理者
+    item:
+      state:
+        available: 貸出可
+        borrowed: 貸出中
+        maintenance: メンテ中
   activerecord:
+    attributes:
+      item:
+        name: アイテム名
+        unique_id : 管理番号
+        state: ステータス
+        description: 説明文
     errors:
       messages:
         file_too_large: "は、5MB以下のサイズにしてください"
