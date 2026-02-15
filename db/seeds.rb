@@ -8,12 +8,12 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-# 既存のデータをリセット（外部キー制約のエラーを防ぐため、子→親の順で消す）
-puts "古いデータを削除中..."
-Lending.destroy_all
-Item.destroy_all
-Category.destroy_all
-# Userは消さないでおきます（ログインできなくなると面倒なので）
+# # 既存のデータをリセット（外部キー制約のエラーを防ぐため、子→親の順で消す）
+# puts "古いデータを削除中..."
+# Lending.destroy_all
+# Item.destroy_all
+# Category.destroy_all
+# # Userは消さないでおきます（ログインできなくなると面倒なので）
 
 # 1. カテゴリを作成
 puts "カテゴリを作成中..."
@@ -90,5 +90,13 @@ Item.create!(
   state: :available, # 貸出可
   category: other_cat
 )
+
+  User.create!(
+    name: "管理者ユーザーテスト",
+    password: "adminpassword123",
+    password_confirmation: "adminpassword123",
+    email: "admin-test@gmail.com",
+    role: 1
+  )
 
 puts "データの投入が完了しました！"
