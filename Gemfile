@@ -68,6 +68,8 @@ gem "rails-i18n", "~> 7.0"
 gem "devise-i18n"
 gem "devise-i18n-views"
 
+# enumメッセージの日本語化
+gem 'enum_help'
 # envファイルをrailsで使うためのgem
 gem "dotenv-rails"
 
