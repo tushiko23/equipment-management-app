@@ -5,7 +5,7 @@
       <div class="card shadow-sm border-0">
         <div class="card-body p-4">
 
-          <h2 class="text-center mb-4 fw-bold">新規作成</h2>
+          <h2 class="text-center mb-4 fw-bold">備品の編集</h2>
 
           <%= form_with model: [:admin, @item], local: true do |f| %>
 
@@ -76,15 +76,15 @@
 
             <%# ▼ 登録ボタン ▼ %>
             <div class="d-grid gap-2 mt-4">
-              <%= f.submit "備品の作成", class: "btn btn-primary" %>
+              <%= f.submit "備品の編集", class: "btn btn-primary" %>
             </div>
             
           <% end %>
 
           <%# ▼ ログイン画面へのリンクなど ▼ %>
           <div class="mt-4 text-center">
-            <%= link_to admin_items_path, class: "btn btn-outline-secondary w-100 rounded-pill" do %>
-              作成アイテム一覧に戻る
+            <%= link_to admin_item_path(@item), class: "btn btn-outline-secondary w-100 rounded-pill" do %>
+              アイテム詳細に戻る
             <% end %>
           </div>
         </div>
@@ -92,4 +92,3 @@
     </div>
   </div>
 </div>
-

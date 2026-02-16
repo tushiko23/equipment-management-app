@@ -1,0 +1,83 @@
+<div class="container py-5">
+
+  <% # パンくずリスト風の「戻る」リンク %>
+  <div class="mb-4">
+    <%= link_to admin_items_path, class: "text-decoration-none text-secondary" do %>
+      &laquo; 一覧に戻る
+    <% end %>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <div class="card shadow border-0">
+        <div class="card-body p-4 p-md-5">
+          <% # ヘッダー部分：名前とステータス %>
+          <div class="d-flex justify-content-between align-items-start mb-4 border-bottom pb-3">
+            <div>
+              <h1 class="fw-bold mb-2"><%= @item.name %></h1>
+              <span class="text-muted small"><%= "ID: #{@item.unique_id}" %></span>
+            </div>
+
+            <% if @item.available? %>
+              <span class="badge bg-success fs-6 px-3 py-2">貸出可</span>
+            <% elsif @item.borrowed? %>
+              <span class="badge bg-danger fs-6 px-3 py-2">貸出中</span>
+            <% else %>
+              <span class="badge bg-danger fs-6 px-3 py-2">メンテ中</span>
+            <% end %>
+          </div>
+
+          <div class="row g-5">
+            <div class="col-md-5">
+              <div style="height: 300px; font-size: 6rem;" class="bg-light rounded-3 d-flex justify-content-center align-items-center text-secondary shadow-sm">
+              📦
+              </div>
+            </div>
+
+            <div class="col-md-7">
+              <h5 class="fw-bold text-primary mb-3">
+                <i class="bi bi-info-circle me-2">
+                基本情報
+                </i>
+              </h5>
+
+              <dl class="row mb-5">
+                <dt class="col-sm-4 text-muted">カテゴリ</dt>
+                <dd class="col-sm-8"><%= @item.category.name %></dd>
+
+                <dt class="col-sm-4 text-muted">詳細説明</dt>
+                <dd class="col-sm-8"><%= simple_format(@item.description) %></dd>
+                
+
+                <dt class="col-sm-4 text-muted">登録日</dt>
+                <dd class="col-sm-8"><%= @item.created_at.strftime("%Y年%m月%d日")%></dd>
+              </dl>
+            </div>
+
+            <div class="d-grid gap-4">
+              <% if @item.borrowed? %>
+                <%= link_to edit_admin_item_path(@item), class: "btn btn-primary btn-lg rounded-pill py-3 shadow-sm disabled" do %>
+                  返却後、編集可能です
+                <% end %>
+
+                <%= link_to admin_item_path(@item), data: { turbo_method: :delete, turbo_confirm: "本当にこの備品を削除しますか？" }, class: "btn btn-outline-danger btn-lg rounded-pill py-3 shadow-sm disabled" do %>
+                  返却後、削除可能です
+                <% end %>
+              <% else %>
+                <%= link_to edit_admin_item_path(@item), class: "btn btn-primary btn-lg rounded-pill py-3 shadow-sm" do %>
+                  編集する
+                <% end %>
+
+                <%= link_to admin_item_path(@item), data: { turbo_method: :delete, turbo_confirm: "本当にこの備品を削除しますか？" }, class: "btn btn-outline-danger btn-lg rounded-pill py-3 shadow-sm" do %>
+                  削除する
+                <% end %>
+              <% end %>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
