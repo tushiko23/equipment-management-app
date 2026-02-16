@@ -4,7 +4,7 @@
     <% #将来的にここに「備品を登録する」ボタンなどを置けます %>
     <%= link_to "#", class: "btn btn-primary rounded-pill px-4 disabled" do %>
       <i class="bi bi-plus-lg"></i>
-      備品登録 (準備中)
+      備品登録
     <% end %>
   </div>
 
@@ -23,8 +23,9 @@
   </div>
 
   <% # 備品リスト（グリッド表示）%>
+  <h3 class="mb-3"><%= "#{@items.count}件のアイテム" %></h3>
   <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-    <% @items.each do |item| %>
+    <% @items.includes(:category).each do |item| %>
       <div class="col">
         <div style="transition: transform 0.2s;" class="card h-100 shadow-sm border-0">
           <% # 画像プレースホルダー（将来的に画像機能を入れたらここを置き換え）%>

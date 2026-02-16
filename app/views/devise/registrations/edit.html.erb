@@ -51,7 +51,7 @@
                 <%= hidden_field_tag :active_tab, 'profile' %>
                 <div class="mb-4 text-center">
                   <% if resource.persisted? && resource.avatar.attached? && resource.image? %>
-                    <%= image_tag resource.avatar.variant(resize_to_limit: [150, 150]), class: "rounded-circle img-thumbnail mb-3" %>
+                    <%= image_tag resource.avatar, class: "img-thumbnail mb-3", style: "width: 150px; height: 150px; object-fit: cover;" %>
                   <% else %>
                     <%= image_tag 'default-avatar.png', class: "rounded-circle img-thumbnail mb-3", style: "width: 150px; height: 150px; object-fit: cover;" %>
                   <% end %>
