@@ -10,11 +10,11 @@
           <%# ▼▼▼ アイコン・ユーザー名・権限 ▼▼▼ %>
           <div class="text-center border-bottom pb-4 mb-4">
             <div class="mb-3">
-              <% if @user.persisted? && @user.avatar.attached? && @user.image? %>
-                <%= image_tag @user.avatar, class: "img-thumbnail mb-3", style: "width: 150px; height: 150px; object-fit: cover;" %>
-              <% else %>
-                <%= image_tag 'default-avatar.png', class: "rounded-circle img-thumbnail", style: "width: 150px; height: 150px; object-fit: cover;" %>
-              <% end %>
+            <% if @user.persisted? && @user.avatar.attached? %>
+              <%= image_tag @user.avatar, class: "img-thumbnail", style: "width: 100%; height: 100%; object-fit: fill;" %>
+            <% else %>
+              <%= image_tag 'default-avatar.png', class: "rounded-lg img-thumbnail mb-3", style: "width: 150px; height: 150px; object-fit: cover;" %>
+            <% end %>
             </div>
             
             <h3 class="mb-2"><%= @user.name %></h3>

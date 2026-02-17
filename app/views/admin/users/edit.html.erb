@@ -14,10 +14,10 @@
 
             <%# ▼ ユーザーアイコン ▼ %>
             <div class="mb-3 text-center">
-              <% if @user.persisted? && @user.avatar.attached? && @user.image?%>
-                <%= image_tag @user.avatar, class: "img-thumbnail mb-3", style: "width: 150px; height: 150px; object-fit: cover;" %>
+              <% if @user.persisted? && @user.avatar.attached? && !@user.errors.include?(:avatar) %>
+                <%= image_tag @user.avatar, class: "img-thumbnail mb-3", style: "width: 80%; height: 200px; object-fit: fill;" %>
               <% else %>
-                <%= image_tag 'default-avatar.png', class: "rounded-circle img-thumbnail mb-3", style: "width: 150px; height: 150px; object-fit: cover;" %>
+                <%= image_tag 'default-avatar.png', class: "rounded-lg img-thumbnail mb-3", style: "width: 200px; height: 200px; object-fit: cover;" %>
               <% end %>
               <% if @user.errors.include?(:avatar) %>
                 <div style="color: red;" class="my-3"><%= @user.errors.full_messages_for(:avatar).first %></div>
