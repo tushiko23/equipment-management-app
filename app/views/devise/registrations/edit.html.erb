@@ -50,8 +50,8 @@
               <%= form_with model: resource, url: user_registration_path, method: :put, local: true do |f| %>
                 <%= hidden_field_tag :active_tab, 'profile' %>
                 <div class="mb-4 text-center">
-                  <% if resource.persisted? && resource.avatar.attached? && resource.image? %>
-                    <%= image_tag resource.avatar, class: "img-thumbnail mb-3", style: "width: 150px; height: 150px; object-fit: cover;" %>
+                  <% if resource.persisted? && resource.avatar.attached? && !resource.errors.include?(:avatar)%>
+                    <%= image_tag resource.avatar, class: "img-thumbnail mb-3", style: "width: 80%; height: 200px; object-fit: fill;" %>
                   <% else %>
                     <%= image_tag 'default-avatar.png', class: "rounded-circle img-thumbnail mb-3", style: "width: 150px; height: 150px; object-fit: cover;" %>
                   <% end %>
