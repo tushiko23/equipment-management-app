@@ -4,7 +4,7 @@ class User < ApplicationRecord
   has_many :lendings, dependent: :destroy
   has_many :notifications, dependent: :destroy
   has_many :comments, dependent: :destroy
-  has_many :created_items, class_name: "Item"
+  has_many :created_items, class_name: "Item", dependent: :nullify
 
   enum role: { general: 0, admin: 1 }
   validates :name, presence: true
