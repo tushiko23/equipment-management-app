@@ -22,5 +22,5 @@ ja:
         name: カテゴリー名
     errors:
       messages:
-        file_too_large: "は、5MB以下のサイズにしてください"
+        file_too_large: "は、10MB以下のサイズにしてください"
         file_type_not_image: "は、JPEG, PNG, SVG形式のいずれかを選択してください"
