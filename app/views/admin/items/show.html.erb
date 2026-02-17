@@ -30,7 +30,11 @@
           <div class="row g-5">
             <div class="col-md-5">
               <div style="height: 300px; font-size: 6rem;" class="bg-light rounded-3 d-flex justify-content-center align-items-center text-secondary shadow-sm">
-              📦
+                <% if @item.persisted? && @item.image.attached? %>
+                  <%= image_tag @item.image, class: "img-thumbnail", style: "width: 100%; height: 100%; object-fit: fill;" %>
+                <% else %>
+                  <%= image_tag 'default-avatar.png', class: "rounded-lg img-thumbnail mb-3", style: "width: 150px; height: 150px; object-fit: cover;" %>
+                <% end %>
               </div>
             </div>
 
