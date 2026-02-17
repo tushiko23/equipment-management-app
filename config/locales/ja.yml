@@ -16,6 +16,10 @@ ja:
         unique_id : 管理番号
         state: ステータス
         description: 説明文
+        category_id: カテゴリー
+        image: 画像
+      category:
+        name: カテゴリー名
     errors:
       messages:
         file_too_large: "は、5MB以下のサイズにしてください"

@@ -12,6 +12,7 @@ ja:
         name: ユーザ名
         email: メールアドレス
         role: ユーザー権限
+        avatar: アイコン
         encrypted_password: 暗号化パスワード
         failed_attempts: 失敗したログイン試行回数
         last_sign_in_at: 最終ログイン時刻
