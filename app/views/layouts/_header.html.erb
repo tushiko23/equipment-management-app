@@ -48,6 +48,9 @@
             <li class="nav-item">
               <%= link_to "登録した備品一覧", admin_items_path, class: "nav-link fw-bold" %>
             </li>
+            <li class="nav-item">
+              <%= link_to "登録したカテゴリー一覧", admin_categories_path, class: "nav-link fw-bold" %>
+            </li>
             <% end %>
             <li class="nav-item ms-md-2 mt-2 mt-md-0">
               <%= button_to "ログアウト", destroy_user_session_path, method: :delete, class: "btn btn-outline-danger w-100 rounded-pill px-4" %>

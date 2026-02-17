@@ -1,0 +1,52 @@
+<div class="container mt-5">
+    <% # 検索バーのモック（見た目だけ）%>
+  <div class="card shadow-sm mb-5 border-0">
+    <div class="card-body p-4">
+      <form class="row g-3">
+        <div class="col-md-10">
+          <input type="text" placeholder="備品名やカテゴリで検索..." class="form-control form-control-lg">
+        </div>
+        <div class="col-md-2">
+          <button type="submit" class="btn btn-primary w-100 btn-lg">検索</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+
+          <h2 class="text-center mb-4 fw-bold">カテゴリー作成</h2>
+
+          <%= form_with model: [:admin, @category], local: true do |f| %>
+
+            <%# ▼ カテゴリー名 ▼ %>
+            <div class="mb-3">
+              <%= f.label :name, class: "form-label" %>
+              <%= f.text_field :name, autofocus: true, autocomplete: "name", class: "form-control", placeholder: "カテゴリー名を入力" %>
+              <% if @category.errors.include?(:name) %>
+                <div style="color: red;" class="mt-3"><%= @category.errors.full_messages_for(:name).first %></div>
+              <% end %>
+            </div>
+
+            <%# ▼ 登録ボタン ▼ %>
+            <div class="d-grid gap-2 mt-4">
+              <%= f.submit "カテゴリーの作成", class: "btn btn-primary" %>
+            </div>
+
+          <% end %>
+
+          <%# ▼ ログイン画面へのリンクなど ▼ %>
+          <div class="mt-4 text-center">
+            <%= link_to admin_categories_path, class: "btn btn-outline-secondary w-100 rounded-pill" do %>
+              作成カテゴリー一覧に戻る
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
