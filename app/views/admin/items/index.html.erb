@@ -62,6 +62,9 @@
           </div>
 
           <div class="card-footer bg-white border-0 pb-3">
+            <% if item.user_id.nil? %>
+              <p class="small text-center text-danger">※このユーザーは退会済みです</p>
+            <% end %>
             <%= link_to admin_item_path(item), class: "btn btn-primary w-100 rounded-pill" do %>
             備品の詳細
             <% end %>

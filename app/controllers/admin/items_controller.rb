@@ -1,7 +1,7 @@
 class Admin::ItemsController < Admin::BaseController
   before_action :set_item, only: [ :show, :edit, :update, :destroy ]
   def index
-    @items = current_user.created_items.includes(:category)
+    @items = Item.where(user_id: [ current_user.id, nil ]).includes(:category)
   end
 
   def new
@@ -44,6 +44,6 @@ class Admin::ItemsController < Admin::BaseController
   end
 
   def set_item
-    @item = current_user.created_items.find(params[:id])
+    @item = Item.where(user_id: [ current_user.id, nil ]).find(params[:id])
   end
 end
