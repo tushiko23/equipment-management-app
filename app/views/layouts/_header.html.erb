@@ -34,15 +34,19 @@
               <%= link_to "マイページ", user_path(current_user.id), class: "nav-link fw-bold" %>
             </li>
             <li class="nav-item">
+              <%= link_to "全アイテム一覧", items_path, class: "nav-link fw-bold" %>
+            </li>
+            <li class="nav-item">
               <%= link_to "借りているアイテム", lendings_path, class: "nav-link fw-bold" %>
             </li>
             <%# --- 管理者ユーザーのログイン画面で表示 --- %>
             <% if current_user.admin? %>
-            <li class="nav-item">
-              <%= link_to "ユーザーの追加", new_admin_user_path, class: "nav-link fw-bold" %>
-            </li>
+            <br>
             <li class="nav-item">
               <%= link_to "ユーザー一覧", admin_users_path, class: "nav-link fw-bold" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "登録した備品一覧", admin_items_path, class: "nav-link fw-bold" %>
             </li>
             <% end %>
             <li class="nav-item ms-md-2 mt-2 mt-md-0">
