@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_02_17_215938) do
+ActiveRecord::Schema[7.2].define(version: 2026_02_17_230926) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -124,6 +124,12 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_17_215938) do
     t.integer "role", default: 0, null: false
     t.string "uid"
     t.string "provider"
+    t.boolean "can_create_admin_users", default: false, null: false
+    t.boolean "can_edit_admin_users", default: false, null: false
+    t.boolean "can_delete_admin_users", default: false, null: false
+    t.boolean "can_create_general_users", default: false, null: false
+    t.boolean "can_edit_general_users", default: false, null: false
+    t.boolean "can_delete_general_users", default: false, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
