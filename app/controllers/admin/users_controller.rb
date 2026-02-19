@@ -6,6 +6,20 @@ class Admin::UsersController < Admin::BaseController
     elsif current_user.admin?
       @users = User.general
     end
+
+    search_params = params[:q]&.permit!&.to_h || {}
+
+    if search_params[:name_or_email_cont].present?
+      keywords = search_params[:name_or_email_cont].split(/[\p{blank}\s]+/)
+      search_params[:name_or_email_cont_any] = keywords
+
+      # 4. 元の文字列の条件は、Ransackには渡さないように削除
+      search_params.delete(:name_or_email_cont)
+    end
+
+    # 5. 複製・加工した search_params を使って検索！
+    @q = @users.ransack(search_params)
+    @users = @q.result(distinct: true)
   end
 
   def new

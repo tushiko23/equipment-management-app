@@ -1,6 +1,6 @@
 <div class="container py-5">
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="fw-bold">登録ユーザー一覧</h2>
+    <h2 class="fw-bold">登録ユーザー</h2>
     <%# 1. 強い権限から順番に判定する！ %>
     <% if current_user.super_admin? || current_user.can_create_admin_users? %>
       <% button_message = "ユーザーを追加" %>
@@ -19,22 +19,28 @@
     <% end %>
   </div>
 
-  <% # 検索バーのモック（見た目だけ）%>
   <div class="card shadow-sm mb-5 border-0">
     <div class="card-body p-4">
-      <form class="row g-3">
+      <%= search_form_for @q, url: admin_users_path, class: "row g-3" do |f| %>
         <div class="col-md-10">
-          <input type="text" placeholder="ユーザ名やメールアドレスで検索..." class="form-control form-control-lg">
+          <%= f.search_field :name_or_email_cont, value: params.dig(:q, :name_or_email_cont), placeholder: "ユーザ名やメールで検索", class: "form-control form-control-lg" %>
         </div>
         <div class="col-md-2">
-          <button type="submit" class="btn btn-primary w-100 btn-lg">検索</button>
+          <%= f.submit "検索", class: "btn btn-primary w-100 btn-lg" %>
         </div>
-      </form>
+      <% end %>
     </div>
   </div>
 
   <% # 備品リスト（グリッド表示）%>
   <h3 class="mb-3"><%= "#{@users.count}件のユーザー" %></h3>
+  <% if params[:q].present? %>
+    <div class="mb-4">
+      <%= link_to admin_users_path, class: "text-decoration-none text-secondary" do %>
+        &laquo; 一覧に戻る
+      <% end %>
+    </div>
+  <% end %>
   <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
     <% @users.each do |user| %>
       <div class="col">
