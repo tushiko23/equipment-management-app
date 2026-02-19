@@ -4,6 +4,7 @@ ja:
       role:
         general: 一般
         admin: 管理者
+        super_admin: スーパー管理者
     item:
       state:
         available: 貸出可

@@ -13,6 +13,12 @@ ja:
         email: メールアドレス
         role: ユーザー権限
         avatar: アイコン
+        can_create_admin_users: 管理者ユーザ作成
+        can_edit_admin_users: 管理者ユーザ編集
+        can_delete_admin_users: 管理者ユーザ削除
+        can_create_general_users: 一般ユーザ作成
+        can_edit_general_users: 一般ユーザ編集
+        can_delete_general_users: 一般ユーザ削除
         encrypted_password: 暗号化パスワード
         failed_attempts: 失敗したログイン試行回数
         last_sign_in_at: 最終ログイン時刻
