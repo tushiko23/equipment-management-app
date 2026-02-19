@@ -1,10 +1,21 @@
 <div class="container py-5">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="fw-bold">登録ユーザー一覧</h2>
-    <% #将来的にここに「備品を登録する」ボタンなどを置けます %>
-    <%= link_to new_admin_user_path, class: "btn btn-primary rounded-pill px-4" do %>
-      <i class="bi bi-plus-lg"></i>
-      ユーザーを追加
+    <%# 1. 強い権限から順番に判定する！ %>
+    <% if current_user.super_admin? || current_user.can_create_admin_users? %>
+      <% button_message = "ユーザーを追加" %>
+    <% elsif current_user.can_create_general_users? %>
+      <% button_message = "一般ユーザーを追加" %>
+    <% else %>
+      <% button_message = nil %>
+    <% end %>
+
+    <%# 2. 重複を消して、ボタンを1つだけにする！ %>
+    <% if button_message.present? %>
+      <%= link_to new_admin_user_path, class: "btn btn-primary rounded-pill px-4" do %>
+        <i class="bi bi-plus-lg"></i>
+        <%= button_message %>
+      <% end %>
     <% end %>
   </div>
 
