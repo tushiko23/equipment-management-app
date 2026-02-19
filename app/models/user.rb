@@ -21,6 +21,20 @@ class User < ApplicationRecord
     []
   end
 
+  def editable_by?(is_user)
+    (is_user.super_admin?) || 
+    (is_user.can_edit_admin_users? && self.admin?) ||
+    (is_user.can_edit_general_users? && self.general?)
+  end
+
+  def deletable_by?(is_user)
+    return false if self.super_admin?
+    is_user.super_admin? ||
+    (is_user.can_delete_admin_users? && self.admin?) ||
+    (is_user.can_delete_general_users? && self.general?)
+  end
+
+
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
   VALID_PASSWORD_REGEX = /\A(?=.*[a-z])(?=.*\d)[a-z\d]{8,}+\z/
 
