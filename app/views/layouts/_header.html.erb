@@ -40,7 +40,7 @@
               <%= link_to "借りているアイテム", lendings_path, class: "nav-link fw-bold" %>
             </li>
             <%# --- 管理者ユーザーのログイン画面で表示 --- %>
-            <% if current_user.admin? %>
+            <% if current_user.admin? || current_user.super_admin? %>
             <br>
             <li class="nav-item">
               <%= link_to "ユーザー一覧", admin_users_path, class: "nav-link fw-bold" %>
