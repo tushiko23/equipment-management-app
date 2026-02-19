@@ -18,96 +18,58 @@
 
 
 # puts "カテゴリを作成中..."
-pc_cat = Category.create!(name: "PC・周辺機器")
-book_cat = Category.create!(name: "書籍")
+# 
 
-# 1. カテゴリを作成
-other_cat = Category.find_or_create_by!(name: "その他")
+puts "🌱 サンプルデータの作成を開始します..."
 
-# # 2. 備品を作成（貸出可のものを多めに！）
-# puts "備品を作成中..."
+# 1. スーパー管理者（全ての権限をマスターキーで突破できる最強の存在）
+User.find_or_create_by!(email: "super@example.com") do |user|
+  user.name = "スーパー管理者"
+  user.password = "password123"
+  user.password_confirmation = "password123"
+  user.role = "super_admin" # enumの指定
+  # ※スーパー管理者はコントローラーのロジックで全て許可されるので、個別の権限カラムはデフォルト(false)のままでOKです！
+end
 
-# --- PC関連 ---
-Item.create!(
-  name: "MacBook Pro M3 (14インチ)",
-  unique_id: "PC-001",
-  description: "最新のM3チップ搭載モデル。メモリ32GB。\n動画編集や重い処理もサクサク動きます。",
-  state: :available, # 貸出可
-  category: pc_cat,
-  user_id: 1
-)
+# 2. 管理者（一般ユーザーの作成・編集・削除ができる存在）
+User.find_or_create_by!(email: "admin@example.com") do |user|
+  user.name = "サブ管理者"
+  user.password = "password1234"
+  user.password_confirmation = "password1234"
+  user.role = "admin"
+  
+  # ▼ ここにテスト用の権限を付与します ▼
+  user.can_create_general_users = true
+  user.can_edit_general_users   = true
+  user.can_delete_general_users = true
+  
+  # （adminの管理権限は持たせない設定にしておきます）
+  user.can_create_admin_users = false
+  user.can_edit_admin_users   = false
+  user.can_delete_admin_users = false
+end
 
-Item.create!(
-  name: "Dell 4Kモニター",
-  unique_id: "PC-002",
-  description: "27インチの4Kモニターです。Type-C接続対応。\n目に優しいブルーライトカット機能付き。",
-  state: :available, # 貸出可
-  category: pc_cat,
-  user_id: 1
-)
+# 3. 一般ユーザー（権限を何も持たない存在）
+User.find_or_create_by!(email: "general@example.com") do |user|
+  user.name = "一般ユーザー"
+  user.password = "password12345"
+  user.password_confirmation = "password12345"
+  user.role = "general"
+end
 
-Item.create!(
-  name: "iPad Air (第5世代)",
-  unique_id: "PC-003",
-  description: "検証端末として使ってください。\nApple Pencilも付属しています。",
-  state: :borrowed, # 貸出中（テスト用）
-  category: pc_cat,
-  user_id: 1
-)
+# （おまけ）検索テスト用に、もう何人か一般ユーザーを作っておくと便利です！
+User.find_or_create_by!(email: "test1@example.com") do |user|
+  user.name = "山田 太郎"
+  user.password = "password123456"
+  user.password_confirmation = "password123456"
+  user.role = "general"
+end
 
-# # --- 書籍 ---
-Item.create!(
-  name: "プロを目指す人のためのRuby入門",
-  unique_id: "BK-001",
-  description: "通称チェリー本。Rubyの基礎から応用まで学べます。\n新人研修の必読書です。",
-  state: :available, # 貸出可
-  category: book_cat,
-  user_id: 1
-)
+User.find_or_create_by!(email: "test2@example.com") do |user|
+  user.name = "佐藤 花子"
+  user.password = "password1234567"
+  user.password_confirmation = "password1234567"
+  user.role = "general"
+end
 
-Item.create!(
-  name: "リーダブルコード",
-  unique_id: "BK-002",
-  description: "より良いコードを書くためのシンプルで実践的なテクニック。\n全エンジニアにおすすめ。",
-  state: :available, # 貸出可
-  category: book_cat,
-  user_id: 1
-)
-
-Item.create!(
-  name: "Webを支える技術",
-  unique_id: "BK-003",
-  description: "HTTP、URI、HTMLなどWebの基礎技術を歴史的背景から解説。\nRESTfulな設計の参考に。",
-  state: :maintenance, # メンテ中（テスト用）
-  category: book_cat,
-  user_id: 1
-)
-
-# # --- その他 ---
-Item.create!(
-  name: "延長コード (3m)",
-  unique_id: "OT-001",
-  description: "会議室用です。6個口。",
-  state: :available, # 貸出可
-  category: other_cat,
-  user_id: 1
-)
-
-Item.create!(
-  name: "HDMI変換アダプタ",
-  unique_id: "OT-002",
-  description: "USB Type-CからHDMIへの変換用。",
-  state: :available, # 貸出可
-  category: other_cat,
-  user_id: 1
-)
-
-  User.create!(
-    name: "管理者ユーザーテスト",
-    password: "adminpassword123",
-    password_confirmation: "adminpassword123",
-    email: "admin-test@gmail.com",
-    role: 0
-  )
-
-puts "データの作成が完了しました！"
+puts "✅ サンプルデータの作成が完了しました！"
