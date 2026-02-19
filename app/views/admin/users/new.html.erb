@@ -36,31 +36,51 @@
               <%# 1. 権限（Role）を選ぶプルダウン（super_adminなら全部選べる） %>
               <div class="mb-3">
                 <%= f.label :role, class: "form-label" %>
-                <%= f.select :role, User.roles_i18n.invert, {}, class: "form-control" %>
+                <%= f.select :role, User.roles_i18n.invert, {}, class: "form-control", id: "role-select" %>
                 <% if @user.errors.include?(:role) %>
                   <div style="color: red;" class="mt-3"><%= @user.errors.full_messages_for(:role).first %></div>
                 <% end %>
               </div>
 
               <%# 2. 細かな権限を与えるチェックボックス（adminを作る時用） %>
-              <div class="mb-3">
+              <div class="mb-3 " id="permissions-area" >
                 <p class="text-muted">※管理者(admin)に個別の権限を与える場合のみチェック</p>
                 
-                <%# ▼ 管理者に対する権限 ▼ %>
-                <%= f.label :can_create_admin_users, class: "form-label" %>
-                <%= f.check_box :can_create_admin_users, class: "form-check-input" %>
-                <%= f.label :can_edit_admin_users, class: "form-label" %>
-                <%= f.check_box :can_edit_admin_users, class: "form-check-input" %>
-                <%= f.label :can_delete_admin_users, class: "form-label" %>
-                <%= f.check_box :can_delete_admin_users, class: "form-check-input" %>
+                <div class="row">
+                  <%# ▼ 管理者に対する権限 ▼ %>
+                  <div class="col-md-6">
+                    <p class="fw-bold">管理者</p>
+                    <div class="form-check">
+                      <%= f.check_box :can_create_admin_users, class: "form-check-input" %>
+                      <%= f.label :can_create_admin_users, class: "form-label" %>
+                    </div>
+                    <div class="form-check">
+                      <%= f.check_box :can_edit_admin_users, class: "form-check-input" %>
+                      <%= f.label :can_edit_admin_users, class: "form-label" %>
+                    </div>
+                    <div class="form=check">
+                      <%= f.check_box :can_delete_admin_users, class: "form-check-input" %>
+                      <%= f.label :can_delete_admin_users, class: "form-label" %>
+                    </div>
+                  </div>
+                  <%# ▼ 一般ユーザーに対する権限 ▼ %>
+                  <div class="col-md-6">
+                    <p class="fw-bold">一般ユーザー</p>
+                    <div class="form-check">
+                      <%= f.check_box :can_create_general_users, class: "form-check-input" %>
+                      <%= f.label :can_create_general_users, class: "form-label" %>
+                    </div>
+                    <div class="form-check">
+                      <%= f.check_box :can_edit_general_users, class: "form-check-input" %>
+                      <%= f.label :can_edit_general_users, class: "form-label" %>
+                    </div>
+                    <div class="form-check">
+                      <%= f.check_box :can_delete_general_users, class: "form-check-input" %>
+                      <%= f.label :can_delete_general_users, class: "form-label" %>
+                    </div>
+                  </div>
 
-                <%# ▼ 一般ユーザーに対する権限 ▼ %>
-                <%= f.label :can_create_general_users, class: "form-label" %>
-                <%= f.check_box :can_create_general_users, class: "form-check-input" %>
-                <%= f.label :can_edit_general_users, class: "form-label" %>
-                <%= f.check_box :can_edit_general_users, class: "form-check-input" %>
-                <%= f.label :can_delete_general_users, class: "form-label" %>
-                <%= f.check_box :can_delete_general_users, class: "form-check-input" %>
+                </div>
               </div>
 
             <% else %>
