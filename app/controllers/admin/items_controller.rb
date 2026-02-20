@@ -40,7 +40,7 @@ class Admin::ItemsController < Admin::BaseController
   protected
 
   def item_params
-    params.require(:item).permit(:name, :description, :unique_id, :state, :image, :category_id)
+    params.require(:item).permit(:name, :description, :unique_id, :state, :image, :category_id, :tag_names)
   end
 
   def set_item
