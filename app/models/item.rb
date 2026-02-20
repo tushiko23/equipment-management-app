@@ -13,4 +13,26 @@ class Item < ApplicationRecord
   validates :unique_id, presence: true, uniqueness: true
 
   validates :image, image: true
+
+  validate :check_duplicate_tags
+
+  def check_duplicate_tags
+    return if self.tag_names.nil?
+    tags_array = self.tag_names.split(/[\p{blank}\s]+/).compact_blank()
+    if tags_array.size != tags_array.uniq.size
+      errors.add(:tag_names, "に重複したタグが含まれています")
+    end
+  end
+
+  attr_accessor :tag_names
+  after_save :save_tags
+
+  def save_tags
+    return if self.tag_names.nil?
+
+    tags_data = self.tag_names.split(/[\p{blank}\s]+/).compact_blank()
+    self.tags = tags_data.map do |tag|
+                  Tag.find_or_create_by(name: tag)
+                end
+  end
 end
