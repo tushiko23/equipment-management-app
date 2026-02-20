@@ -58,6 +58,9 @@
             <p class="card-text text-muted small text-truncate">
               <%= item.description %>
             </p>
+            <% item.tags.each do |tag| %>
+              <span class="badge bg-secondary rounded-pill fs-7 mb-2"><%= tag.name %></span>
+            <% end %>
           </div>
 
           <div class="card-footer bg-white border-0 pb-3">
