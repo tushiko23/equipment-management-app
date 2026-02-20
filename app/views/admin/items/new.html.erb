@@ -68,7 +68,7 @@
               <div class="d-flex justify-content-between align-items-center">
                 <%= f.label :description, class: "form-label" %>
               </div>
-              <%= f.text_area :description, autocomplete: "new-description", class: "form-control", style: "height: 100px;" %>
+              <%= f.text_area :description, autocomplete: "new-description", autocomplete: "tag_names", class: "form-control", style: "height: 100px;" %>
               <% if @item.errors.include?(:description) %>
                 <div style="color: red;" class="mt-3"><%= @item.errors.full_messages_for(:description).first %></div>
               <% end %>
@@ -77,7 +77,7 @@
             <%# ▼ タグの追加 ▼ %>
             <div class="mb-3">
               <%= f.label :tag_names, class: "form-label" %>
-              <%= f.text_field :tag_names, value: @item.tags.map { |tag| tag.name }.join(' '), autocomplete: "tag_names", class: "form-control", placeholder: "スペース区切りで入力（例：PC スマホ）" %>
+              <%= f.text_field :tag_names, value: @item.tags.map { |tag| tag.name }.join(' '), class: "form-control", placeholder: "スペース区切りで入力（例：PC スマホ）" %>
               <% if @item.errors.include?(:tag_names) %>
                 <div style="color: red;" class="mt-3"><%= @item.errors.full_messages_for(:tag_names).first %></div>
               <% end %>

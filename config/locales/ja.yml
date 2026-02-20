@@ -14,13 +14,17 @@ ja:
     attributes:
       item:
         name: アイテム名
-        unique_id : 管理番号
+        unique_id: 管理番号
         state: ステータス
         description: 説明文
         category_id: カテゴリー
         image: 画像
+        tag_names: タグ名
+
       category:
         name: カテゴリー名
+      tag:
+        name: タグ名
     errors:
       messages:
         file_too_large: "は、10MB以下のサイズにしてください"
