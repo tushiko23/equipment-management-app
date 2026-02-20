@@ -56,9 +56,12 @@
             </div>
             
             <h5 class="card-title fw-bold mt-2"><%= item.name %></h5>
-            <p class="card-text text-muted small text-truncate">
+            <p class="card-text text-muted text-truncate">
               <%= item.description %>
             </p>
+            <% item.tags.each do |tag| %>
+              <span class="badge bg-secondary rounded-pill fs-7 mb-2"><%= tag.name %></span>
+            <% end %>
           </div>
 
           <div class="card-footer bg-white border-0 pb-3">
