@@ -74,6 +74,13 @@
               <% end %>
             </div>
 
+            <div class="mb-3">
+              <%= f.label :tag_name, class: "form-label" %>
+              <%= f.text_field :tag_names, value: @item.tags.map { |tag| tag.name }.join(' '), autocomplete: "tag_names", class: "form-control", placeholder: "スペース区切りで入力（例：ノートPC ケーブル）" %>
+              <% if @item.errors.include?(:tag_names) %>
+                <div style="color: red;" class="mt-3"><%= @item.errors.full_messages_for(:tag_names).first %></div>
+              <% end %>
+            </div>
             <%# ▼ 登録ボタン ▼ %>
             <div class="d-grid gap-2 mt-4">
               <%= f.submit "備品の編集", class: "btn btn-primary" %>
