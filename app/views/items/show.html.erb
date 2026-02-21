@@ -1,11 +1,19 @@
 <div class="container py-5">
 
   <% # パンくずリスト風の「戻る」リンク %>
-  <div class="mb-4">
-    <%= link_to items_path, class: "text-decoration-none text-secondary" do %>
-      &laquo; 一覧に戻る
-    <% end %>
-  </div>
+  <% if @item.borrowed? %>
+    <div class="mb-4">
+      <%= link_to lendings_path(@item), class: "text-decoration-none text-secondary" do %>
+        &laquo; 詳細に戻る
+      <% end %>
+    </div>
+  <% else %>
+    <div class="mb-4">
+      <%= link_to items_path, class: "text-decoration-none text-secondary" do %>
+        &laquo; 一覧に戻る
+      <% end %>
+    </div>
+  <% end %>
 
   <div class="row justify-content-center">
     <div class="col-lg-10">
