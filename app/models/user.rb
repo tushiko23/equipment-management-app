@@ -22,7 +22,7 @@ class User < ApplicationRecord
   end
 
   def editable_by?(is_user)
-    (is_user.super_admin?) || 
+    (is_user.super_admin?) ||
     (is_user.can_edit_admin_users? && self.admin?) ||
     (is_user.can_edit_general_users? && self.general?)
   end
