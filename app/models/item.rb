@@ -14,6 +14,14 @@ class Item < ApplicationRecord
 
   validates :image, image: true
 
+  def self.ransackable_attributes(auth_object = nil)
+    %w[name tags_name]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    []
+  end
+
   validate :check_duplicate_tags
 
   def check_duplicate_tags
@@ -30,9 +38,17 @@ class Item < ApplicationRecord
   def save_tags
     return if self.tag_names.nil?
 
-    tags_data = self.tag_names.split(/[\p{blank}\s]+/).compact_blank()
+    tags_data = self.tag_names.split(/[\p{blank}\s]+/).compact_blank().uniq
     self.tags = tags_data.map do |tag|
                   Tag.find_or_create_by(name: tag)
                 end
+  end
+
+  def self.ransackable_attributes(auth_object = nil)
+    %w[name]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    %w[category tags]
   end
 end
