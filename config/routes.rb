@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   resources :users, only: [ :show ]
 
   resources :items, only: [ :index, :show ] do
-    resources :lendings, only: [:create]
+    resources :lendings, only: [ :create, :update ]
   end
 
   namespace :admin do
