@@ -25,6 +25,9 @@ ja:
         name: カテゴリー名
       tag:
         name: タグ名
+
+      comment:
+        content: コメント
     errors:
       messages:
         file_too_large: "は、10MB以下のサイズにしてください"
