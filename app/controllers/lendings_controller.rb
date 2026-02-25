@@ -18,7 +18,6 @@ class LendingsController < ApplicationController
       @item.borrowed! # ステータスを「貸出中」に変更
     end
 
-    # 【修正】respond_to を消して、強制的にリダイレクトさせる
     redirect_to item_path(@item), notice: "貸出処理が完了しました"
 
   rescue ActiveRecord::RecordInvalid => e
