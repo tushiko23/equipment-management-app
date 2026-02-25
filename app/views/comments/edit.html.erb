@@ -1,0 +1,17 @@
+<turbo-frame id="<%= dom_id(@comment) %>">
+  <%= form_with model: [@item, @comment], class: "mt-2" do |f| %>
+    <div class="fs-5 mt-2 text-break">
+      <%= f.text_area :content, rows: [@comment.content.to_s.lines.count, 3].max, class: "form-control border border-secondary-subtle shadow-none" %>
+    </div>
+
+    <% if @comment.user.id == current_user.id %>
+      <div class="d-flex gap-2 mt-2">
+      <%# 編集ボタン（link_to） %>
+      <%= f.submit "編集", class: "btn btn-sm btn-success" %>
+      <%= link_to item_comments_path(@item), class: "btn btn-sm btn-outline-secondary" do %>
+        キャンセル
+      <% end %>
+    </div>
+    <% end %>
+  <% end %>
+</turbo-frame>
