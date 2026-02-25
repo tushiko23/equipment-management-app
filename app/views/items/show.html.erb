@@ -62,12 +62,14 @@
                 <dt class="col-sm-4 text-muted">登録日</dt>
                 <dd class="col-sm-8"><%= @item.created_at.strftime("%Y年%m月%d日")%></dd>
               
-                <dt class="col-sm-4 text-muted">タグ一覧</dt>
+                <dt class="col-sm-4 text-muted mb-2">タグ一覧</dt>
                 <dd class="col-sm-8 d-flex flex-wrap gap-2">
                   <% @item.tags.each do |tag| %>
                     <span class="badge bg-secondary rounded-pill fs-6"><%= tag.name %></span>
                   <% end %>
                 </dd>
+
+                <%= link_to "コメントを見る", item_comments_path(@item), class: "col-sm-4 text-muted" %>
               </dl>
             </div>
 
