@@ -6,3 +6,6 @@ import { application } from "./application"
 
 import FlashController from "./flash_controller"
 application.register("flash", FlashController)
+
+import MentionController from "./mention_controller"
+application.register("mention", MentionController)

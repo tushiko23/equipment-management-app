@@ -14,14 +14,13 @@
         </div>
         <div>
           <h2 class="fw-bold mb-0">貸出中の備品リスト</h2>
-          <p class="text-muted mb-0">現在あなたが借りている備品の一覧です</p>
+          <p class="text-muted mb-0">あなたが借りている備品の一覧です</p>
         </div>
       </div>
 
       <% if @borrowing_items.any? %>
         <div class="row g-4">
           <% @borrowing_items.each do |borrowing_item| %>
-
             <div class="col-md-6">
               <div class="card shadow-sm h-100 border-0">
                 <div class="card-body p-4">
@@ -31,7 +30,7 @@
                       <li class="d-flex justify-content-center mb-3">
                         <span class="fw-bold text-danger">返却期限を過ぎています</span>
                       </li>
-                      <% elsif borrowing_item.due_at.to_date == Date.current.to_date %>
+                      <% elsif borrowing_item.due_at.to_date == Date.current %>
                       <li class="d-flex justify-content-center mb-3">
                         <span class="fw-bold text-danger">本日が返却期限です</span>
                       </li>
@@ -121,3 +120,16 @@
   </div>
 </div>
 
+<%#　返却期日または返却期限なら、モーダルメッセージを表示する %>
+<% if @borrowing_items.any? { |borrowing_item| borrowing_item.due_at.to_date <= Date.current }%>
+  <div class="flash-container position-fixed top-0 start-50 translate-middle-x mt-3 p-3 mention alert alert-danger" style="z-index: 1100; width: 100%; max-width: 500px; pointer-events: none; transition: opacity 1s ease; opacity: 1;" data-controller="mention">
+      <div class="d-flex align-items-center justify-content-center">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        <% if @borrowing_items.any? { |item| item.due_at.to_date < Date.current } %>
+          <span class="text-danger fw-bold fs-5 mb-0">返却を過ぎているアイテムがあります。</span>
+        <% elsif @borrowing_items.any? { |item| item.due_at.to_date == Date.current } %>
+          <span class="text-danger fw-bold fs-5 mb-0">返却期日のアイテムがあります。</span>
+        <% end %>
+      </div>
+  </div>
+<% end %>
