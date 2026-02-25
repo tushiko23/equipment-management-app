@@ -1,4 +1,11 @@
 <div class="container py-5">
+
+  <div class="mb-4">
+    <%= link_to "javascript:history.back()", class: "text-decoration-none text-secondary" do %>
+      &laquo; 戻る
+    <% end %>
+  </div>
+
   <div class="row justify-content-center">
     <div class="col-lg-10">
       <div class="d-flex align-items-center mb-5 border-bottom pb-4">
@@ -20,6 +27,15 @@
                 <div class="card-body p-4">
                   <div class="d-flex justify-content-between align-items-center mb-3">
                     <div>
+                      <% if borrowing_item.due_at.to_date < Date.current %>
+                      <li class="d-flex justify-content-center mb-3">
+                        <span class="fw-bold text-danger">返却期限を過ぎています</span>
+                      </li>
+                      <% elsif borrowing_item.due_at.to_date == Date.current.to_date %>
+                      <li class="d-flex justify-content-center mb-3">
+                        <span class="fw-bold text-danger">本日が返却期限です</span>
+                      </li>
+                      <% end %>
                       <h5 class="card-title fw-bold mb-1"><%= borrowing_item.item.name %></h5>
                       <%# 詳細ページへのリンク %>
                       <%= link_to "詳細を見る", item_path(borrowing_item.item.id), class: "small text-decoration-none" %>
