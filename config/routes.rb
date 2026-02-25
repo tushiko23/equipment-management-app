@@ -11,6 +11,7 @@ Rails.application.routes.draw do
 
   resources :items, only: [ :index, :show ] do
     resources :lendings, only: [ :create, :update ]
+    resources :comments, only: [ :index, :create, :edit, :update, :destroy ]
   end
 
   namespace :admin do
