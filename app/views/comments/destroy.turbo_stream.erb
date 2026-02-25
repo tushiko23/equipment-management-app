@@ -1,0 +1,2 @@
+<%= turbo_stream.update "comments_count", "(#{@item.comments.count})" %>
+<%= turbo_stream.remove("comment_box_#{@comment.id}") %>
