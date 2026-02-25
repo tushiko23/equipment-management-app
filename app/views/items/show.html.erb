@@ -6,13 +6,6 @@
         &laquo; 一覧に戻る
       <% end %>
     </div>
-    <% if @item.borrowed? %>
-    <div class="mb-4">
-      <%= link_to lendings_path, class: "text-decoration-none text-secondary" do %>
-        &laquo; 借りているアイテム一覧
-      <% end %>
-    </div>
-    <% end %>
 
   <div class="row justify-content-center">
     <div class="col-lg-10">
@@ -27,8 +20,10 @@
 
             <% if @item.available? %>
               <span class="badge bg-success fs-6 px-3 py-2">貸出可</span>
-            <% else %>
+            <% elsif @item.borrowed? %>
               <span class="badge bg-danger fs-6 px-3 py-2">貸出中</span>
+            <% else %>
+              <span class="badge bg-secondary fs-6 px-3 py-2">メンテ中</span>
             <% end %>
           </div>
 
@@ -77,9 +72,13 @@
                 <button class="btn btn-primary btn-lg rounded-pill py-3 shadow-sm" type="button" onclick="new bootstrap.Modal(document.getElementById('borrowModal')).show()">
                   この備品を借りる
                 </button>
-              <% else %>
+              <% elsif @item.borrowed? %>
                 <button class="btn btn-secondary btn-lg rounded-pill py-3" disabled="true">
                   現在貸出中です
+                </button>
+              <% else %>
+                <button class="btn btn-secondary btn-lg rounded-pill py-3" disabled="true">
+                  現在メンテ中です
                 </button>
               <% end %>
             </div>

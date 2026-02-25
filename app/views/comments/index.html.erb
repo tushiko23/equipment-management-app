@@ -2,8 +2,8 @@
 <div class="row justify-content-center g-4">
   <% # パンくずリスト風の「戻る」リンク %>
   <div>
-    <%= link_to admin_items_path, class: "text-decoration-none text-secondary" do %>
-      &laquo; 一覧に戻る
+    <%= link_to item_path(@item), class: "text-decoration-none text-secondary" do %>
+      &laquo; 詳細に戻る
     <% end %>
   </div>
 
@@ -21,7 +21,7 @@
           <% elsif @item.borrowed? %>
             <span class="badge bg-danger px-2 py-1">貸出中</span>
           <% else %>
-            <span class="badge bg-danger px-2 py-1">メンテ中</span>
+            <span class="badge bg-secondary px-2 py-1">メンテ中</span>
           <% end %>
         </div>
   
