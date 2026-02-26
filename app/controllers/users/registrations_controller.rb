@@ -4,7 +4,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
   before_action :configure_account_update_params, only: [ :update ]
-
+  before_action :ensure_normal_user, only: [ :update, :destroy ]
   # GET /resource/sign_up
   # def new
   #   super
@@ -63,11 +63,20 @@ def update_resource(resource, params)
 end
 
   def configure_account_update_params
-    devise_parameter_sanitizer.permit(:account_update, keys: [:name, :avatar])
+    devise_parameter_sanitizer.permit(:account_update, keys: [ :name, :avatar ])
   end
 
   def after_update_path_for(resource)
     user_path(resource)
+  end
+
+  private
+
+  def ensure_normal_user
+    if current_user.guest?
+      # トップページに強制送還し、エラーメッセージを出す！
+      redirect_to root_path, alert: 'ゲストユーザーの更新・削除はできません。'
+    end
   end
 
   # If you have extra params to permit, append them to the sanitizer.
