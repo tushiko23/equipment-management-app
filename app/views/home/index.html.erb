@@ -1,2 +1,51 @@
-<h2>トップページです</h2>
+<div class="container py-5">
+  <% if user_signed_in? %>
+    <div class="row mb-4">
+      <div class="col-12">
+        <h2 class="fw-bold">
+          お疲れ様です、
+          <%# 先ほど作った「名前かメアド」の表示ロジックをここでも使えますね！ %>
+          <% if current_user.name.present? %>
+            <%= current_user.name %>さん
+          <% else %>
+            <%= current_user.email.split('@').first %> さん
+          <% end %>！
+        </h2>
+        <p class="text-muted">本日の備品の貸出状況（可視化ダッシュボード）</p>
+      </div>
+    </div>
+    
+    <%# ここに「自分が借りている備品」や「すぐ借りられる備品」のカードを並べます %>
 
+  <% else %>
+
+<div class="row justify-content-center text-center py-5 mt-5">
+  <div class="col-lg-8">
+    <h1 class="display-4 fw-bold mb-4">
+      備品の貸し借りを、もっと<span class="text-primary">可視化</span>しよう。
+    </h1>
+    <p class="lead text-muted mb-5">
+      Kashi-Kari は、誰が・何を・いつまで借りているかを一目で把握できる、<br>
+      スマートな備品管理アプリケーションです。
+    </p>
+    
+    <%# 🌟 ここに3つの入り口（ボタン）を並べます！ %>
+    <div class="d-grid gap-3 d-sm-flex justify-content-sm-center mt-4">
+      
+      <%# 通常の新規登録 %>
+      <%= link_to "新規登録して始める", new_admin_user_path, class: "btn btn-primary btn-lg rounded-pill px-4 shadow-sm" %>
+      
+      <%# 一般ゲストログイン (先ほど作ったルーティングに向けて POST 送信) %>
+      <%= button_to "一般ゲストログイン", "/users/guest_sign_in", method: :post, class: "btn btn-outline-primary btn-lg rounded-pill px-4" %>
+
+      <%# 管理者ゲストログイン %>
+      <%= button_to "管理者ゲストログイン", "/admins/guest_sign_in", method: :post, class: "btn btn-outline-danger btn-lg rounded-pill px-4" %>
+
+    </div>
+  </div>
+</div>
+
+
+  <% end %>
+
+</div>
