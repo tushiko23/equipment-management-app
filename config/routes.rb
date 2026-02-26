@@ -5,6 +5,9 @@ Rails.application.routes.draw do
   devise_scope :user do
     get '/users/edit', to: 'users/registrations#edit', as: 'edit_user_registration'
     put '/users', to: 'users/registrations#update', as: 'user_registration'
+
+    post '/users/guest_sign_in', to: 'users/sessions#guest_sign_in'
+    post '/admins/guest_sign_in', to: 'users/sessions#admin_guest_sign_in'
   end
 
   resources :users, only: [ :show ]
