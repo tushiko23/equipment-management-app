@@ -35,7 +35,7 @@ class LendingsController < ApplicationController
       @item.available!
     end
 
-    redirect_to item_path(@item), notice: "返却処理が完了しました"
+    redirect_to lendings_path, notice: "返却処理が完了しました"
 
   rescue ActiveRecord::RecordInvalid => e
     # エラー時はリダイレクト
