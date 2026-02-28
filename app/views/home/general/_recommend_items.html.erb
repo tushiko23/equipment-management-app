@@ -1,0 +1,29 @@
+<%# おすすめ備品 %>
+<div class="mt-5 mb-4 border-top pt-5">
+  <h4 class="fw-bold mb-4"><i class="bi bi-stars text-warning me-2"></i>最近追加された備品</h4>
+  <div class="row row-cols-1 row-cols-md-4 g-4">
+    <% @recommended_items.each do |item| %>
+      <div class="col">
+        <div class="card h-100 shadow-sm border-0 rounded-4 ">
+          <% if item.persisted? && item.image.attached? %>
+            <%= image_tag item.image, class: "card-img-top bg-light", style: "height: 200px; object-fit: fill; border-top-left-radius: 1rem; border-top-right-radius: 1rem;" %>
+          <% else %>
+            <%= image_tag 'default-avatar.png', class: "card-img-top bg-light", style: "height: 200px; object-fit: contain; border-top-left-radius: 1rem; border-top-right-radius: 1rem;" %>
+          <% end %>
+              
+          <div class="card-body">
+            <h6 class="card-title fw-bold text-truncate"><%= item.name %></h6>
+            <p class="card-text small text-muted text-truncate"><%= item.description %></p>
+            <% item.tags.each do |tag| %>
+            <span class="badge bg-secondary rounded-pill small"><%= tag.name %></span>
+            <% end %>
+          </div>
+
+          <div class="card-footer bg-white border-0 pb-3 pt-0">
+            <%= link_to "詳細を見る", item_path(item), class: "btn btn-sm btn-outline-primary w-100 rounded-pill" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

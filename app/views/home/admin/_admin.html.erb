@@ -1,0 +1,175 @@
+<%# --- 全体の貸出状況（プログレスバー） --- %>
+<div class="row mb-4 mt-4">
+  <div class="col-12">
+    <div class="card shadow-sm border-0 rounded-4 p-4">
+      <h5 class="fw-bold mb-3"><i class="bi bi-bar-chart-fill text-primary me-2"></i>全体の貸出状況</h5>
+      <div class="d-flex justify-content-between mb-1">
+        <span class="text-muted small">全備品 <%= @total_items_count %> 個中、現在 <%= @borrowed_lendings_count %> 個が貸出中</span>
+        <span class="fw-bold text-primary"><%= @borrowing_rate %> %</span>
+      </div>
+      <div class="progress" style="height: 20px;">
+        <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar" style="width: <%= @borrowing_rate %>%;" aria-valuenow="<%= @borrowing_rate %>" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-md-12 mb-4">
+  <div class="card shadow-sm border-0 border-start border-success border-4 rounded-4">
+    <div class="card-body py-4">
+      <h5 class="fw-bold text-success mb-4"><i class="bi bi-chat-left-text-fill me-2"></i>ユーザーからの返信</h5>
+      <% if @replied_notifications.present? %>
+        <div class="list-group list-group-flush">
+          <% @replied_notifications.each do |notification| %>
+            <div class="list-group-item px-0 border-bottom py-3">
+              <div class="d-flex w-100 justify-content-between mb-1">
+                <h6 class="fw-bold mb-0">
+                  <i class="bi bi-person-circle me-1"></i><%= notification.user.name %>
+                </h6>
+                <small class="text-muted">
+                  <%= notification.updated_at.strftime('%m/%d %H:%M') %>
+                </small>
+              </div>
+              <p class="mb-1 text-dark bg-light p-2 rounded-3 border">
+                <%= notification.reply_message %>
+              </p>
+              
+              <div class="d-flex justify-content-between align-items-center mt-2">
+                <small class="text-muted">
+                  対象備品：<%= notification.item.name %>
+                </small>
+                
+                <%= form_with(model: notification, local: true, class: "m-0") do |f| %>
+                  <%= f.hidden_field :checked, value: true %>
+                  <%= f.button type: "submit", class: "btn btn-sm btn-outline-success rounded-pill fw-bold px-3 shadow-sm", data: { turbo_confirm: "この返信を「対応済み」にしてリストから消しますか？" } do %>
+                    <i class="bi bi-check2-all me-1"></i>対応済みにする
+                  <% end %>
+                <% end %>
+              </div>
+              
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="text-center text-muted py-3">
+          現在、未対応の返信はありません。
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<%# 期限切れ貸出一覧 %>
+<% if @today_lendings.present? %>
+  <h5 class="fw-bold mb-3"><i class="bi bi-list-check text-success me-2"></i>今日が期限のアイテム</h5>
+  <div class="list-group list-group-flush mb-5">
+    <% @today_lendings.each do |lending| %>
+      <div class="list-group-item px-0 d-flex justify-content-between align-items-center border-bottom">
+        <div>
+          <div class="fw-bold"><%= lending.item.name %></div>
+            <div class="small text-muted"><i class="bi bi-person-fill me-1"></i><%= lending.user.name %> さん</div>
+        </div>
+        <div class="d-flex align-items-center">
+          <span class="badge bg-danger rounded-pill px-3 py-2 me-2">
+            <%= lending.due_at.strftime('%m/%d') %> 期限
+          </span>
+          <%= form_with(model: Notification.new, local: true, class: "m-0") do |f| %>
+            <%= f.hidden_field :user_id, value: lending.user_id %>
+            <%= f.hidden_field :item_id, value: lending.item_id %>
+            <%= f.hidden_field :message, value: "【至急】「#{lending.item.name}」の返却期限が過ぎています。速やかにご返却をお願いいたします。" %>
+            <%= f.button type: 'submit', class: "btn btn-sm btn-outline-danger rounded-pill", data: { turbo_confirm: "#{lending.user.name}さんに通知を送りますか？" } do %>
+              <i class="bi bi-send-fill"></i>お知らせする
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+
+  <h5 class="fw-bold mb-3"><i class="bi bi-list-check text-success me-2"></i>期限切れのアイテム</h5>
+<% if @overdue_lendings.present? %>
+  <div class="list-group list-group-flush mb-5">
+    <% @overdue_lendings.each do |lending| %>
+      <div class="list-group-item px-0 d-flex justify-content-between align-items-center border-bottom">
+        <div>
+          <div class="fw-bold"><%= lending.item.name %></div>
+            <div class="small text-muted"><i class="bi bi-person-fill me-1"></i><%= lending.user.name %> さん</div>
+        </div>
+        <div class="d-flex align-items-center">
+          <span class="badge bg-danger rounded-pill px-3 py-2 me-2">
+            <%= lending.due_at.strftime('%m/%d') %> 期限
+          </span>
+          <%= form_with(model: Notification.new, local: true, class: "m-0") do |f| %>
+            <%= f.hidden_field :user_id, value: lending.user_id %>
+            <%= f.hidden_field :item_id, value: lending.item_id %>
+            <%= f.hidden_field :message, value: "【至急】「#{lending.item.name}」の返却期限が過ぎています。速やかにご返却をお願いいたします。" %>
+            <%= f.button type: 'submit', class: "btn btn-sm btn-outline-danger rounded-pill", data: { turbo_confirm: "#{lending.user.name}さんに督促の通知を送りますか？" } do %>
+              <i class="bi bi-send-fill"></i>お知らせする
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <div class="list-group-item px-0 border-bottom mt-5">
+    <div class="text-center py-4">現在、期限切れのアイテムはありません。</div>
+  </div>
+<% end %>
+
+<%# --- アクティブな貸出 --- %>
+<div class="col-md-12 mb-5 mt-5">
+  <div class="card shadow-sm border-0 border-start border-info border-4 rounded-4">
+    <div class="card-body py-4">
+      <h5 class="fw-bold text-info mb-4"><i class="bi bi-card-list me-2"></i>アクティブな貸出（直近5件）</h5>
+      
+      <% if @active_lendings.present? %>
+        <div class="list-group list-group-flush">
+          <% @active_lendings.limit(5).each do |lending| %>
+            <div class="list-group-item px-0 border-bottom py-3">
+              
+              <div class="d-flex w-100 justify-content-between mb-2">
+                <h6 class="fw-bold mb-0">
+                  <i class="bi bi-person-circle text-info me-1"></i><%= lending.user.name %> さん
+                </h6>
+                <small class="text-muted">
+                  貸出日：<%= lending.created_at.strftime('%m/%d') %>
+                </small>
+              </div>
+              
+              <div class="mb-1 text-dark bg-light p-3 rounded-3 border shadow-sm d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2">
+                <span class="fw-bold"><i class="bi bi-box-seam me-2 text-secondary"></i><%= lending.item.name %></span>
+                
+                <%# 期限のバッジ（今日なら黄色、それ以降なら青色） %>
+                <span class="badge bg-<%= lending.due_at.to_date == Date.current ? 'warning text-dark' : 'primary' %> rounded-pill px-3 py-2 shadow-sm text-nowrap">
+                  <%= lending.due_at.strftime('%m/%d') %> 返却予定
+                </span>
+              </div>
+              
+            </div>
+          <% end %>
+        </div>
+        
+        <%# 5件以上ある場合は「一覧へ」の導線を出す %>
+        <% if @active_lendings.count > 5 %>
+          <div class="text-center mt-4">
+            <%= link_to lendings_path, class: "btn btn-sm btn-outline-info rounded-pill px-4 fw-bold shadow-sm" do %>
+              <i class="bi bi-list-ul me-1"></i>すべての貸出を見る（計 <%= @active_lendings.count %> 件）
+            <% end %>
+          </div>
+        <% end %>
+
+      <% else %>
+        <div class="text-center text-muted py-4">
+          <i class="bi bi-inbox fs-2 d-block mb-2 text-light"></i>
+          現在貸し出されている備品はありません。
+        </div>
+      <% end %>
+      
+    </div>
+  </div>
+</div>
+
+
