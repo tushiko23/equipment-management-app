@@ -22,6 +22,12 @@
     </div>
   </div>
 
+  <div class="mb-4">
+    <%= link_to "javascript:history.back()", class: "text-decoration-none text-secondary" do %>
+      &laquo; 戻る
+    <% end %>
+  </div>
+
   <% # 備品リスト（グリッド表示）%>
   <h3 class="mb-3"><%= "#{@items.count}件のアイテム" %></h3>
   <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">

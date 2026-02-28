@@ -3,6 +3,7 @@
     <h2 class="fw-bold">備品一覧</h2>
   </div>
 
+
   <% # 検索バー %>
   <div class="card shadow-sm mb-5 border-0">
     <div class="card-body p-4">
@@ -16,6 +17,13 @@
       <% end %>
     </div>
   </div>
+
+  <% # パンくずリスト風の「戻る」リンク %>
+    <div class="mb-4">
+      <%= link_to "javascript:history.back()", class: "text-decoration-none text-secondary" do %>
+        &laquo; 戻る
+      <% end %>
+    </div>
 
   <% # 備品リスト（グリッド表示）%>
   <h3 class="mb-3"><%= "#{@items.count}件のアイテム" %></h3>

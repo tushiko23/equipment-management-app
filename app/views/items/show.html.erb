@@ -2,8 +2,8 @@
 
   <% # パンくずリスト風の「戻る」リンク %>
     <div class="mb-4">
-      <%= link_to items_path, class: "text-decoration-none text-secondary" do %>
-        &laquo; 一覧に戻る
+      <%= link_to "javascript:history.back()", class: "text-decoration-none text-secondary" do %>
+        &laquo; 戻る
       <% end %>
     </div>
 
