@@ -18,6 +18,7 @@ ja:
         state: ステータス
         description: 説明文
         category_id: カテゴリー
+        category: カテゴリー
         image: 画像
         tag_names: タグ名
 
