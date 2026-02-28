@@ -26,6 +26,9 @@ Rails.application.routes.draw do
   # 【追加】マイページへのルート
   resources :lendings, only: [ :index ]
 
+  # 通知機能のルーティング（作成と更新のみ）
+  resources :notifications, only: [ :create, :update ]
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
