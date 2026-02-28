@@ -1,11 +1,18 @@
 <div class="container mt-5">
+
+  <div class="mb-4">
+    <%= link_to "javascript:history.back()", class: "text-decoration-none text-secondary" do %>
+      &laquo; 戻る
+    <% end %>
+  </div>
   <div class="row justify-content-center">
     <div class="col-md-6 col-lg-5">
       
       <div class="card shadow-sm border-0">
+
         <div class="card-body p-4">
           
-          <h2 class="text-center mb-4 fw-bold">Log in</h2>
+          <h2 class="text-center mb-4 fw-bold">ログイン</h2>
 
           <%= form_with model: resource, scope: resource_name, url: session_path(resource_name), local: true do |f| %>
             <%# ▼ メールアドレス ▼ %>
@@ -30,7 +37,7 @@
 
             <%# ▼ ログインボタン ▼ %>
             <div class="d-grid gap-2 mt-4">
-              <%= f.submit "Log in", class: "btn btn-primary" %>
+              <%= f.submit "ログイン", class: "btn btn-primary" %>
             </div>
             
           <% end %>
