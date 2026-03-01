@@ -1,6 +1,11 @@
 <% if @my_active_lendings.present? %>
   <div class="mt-2 mb-5">
-    <h5 class="fw-bold mb-3"><i class="bi bi-list-check text-success me-2"></i>現在借りている備品</h5>
+    <div class="d-flex gap-3 mb-3 align-items-center">
+      <h5 class="fw-bold"><i class="bi bi-list-check text-success me-2"></i>現在借りている備品</h5>
+      <%= link_to lendings_path, class: "text-decoration-none fw-bold small" do %>
+        一覧を確認<i class="bi bi-chevron-right"></i>
+      <% end %>
+    </div>
     <div class="list-group shadow-sm border-0 rounded-4">
       <% @my_active_lendings.each do |lending| %>
         <div class="list-group-item d-flex justify-content-between align-items-center py-3 px-4 border-bottom">
