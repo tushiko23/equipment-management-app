@@ -1,7 +1,12 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
+require 'selenium-webdriver'
+
 ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
+
+Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |f| require f }
+
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 # Uncomment the line below in case you have `--require rails_helper` in the `.rspec` file
@@ -69,4 +74,24 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+
+  config.before(:each, type: :system) do
+    # 🌟 1. まず「ブラウザの設定（Options）」を独立して作ります
+    chrome_options = Selenium::WebDriver::Chrome::Options.new
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--disable-gpu')
+    chrome_options.add_argument('--no-sandbox')
+
+    # 🌟 2. 作った設定を「options:」という名前で渡します
+    driven_by :selenium, using: :chrome, screen_size: [ 1400, 1400 ], options: {
+      browser: :remote,
+      url: "http://chrome:4444/wd/hub",
+      options: chrome_options # ここが「capabilities:」だった場所です
+    }
+
+    Capybara.server_host = '0.0.0.0'
+    Capybara.app_host = "http://web-app:#{Capybara.server_port}"
+
+    config.include LoginMacros, type: :system
+  end
 end
