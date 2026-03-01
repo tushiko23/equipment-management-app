@@ -27,26 +27,91 @@ RSpec.describe "アイテム（備品）管理", type: :system do
       expect(page).to have_content "テスト用MacBook"
       expect(page).to have_content "新品"
     end
+
+    context "入力値に不備がある場合" do
+      it "アイテム名を空にするとエラーが出ること" do
+        click_on "登録"
+        fill_in "item_name", with: ""
+        fill_in "unique_id", with: "0001"
+        select "PC周辺機器", from: "カテゴリー"
+        select "貸出可", from: "ステータス"
+
+        click_on "アイテムの作成"
+
+        expect(page).to_not have_content "アイテムが新規作成されました"
+        expect(page).to have_content "アイテム名を入力してください"
+      end
+
+      it "管理番号を空にするとエラーが出ること" do
+        click_on "登録"
+        fill_in "item_name", with: "新品のMacBook"
+        fill_in "unique_id", with: ""
+        select "PC周辺機器", from: "カテゴリー"
+        select "貸出可", from: "ステータス"
+
+        click_on "アイテムの作成"
+
+        expect(page).to_not have_content "アイテムが新規作成されました"
+        expect(page).to have_content "管理番号を入力してください"
+      end
+
+      it "カテゴリー名を空にするとエラーが出ること" do
+        click_on "登録"
+        fill_in "item_name", with: "新品のMacBook"
+        fill_in "unique_id", with: "0002"
+        select "選択してください", from: "カテゴリー"
+        select "貸出可", from: "ステータス"
+
+        click_on "アイテムの作成"
+
+        expect(page).to_not have_content "アイテムが新規作成されました"
+        expect(page).to have_content "カテゴリーを入力してください"
+      end
+    end
   end
 
   describe "編集機能" do
     before do
       visit admin_item_path(existing_item)
     end
-    it "既存のアイテムを編集できること" do
-      click_on "編集する"
-      # 2. 🌟 内容を書き換える（id指定が確実です！）
-      fill_in "item_name", with: "新品のMacBook"
-      fill_in "unique_id", with: "0002"
-      select "その他", from: "カテゴリー"
-      select "メンテ中", from: "ステータス"
-      # 3. 更新ボタンを押す
-      click_on "編集する"
 
-      # 4. 期待する結果
-      expect(page).to have_content "アイテムの情報が更新されました"
-      expect(page).to have_content "新品のMacBook"
-      expect(page).to_not have_content "古いMacBook"
+    context "入力値が正しい場合" do
+      it "既存のアイテムを編集できること" do
+        click_on "編集する"
+        fill_in "item_name", with: "新品のMacBook"
+        fill_in "unique_id", with: "0002"
+        select "その他", from: "カテゴリー"
+        select "メンテ中", from: "ステータス"
+
+        click_on "編集する"
+
+        expect(page).to have_content "アイテムの情報が更新されました"
+        expect(page).to have_content "新品のMacBook"
+        expect(page).to_not have_content "古いMacBook"
+      end
+    end
+
+    context "入力値に不備がある場合" do
+      it "アイテム名を空にすると更新できずエラーが出ること" do
+        click_on "編集する"
+
+        fill_in "item_name", with: ""
+
+        click_on "編集する"
+
+        expect(page).to_not have_content "アイテムの情報が更新されました"
+        expect(page).to have_content "アイテム名を入力してください"
+      end
+
+      it "管理番号を空にすると更新できずエラーが出ること" do
+        click_on "編集する"
+        fill_in "unique_id", with: ""
+
+        click_on "編集する"
+
+        expect(page).to_not have_content "アイテムの情報が更新されました"
+        expect(page).to have_content "管理番号を入力してください"
+      end
     end
   end
 
