@@ -1,13 +1,10 @@
 class Admin::CategoriesController < Admin::BaseController
   before_action :set_category, only: [ :edit, :update, :destroy ]
   before_action :check_no_items, only: [ :edit, :update ]
+  before_action :search_category, only: [ :index,  :new, :edit ]
 
   def index
-    @categories = Category.all.to_a
-    other_category = @categories.find { |c| c.name == "その他" }
 
-    @categories.delete(other_category)
-    @categories.push(other_category)
   end
 
   def new
@@ -58,5 +55,27 @@ class Admin::CategoriesController < Admin::BaseController
     if @category.items.any?
       redirect_to admin_categories_path, alert: "カテゴリー一覧を参照してください"
     end
+  end
+
+  def search_category
+    search_params = params[:q]&.permit!&.to_h || {}
+
+    if search_params[:name_cont].present?
+      keywords = search_params[:name_cont].split(/[\p{blank}\s]+/)
+      search_params[:name_cont_any] = keywords
+      search_params.delete(:name_cont)
+    end
+
+    @q = Category.all.ransack(search_params)
+    searched_categories = @q.result(distinct: true).to_a
+
+    other_category = searched_categories.find { |c| c.name == "その他" }
+
+    if other_category
+      searched_categories.delete(other_category)
+      searched_categories.push(other_category)
+    end
+
+    @categories = searched_categories
   end
 end
