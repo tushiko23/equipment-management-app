@@ -54,11 +54,12 @@
                 <% if category.items.any? %>
                   <%# アイテムを持っている場合は disabled をつけて押せなくする %>
                   <button class="btn btn-sm btn-secondary disabled">編集不可</button>
+                  <%= link_to "削除する", admin_category_path(category), data: { turbo_method: :delete, turbo_confirm: "本当にこのカテゴリーを削除しますか？" }, class: "btn btn-sm btn-outline-danger disabled" %>
                 <% else %>
                   <%# アイテムを持っていない場合は通常のリンクを表示 %>
                   <%= link_to "編集する", edit_admin_category_path(category), class: "btn btn-sm btn-outline-primary" %>
+                  <%= link_to "削除する", admin_category_path(category), data: { turbo_method: :delete, turbo_confirm: "本当にこのカテゴリーを削除しますか？" }, class: "btn btn-sm btn-outline-danger" %>
                 <% end %>
-                <%= link_to "削除する", admin_category_path(category), data: { turbo_method: :delete, turbo_confirm: "本当にこのカテゴリーを削除しますか？" }, class: "btn btn-sm btn-outline-danger" %>
               </div>
             </td>
           </tr>
