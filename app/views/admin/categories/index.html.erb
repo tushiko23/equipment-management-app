@@ -8,18 +8,23 @@
     <% end %>
   </div>
 
-  <% # 検索バーのモック（見た目だけ）%>
   <div class="card shadow-sm mb-5 border-0">
     <div class="card-body p-4">
-      <form class="row g-3">
+      <%= search_form_for @q, url: admin_categories_path, class: "row g-3" do |f| %>
         <div class="col-md-10">
-          <input type="text" placeholder="備品名やカテゴリで検索..." class="form-control form-control-lg">
+          <%= f.search_field :name_cont, value: params.dig(:q, :name_cont), placeholder: "カテゴリー名で検索", class: "form-control form-control-lg" %>
         </div>
         <div class="col-md-2">
-          <button type="submit" class="btn btn-primary w-100 btn-lg">検索</button>
+          <%= f.submit "検索", class: "btn btn-primary w-100 btn-lg" %>
         </div>
-      </form>
+      <% end %>
     </div>
+  </div>
+
+  <div class="mb-4">
+    <%= link_to "javascript:history.back()", class: "text-decoration-none text-secondary" do %>
+      &laquo; 戻る
+    <% end %>
   </div>
 
   <h3 class="mb-3"><%= "#{@categories.count}件のカテゴリー" %></h3>
@@ -53,7 +58,7 @@
                   <%# アイテムを持っていない場合は通常のリンクを表示 %>
                   <%= link_to "編集する", edit_admin_category_path(category), class: "btn btn-sm btn-outline-primary" %>
                 <% end %>
-                <%= link_to "削除する", admin_category_path(category), data: { turbo_method: :delete, turbo_confirm: "本当にこの備品を削除しますか？" }, class: "btn btn-sm btn-outline-danger" %>
+                <%= link_to "削除する", admin_category_path(category), data: { turbo_method: :delete, turbo_confirm: "本当にこのカテゴリーを削除しますか？" }, class: "btn btn-sm btn-outline-danger" %>
               </div>
             </td>
           </tr>

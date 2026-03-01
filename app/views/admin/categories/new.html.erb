@@ -2,14 +2,14 @@
     <% # 検索バーのモック（見た目だけ）%>
   <div class="card shadow-sm mb-5 border-0">
     <div class="card-body p-4">
-      <form class="row g-3">
+      <%= search_form_for @q, url: admin_categories_path, class: "row g-3" do |f| %>
         <div class="col-md-10">
-          <input type="text" placeholder="備品名やカテゴリで検索..." class="form-control form-control-lg">
+          <%= f.search_field :name_cont, value: params.dig(:q, :name_cont), placeholder: "カテゴリー名で検索", class: "form-control form-control-lg" %>
         </div>
         <div class="col-md-2">
-          <button type="submit" class="btn btn-primary w-100 btn-lg">検索</button>
+          <%= f.submit "検索", class: "btn btn-primary w-100 btn-lg" %>
         </div>
-      </form>
+      <% end %>
     </div>
   </div>
 
