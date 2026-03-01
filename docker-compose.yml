@@ -27,3 +27,9 @@ services:
     tty: true
     stdin_open: true
     command: tail -f /dev/null
+  
+  chrome:
+    image: seleniarm/standalone-chromium:latest
+    ports:
+      - "4444:4444"
+    shm_size: '2gb'
