@@ -7,7 +7,7 @@ class Item < ApplicationRecord
   has_many :item_tags, dependent: :destroy
   has_many :tags, through: :item_tags
 
-  enum state: { available: 0, borrowed: 1, maintenance: 2 }
+  enum :state, available: 0, borrowed: 1, maintenance: 2
   has_one_attached :image
   validates :name, presence: true
   validates :unique_id, presence: true, uniqueness: true

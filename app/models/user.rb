@@ -6,7 +6,7 @@ class User < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :created_items, class_name: "Item", dependent: :nullify
 
-  enum role: { general: 0, admin: 1, super_admin: 2 }
+  enum :role, general: 0, admin: 1, super_admin: 2
   validates :name, presence: true
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
