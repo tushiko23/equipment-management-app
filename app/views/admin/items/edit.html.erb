@@ -27,7 +27,7 @@
             <%# ▼ 備品名 ▼ %>
             <div class="mb-3">
               <%= f.label :name, class: "form-label" %>
-              <%= f.text_field :name, autofocus: true, autocomplete: "name", class: "form-control", placeholder: "アイテム名を入力" %>
+              <%= f.text_field :name, autofocus: true, autocomplete: "name", class: "form-control", placeholder: "アイテム名を入力", id: "item_name" %>
               <% if @item.errors.include?(:name) %>
                 <div style="color: red;" class="mt-3"><%= @item.errors.full_messages_for(:name).first %></div>
               <% end %>
@@ -36,7 +36,7 @@
             <%# ▼ 備品整理番号 ▼ %>
             <div class="mb-3">
               <%= f.label :unique_id, class: "form-label" %>
-              <%= f.text_field :unique_id, autocomplete: "unique_id", class: "form-control", placeholder: "例: 12-45" %>
+              <%= f.text_field :unique_id, autocomplete: "unique_id", class: "form-control", placeholder: "例: 12-45", id: "unique_id" %>
               <% if @item.errors.include?(:unique_id) %>
                 <div style="color: red;" class="mt-3"><%= @item.errors.full_messages_for(:unique_id).first %></div>
               <% end %>
@@ -83,7 +83,7 @@
             </div>
             <%# ▼ 登録ボタン ▼ %>
             <div class="d-grid gap-2 mt-4">
-              <%= f.submit "備品の編集", class: "btn btn-primary" %>
+              <%= f.submit "編集する", class: "btn btn-primary" %>
             </div>
             
           <% end %>
