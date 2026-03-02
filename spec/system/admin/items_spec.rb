@@ -6,9 +6,11 @@ RSpec.describe "アイテム（備品）管理", type: :system do
   let!(:admin_user) { User.create!(email: "admin@example.com", password: random_password, role: :admin, name: "admin_example") }
   let!(:category_pc) { Category.create!(name: "PC周辺機器") }
   let!(:category_other) { Category.create!(name: "その他") }
-  let!(:existing_item) { Item.create!(name: "古いMacBook", unique_id: "9999", category: category_pc, state: :available) }
+  let!(:tag_MacBook) { Tag.create!(name: "MacBook") }
+  let!(:tag_PC) { Tag.create!(name: "PC") }
+  let!(:existing_item) { Item.create!(name: "古いMacBook", unique_id: "9999", category: category_pc, state: :available, tags: [ tag_MacBook ]) }
   let!(:another_item) { Item.create!(name: "古いipad", unique_id: "8888", category: category_pc, state: :available) }
-
+  let!(:stationary_item) { Item.create!(name: "鉛筆", unique_id: "99", category: category_other, state: :available) }
   before do
     login_as(admin_user)
     visit admin_items_path
@@ -35,7 +37,32 @@ RSpec.describe "アイテム（備品）管理", type: :system do
       expect(page).to have_content "古いMacBook"
       expect(page).to_not have_content "古いipad"
     end
+
+    it "カテゴリ-名で検索すると、古いMacBookだけが表示され鉛筆が表示されないこと" do
+      fill_in "search_item_field", with: "PC周辺機器"
+      click_on "検索"
+
+      expect(page).to have_content "古いMacBook"
+      expect(page).to_not have_content "鉛筆"
+    end
+    it "タグ名で検索すると、該当するアイテムだけが表示されること" do
+      fill_in "search_item_field", with: "MacBook"
+      click_on "検索"
+
+      expect(page).to have_content "古いMacBook"
+      expect(page).to_not have_content "古いipad"
+    end
+
+    it "アイテム名、カテゴリー名、タグ名で検索すると、いずれかに該当するアイテムのみがヒットすること" do
+      fill_in "search_item_field", with: "古いMacBook PC周辺機器 MacBook"
+      click_on "検索"
+
+      expect(page).to have_content "古いMacBook"
+      expect(page).to have_content "古いipad"
+      expect(page).to_not have_content "鉛筆"
+    end
   end
+
   describe "作成機能" do
     it "アイテムとタグを紐づけて新規作成できること" do
       click_on "登録"
