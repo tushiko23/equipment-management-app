@@ -7,10 +7,34 @@ RSpec.describe "アイテム（備品）管理", type: :system do
   let!(:category_pc) { Category.create!(name: "PC周辺機器") }
   let!(:category_other) { Category.create!(name: "その他") }
   let!(:existing_item) { Item.create!(name: "古いMacBook", unique_id: "9999", category: category_pc, state: :available) }
+  let!(:another_item) { Item.create!(name: "古いipad", unique_id: "8888", category: category_pc, state: :available) }
 
   before do
     login_as(admin_user)
     visit admin_items_path
+  end
+
+  describe "一覧表示機能" do
+    it "アイテムが複数登録されていること" do
+      expect(page).to have_content "古いMacBook"
+      expect(page).to have_content "古いipad"
+
+      within ".card", text: "古いMacBook" do
+        click_link "詳細を表示"
+      end
+
+      expect(page).to have_content "古いMacBook"
+    end
+  end
+
+  describe "検索機能" do
+    it "アイテム名で検索すると、古いMacBookだけが表示され古いipadが表示されないこと" do
+      fill_in "search_item_field", with: "古いMacBook"
+      click_on "検索"
+
+      expect(page).to have_content "古いMacBook"
+      expect(page).to_not have_content "古いipad"
+    end
   end
   describe "作成機能" do
     it "アイテムとタグを紐づけて新規作成できること" do
