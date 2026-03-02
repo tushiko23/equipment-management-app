@@ -13,7 +13,7 @@
     <div class="card-body p-4">
       <%= search_form_for @q, url: admin_items_path, class: "row g-3" do |f| %>
         <div class="col-md-10">
-          <%= f.search_field :name_or_category_name_or_tags_name_cont, value: params.dig(:q, :name_or_category_name_or_tags_name_cont), placeholder: "アイテム名やタグ名で検索", class: "form-control form-control-lg" %>
+          <%= f.search_field :name_or_category_name_or_tags_name_cont, value: params.dig(:q, :name_or_category_name_or_tags_name_cont), placeholder: "アイテム名やタグ名で検索", class: "form-control form-control-lg", id: "search_item_field"%>
         </div>
         <div class="col-md-2">
           <%= f.submit "検索", class: "btn btn-primary w-100 btn-lg" %>
@@ -75,7 +75,7 @@
               <p class="small text-center text-danger">※このユーザーは退会済みです</p>
             <% end %>
             <%= link_to admin_item_path(item), class: "btn btn-primary w-100 rounded-pill" do %>
-            備品の詳細
+              詳細を表示
             <% end %>
           </div>
 
