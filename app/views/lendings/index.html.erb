@@ -121,7 +121,7 @@
 </div>
 
 <%#　返却期日または返却期限なら、モーダルメッセージを表示する %>
-<% if @borrowing_items.any? { |borrowing_item| borrowing_item.due_at.to_date <= Date.current }%>
+<% if notice.blank? && @borrowing_items.any? { |borrowing_item| borrowing_item.due_at.to_date <= Date.current }%>
   <div class="flash-container position-fixed top-0 start-50 translate-middle-x mt-3 p-3 mention alert alert-danger" style="z-index: 1100; width: 100%; max-width: 500px; pointer-events: none; transition: opacity 1s ease; opacity: 1;" data-controller="mention">
       <div class="d-flex align-items-center justify-content-center">
         <i class="bi bi-exclamation-triangle-fill me-2"></i>
