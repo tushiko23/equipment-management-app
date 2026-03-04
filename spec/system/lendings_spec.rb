@@ -48,7 +48,8 @@ RSpec.describe "貸出管理", type: :system do
 
   it "自分が借りているアイテムを返却できること" do
     # 1. 準備：lent_item と user を使って、貸出データ(Lending)を作成する
-    Lending.create!(item: lent_item, lent_at: Date.current, due_at: Date.current, user: user)
+    lending = Lending.new(item: lent_item, lent_at: Date.current, due_at: Date.current, user: user)
+    lending.save!(validate: false)
     # 2. 実行：返却ボタンがあるページに行き、ボタンを押す
     visit lendings_path
     within ".card", text: "貸出中のMac" do

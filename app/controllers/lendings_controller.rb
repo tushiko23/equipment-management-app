@@ -32,6 +32,11 @@ class LendingsController < ApplicationController
 
   def update
     @returning_item = current_user.lendings.find_by(item_id: params[:item_id], returned_at: nil)
+
+    if @returning_item == nil
+      redirect_to @item, alert: "権限がありません"
+      return
+    end
     @returning_item.returned_at = Time.current
 
     # トランザクション: どっちか失敗したら全部キャンセルする安全装置
