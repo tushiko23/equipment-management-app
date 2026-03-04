@@ -47,6 +47,10 @@ class CommentsController < ApplicationController
     end
 
     def set_comment
-      @comment = @item.comments.find(params[:id])
+      @comment = current_user.comments.find_by(id: params[:id])
+      if @comment.nil?
+        redirect_to item_comments_path(@item), alert: "権限がありません"
+        return
+      end
     end
 end
