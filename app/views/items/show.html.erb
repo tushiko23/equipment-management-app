@@ -73,7 +73,7 @@
                   この備品を借りる
                 </button>
               <% elsif @item.borrowed? %>
-                <button class="btn btn-secondary btn-lg rounded-pill py-3" disabled="true">
+                <button class="btn btn-danger btn-lg rounded-pill py-3" disabled="true">
                   現在貸出中です
                 </button>
               <% else %>
@@ -104,7 +104,7 @@
           <p><%= "#{@item.name}を借りますか？" %></p>
           <div class="mb-3">
             <%= f.label :due_at, "返却予定日", class: "form-label fw-bold" %>
-            <%= f.date_field :due_at, class: "form-control", min: Date.today, required: true %>
+            <%= f.date_field :due_at, class: "form-control", min: Date.current, required: true %>
           </div>
         </div>
 
