@@ -7,6 +7,11 @@ class LendingsController < ApplicationController
   end
 
   def create
+    if @item.borrowed?
+      redirect_to @item, alert: "このアイテムは既に貸出中です"
+      return
+    end
+
     @lending = @item.lendings.build(lending_params)
     @lending.user = current_user
 
