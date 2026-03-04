@@ -16,6 +16,17 @@ RSpec.describe "コメントのUI表示", type: :system do
       visit item_comments_path(item)
     end
 
+  it "有効な内容を入力して送信すると、コメントが作成され画面に表示されること" do
+    # 2. 実行と検証：フォームに入力してボタンを押すと、DBのコメント数が「1」増えること
+    expect {
+      fill_in "comment_content", with: "これはテスト投稿です！"
+      click_on "コメントする"
+      expect(page).to have_content "これはテスト投稿です！"
+    }.to change(Comment, :count).by(1)
+
+    expect(page).to have_content "コメント一覧(3)"
+    end
+
     it "自分のコメントには編集・削除ボタンが表示されること" do
       within "#comment_#{comment_by_alice.id}" do
         expect(page).to have_content "アリスのコメントです"
