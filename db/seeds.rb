@@ -65,7 +65,7 @@ puts "🏷️ カテゴリーとタグの作成が完了しました"
 item_mac = Item.find_or_create_by!(unique_id: "PC-001") do |item|
   item.name = "MacBook Pro 14インチ (M2)"
   item.category = cat_pc
-  item.state = :available # ※モデルのenum設定に合わせて変更してください（例: "available" または 0）
+  item.state = :available 
 end
 item_mac.tags = [tag_mac, tag_typec] unless item_mac.tags.present?
 
@@ -73,15 +73,16 @@ item_mac.tags = [tag_mac, tag_typec] unless item_mac.tags.present?
 item_monitor = Item.find_or_create_by!(unique_id: "MN-001") do |item|
   item.name = "Dell 27インチ 4Kモニター"
   item.category = cat_monitor
-  item.state = :lent_at
+  # 💡 修正ポイント1：モデルのenumで定義している名前にしてください！（ここでは仮で :lent にしています）
+  item.state = :lent 
 end
 item_monitor.tags = [tag_typec] unless item_monitor.tags.present?
 
-# ③ 貸出中・しかも期限切れのアイテム（山田太郎が借りたまま返していない）
+# ③ 貸出中・しかも期限切れのアイテム
 item_book = Item.find_or_create_by!(unique_id: "BK-001") do |item|
   item.name = "プロを目指す人のためのRuby入門"
   item.category = cat_book
-  item.state = :lent_at
+  item.state = :lent # 💡 ここも同様に修正
 end
 item_book.tags = [tag_ruby] unless item_book.tags.present?
 
@@ -89,7 +90,7 @@ item_book.tags = [tag_ruby] unless item_book.tags.present?
 item_win = Item.find_or_create_by!(unique_id: "PC-002") do |item|
   item.name = "ThinkPad X1 Carbon"
   item.category = cat_pc
-  item.state = :maintenance
+  item.state = :maintenance # 💡 ここも必要に応じて修正
 end
 item_win.tags = [tag_win] unless item_win.tags.present?
 
@@ -101,14 +102,15 @@ puts "💻 アイテムの作成が完了しました"
 # ===================================================
 # ① ゲストユーザーがモニターを借りている（期限内）
 Lending.find_or_create_by!(item: item_monitor, user: guest_user, returned_at: nil) do |lending|
-  lending.borrowed_at = Time.current
-  lending.due_date = Time.current.since(7.days) # 1週間後が期限
+  # 💡 修正ポイント2：スキーマに合わせて lent_at と due_at に変更！
+  lending.lent_at = Time.current
+  lending.due_at = Time.current.since(7.days)
 end
 
 # ② 山田太郎が技術書を借りていて、期限切れになっている（督促テスト用）
 Lending.find_or_create_by!(item: item_book, user: test_user1, returned_at: nil) do |lending|
-  lending.borrowed_at = Time.current.ago(14.days)
-  lending.due_date = Time.current.ago(7.days) # 1週間前に期限切れ！
+  lending.lent_at = Time.current.ago(14.days)
+  lending.due_at = Time.current.ago(7.days)
 end
 
 puts "📦 貸出状況の作成が完了しました"
