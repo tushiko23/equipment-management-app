@@ -1,5 +1,6 @@
 class NotificationsController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_notification, only: [ :update ]
 
   def create
     @notification = Notification.new(notification_params)
@@ -31,6 +32,19 @@ class NotificationsController < ApplicationController
   end
 
   private
+
+  def set_notification
+    # 管理者なら全ての通知を探せるが、一般ユーザーは「自分宛の通知」しか探せないようにする
+    if current_user.admin?
+      @notification = Notification.find_by(id: params[:id])
+    else
+      @notification = current_user.notifications.find_by(id: params[:id])
+    end
+
+    if @notification.nil?
+      redirect_to root_path, alert: "権限がありません"
+    end
+  end
 
   def notification_params
     params.require(:notification).permit(:user_id, :item_id, :message, :reply_message, :checked)
