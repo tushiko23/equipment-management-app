@@ -30,7 +30,7 @@ RSpec.describe Item, type: :model do
       end
 
       it "管理番号に重複があると保存できないこと" do
-        category = Category.create(name: "PC周辺機器")
+        category = Category.create!(name: "カテゴリ_#{SecureRandom.hex(4)}")
         Item.create(name: "新しいMacBook", unique_id: "9999", category: category, state: :available)
         item = Item.new(name: "古いMacBook", unique_id: "9999", category: category, state: :available)
         expect(item).to_not be_valid

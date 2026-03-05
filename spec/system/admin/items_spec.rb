@@ -4,8 +4,8 @@ require 'rails_helper'
 RSpec.describe "アイテム（備品）管理", type: :system do
   let!(:random_password) { (('a'..'z').to_a.sample(8) + ('0'..'9').to_a.sample(2)).shuffle.join }
   let!(:admin_user) { User.create!(email: "admin@example.com", password: random_password, role: :admin, name: "admin_example") }
-  let!(:category_pc) { Category.create!(name: "PC周辺機器") }
-  let!(:category_other) { Category.create!(name: "その他") }
+  let!(:category_pc) { Category.find_or_create_by!(name: "PC周辺機器") }
+  let!(:category_other) { Category.find_or_create_by!(name: "その他") }
   let!(:tag_MacBook) { Tag.create!(name: "MacBook") }
   let!(:tag_PC) { Tag.create!(name: "PC") }
   let!(:existing_item) { Item.create!(name: "古いMacBook", unique_id: "9999", category: category_pc, state: :available, tags: [ tag_MacBook ]) }
