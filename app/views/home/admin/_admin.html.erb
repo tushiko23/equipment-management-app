@@ -16,7 +16,7 @@
 
 <div class="col-md-12 mb-4">
   <div class="card shadow-sm border-0 border-start border-success border-4 rounded-4">
-    <div class="card-body py-4">
+    <div class="card-body py-4" id="user-replies-section">
       <h5 class="fw-bold text-success mb-4"><i class="bi bi-chat-left-text-fill me-2"></i>ユーザーからの返信</h5>
       <% if @replied_notifications.present? %>
         <div class="list-group list-group-flush">
@@ -60,6 +60,7 @@
 </div>
 
 <%# 期限切れ貸出一覧 %>
+
 <% if @today_lendings.present? %>
   <h5 class="fw-bold mb-3"><i class="bi bi-list-check text-success me-2"></i>今日が期限のアイテム</h5>
   <div class="list-group list-group-flush mb-5">
@@ -87,7 +88,7 @@
   </div>
 <% end %>
 
-
+<div id="overdue-items-section">
   <h5 class="fw-bold mb-3"><i class="bi bi-list-check text-success me-2"></i>期限切れのアイテム</h5>
 <% if @overdue_lendings.present? %>
   <div class="list-group list-group-flush mb-5">
@@ -118,7 +119,7 @@
     <div class="text-center py-4">現在、期限切れのアイテムはありません。</div>
   </div>
 <% end %>
-
+</div>
 <%# --- アクティブな貸出 --- %>
 <div class="col-md-12 mb-5 mt-5">
   <div class="card shadow-sm border-0 border-start border-info border-4 rounded-4">
