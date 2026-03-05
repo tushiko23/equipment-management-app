@@ -4,7 +4,7 @@ class Lending < ApplicationRecord
 
   validates :lent_at, presence: true
 
-  validates :due_at, comparison: { greater_than_or_equal_to: :lent_at }
+  validates :due_at, comparison: { greater_than_or_equal_to: -> { Time.zone.now.beginning_of_day } }
   validate :item_must_not_be_currently_borrowed, on: :create
 
   private
