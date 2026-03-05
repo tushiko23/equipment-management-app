@@ -30,7 +30,7 @@ end
 # 🌟 ゲストログイン用：ゲスト一般ユーザー
 guest_user = User.find_or_create_by!(email: "guest@example.com") do |user|
   user.name = "ゲストユーザー"
-  user.password = SecureRandom.alphanumeric(10)
+  user.password = (('a'..'z').to_a.sample(8) + ('0'..'9').to_a.sample(2)).shuffle.join
   user.password_confirmation = user.password
   user.role = "general"
 end
