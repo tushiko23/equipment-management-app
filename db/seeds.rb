@@ -17,9 +17,9 @@ puts "🌱 サンプルデータの作成を開始します..."
 # ... [悠人さんの既存のユーザー作成コード] ...
 
 # 🌟 ゲストログイン用：ゲスト管理者
-guest_admin = User.find_or_create_by!(email: "admin_guest@example.com") do |user|
+  guest_admin = User.find_or_create_by!(email: "admin_guest@example.com") do |user|
   user.name = "ゲスト管理者"
-  user.password = SecureRandom.alphanumeric(10) # 推測されないランダムパスワード
+  user.password = (('a'..'z').to_a.sample(8) + ('0'..'9').to_a.sample(2)).shuffle.join
   user.password_confirmation = user.password
   user.role = "admin"
   user.can_create_general_users = true
