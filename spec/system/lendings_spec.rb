@@ -37,7 +37,6 @@ RSpec.describe "貸出管理", type: :system do
   end
 
   it "メンテ中のアイテムには、借りるボタンが表示されず、現在メンテ中の押せないボタンが表示されること" do
-
     visit item_path(maintenance_item)
 
     expect(page).to_not have_button "現在貸出中です"
@@ -47,7 +46,6 @@ RSpec.describe "貸出管理", type: :system do
   end
 
   it "自分が借りているアイテムを返却できること" do
-
     lending = Lending.new(item: lent_item, lent_at: Date.current, due_at: Date.current, user: user)
     lending.save!(validate: false)
 

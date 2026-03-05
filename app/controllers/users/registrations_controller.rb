@@ -75,7 +75,7 @@ end
   def ensure_normal_user
     if current_user.guest?
       # トップページに強制送還し、エラーメッセージを出す！
-      redirect_to root_path, alert: 'ゲストユーザーの更新・削除はできません。'
+      redirect_to root_path, alert: "ゲストユーザーの更新・削除はできません。"
     end
   end
 

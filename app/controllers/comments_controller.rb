@@ -11,19 +11,18 @@ class CommentsController < ApplicationController
     @comment = @item.comments.build(comment_params)
     @comment.user = current_user
     if @comment.save
-      redirect_to item_comments_path(@item), notice: 'コメントを追加しました'
+      redirect_to item_comments_path(@item), notice: "コメントを追加しました"
     else
-      redirect_to item_comments_path(@item), alert: 'コメントに失敗しました'
+      redirect_to item_comments_path(@item), alert: "コメントに失敗しました"
     end
   end
 
   def edit
-    
   end
 
   def update
     if @comment.update(comment_params)
-      redirect_to item_comments_path(@item), notice: 'コメントを更新しました'
+      redirect_to item_comments_path(@item), notice: "コメントを更新しました"
     else
       render :edit, status: :unprocessable_entity
     end

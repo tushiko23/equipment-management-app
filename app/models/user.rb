@@ -56,9 +56,9 @@ class User < ApplicationRecord
 
   # 一般ゲスト
   def self.guest
-    find_or_create_by!(email: 'guest@example.com') do |user|
-    # ランダムな小文字8文字と数字2文字をシャッフルして生成したパスワード
-      random_password = (('a'..'z').to_a.sample(8) + ('0'..'9').to_a.sample(2)).shuffle.join
+    find_or_create_by!(email: "guest@example.com") do |user|
+      # ランダムな小文字8文字と数字2文字をシャッフルして生成したパスワード
+      random_password = (("a".."z").to_a.sample(8) + ("0".."9").to_a.sample(2)).shuffle.join
       user.password = random_password
       user.name = "一般ゲスト"
     end
@@ -67,7 +67,7 @@ class User < ApplicationRecord
   # 管理者ゲスト
   def self.admin_guest
     find_or_create_by!(email: "admin_guest@example.com") do |user|
-    # ランダムな小文字8文字と数字2文字をシャッフルして生成したパスワード
+      # ランダムな小文字8文字と数字2文字をシャッフルして生成したパスワード
       random_password = (("a".."z").to_a.sample(8) + ("0".."9").to_a.sample(2)).shuffle.join
       user.password = random_password
       user.name = "管理者ゲスト"

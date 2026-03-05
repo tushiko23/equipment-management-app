@@ -5,7 +5,7 @@ RSpec.describe "Comments", type: :request do
   let!(:victim) { User.create!(email: "victim@example.com", password: "password123", name: "被害者") }
   let!(:category) { Category.create!(name: "Mac製品") }
   let!(:item) { Item.create!(name: "MacBook", unique_id: "10001", category: category, state: :available) }
-  
+
   # 被害者が書いたコメント
   let!(:target_comment) { Comment.create!(content: "素晴らしい備品ですね！", user: victim, item: item) }
 
@@ -18,8 +18,8 @@ RSpec.describe "Comments", type: :request do
     context "有効なパラメータと、他人のuser_idを勝手に混ぜて送信した場合" do
       it "勝手に混ぜたuser_idは無視され、必ず「ログイン中のユーザー（攻撃者）」のコメントとして作成されること" do
         expect {
-          post item_comments_path(item), params: { 
-            comment: { content: "他人のフリをしてコメントするぞ！", user_id: victim.id } 
+          post item_comments_path(item), params: {
+            comment: { content: "他人のフリをしてコメントするぞ！", user_id: victim.id }
           }
         }.to change(Comment, :count).by(1)
 

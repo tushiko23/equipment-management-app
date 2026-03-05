@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Item, type: :model do
-  
   describe "バリデーションのテスト" do
     context "正常系（保存できる場合）" do
       it "すべての必須項目が正しく入力されていれば保存できること" do
@@ -17,7 +16,7 @@ RSpec.describe Item, type: :model do
         item = Item.new(name: "",  unique_id: "9999", category: category, state: :available)
         expect(item).to_not be_valid
       end
-      
+
       it "管理番号が空欄だと保存できないこと" do
         category = Category.create(name: "PC周辺機器")
         item = Item.new(name: "古いMacBook",  unique_id: "", category: category, state: :available)

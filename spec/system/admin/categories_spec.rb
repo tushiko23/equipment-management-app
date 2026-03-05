@@ -4,14 +4,14 @@ require 'rails_helper'
 RSpec.describe "カテゴリー管理", type: :system do
   let!(:random_password) { (('a'..'z').to_a.sample(8) + ('0'..'9').to_a.sample(2)).shuffle.join }
   let!(:admin_user) do
-    User.find_by(email: "admin@example.com") || 
+    User.find_by(email: "admin@example.com") ||
     User.create!(email: "admin@example.com", password: random_password, role: :admin, name: "admin_example")
   end
   let!(:category_stationery) { Category.find_or_create_by!(name: "文房具") }
   let!(:category_clean) { Category.find_or_create_by!(name: "未使用カテゴリー") }
   let!(:category_with_item) { Category.find_or_create_by!(name: "使用中カテゴリー") }
   let!(:item) do
-    Item.find_by(unique_id: "0004") || 
+    Item.find_by(unique_id: "0004") ||
     Item.create!(name: "テストPC", category: category_with_item, unique_id: "0004")
   end
 
@@ -25,7 +25,7 @@ RSpec.describe "カテゴリー管理", type: :system do
       it "『PC周辺機器』が表示され、『文房具』が表示されないこと" do
         # 1. 検索窓に「PC」と入力する
         fill_in "q_name_cont", with: "PC"
-        
+
         # 2. 検索ボタンをクリックする
         click_on "検索"
 
@@ -58,7 +58,7 @@ RSpec.describe "カテゴリー管理", type: :system do
       click_on "カテゴリー登録"
       fill_in "カテゴリー名", with: "キッチン用品"
       click_on "カテゴリーの作成"
-      
+
       expect(page).to have_content "カテゴリーが新規作成されました"
       expect(page).to have_content "キッチン用品"
     end

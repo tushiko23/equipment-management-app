@@ -69,7 +69,7 @@ gem "devise-i18n"
 gem "devise-i18n-views"
 
 # enumメッセージの日本語化
-gem 'enum_help'
+gem "enum_help"
 # envファイルをrailsで使うためのgem
 gem "dotenv-rails"
 
@@ -84,7 +84,7 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
 
   # Rspecの導入
-  gem 'rspec-rails'
+  gem "rspec-rails"
 end
 
 group :development do

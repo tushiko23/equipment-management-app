@@ -18,7 +18,7 @@
 
 
 # puts "カテゴリを作成中..."
-# 
+#
 
 puts "🌱 サンプルデータの作成を開始します..."
 
@@ -37,12 +37,12 @@ User.find_or_create_by!(email: "admin@example.com") do |user|
   user.password = "password1234"
   user.password_confirmation = "password1234"
   user.role = "admin"
-  
+
   # ▼ ここにテスト用の権限を付与します ▼
   user.can_create_general_users = true
   user.can_edit_general_users   = true
   user.can_delete_general_users = true
-  
+
   # （adminの管理権限は持たせない設定にしておきます）
   user.can_create_admin_users = false
   user.can_edit_admin_users   = false

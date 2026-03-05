@@ -4,7 +4,6 @@ class Admin::CategoriesController < Admin::BaseController
   before_action :search_category, only: [ :index,  :new, :edit ]
 
   def index
-
   end
 
   def new
@@ -22,7 +21,6 @@ class Admin::CategoriesController < Admin::BaseController
   end
 
   def edit
-    
   end
 
   def update

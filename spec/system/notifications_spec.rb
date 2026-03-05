@@ -63,7 +63,7 @@ RSpec.describe "通知のやり取りフロー", type: :system do
     end
 
     expect(page).to have_content "「対応済み」にしました！"
-    
+
     expect(Notification.last.checked).to be true
   end
 end

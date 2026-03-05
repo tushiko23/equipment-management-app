@@ -64,11 +64,11 @@ class Admin::UsersController < Admin::BaseController
   end
 
   def show
-    #before_actionでユーザー情報を取得
+    # before_actionでユーザー情報を取得
   end
 
   def edit
-    #before_actionでユーザー情報を取得
+    # before_actionでユーザー情報を取得
   end
 
   def update
