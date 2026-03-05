@@ -101,16 +101,21 @@ puts "💻 アイテムの作成が完了しました"
 # 4. 貸出データ（Lending）の作成
 # ===================================================
 # ① ゲストユーザーがモニターを借りている（期限内）
-Lending.find_or_create_by!(item: item_monitor, user: guest_user, returned_at: nil) do |lending|
-  # 💡 修正ポイント2：スキーマに合わせて lent_at と due_at に変更！
-  lending.lent_at = Time.current
-  lending.due_at = Time.current.since(7.days)
+lending_monitor = Lending.find_or_initialize_by(item: item_monitor, user: guest_user, returned_at: nil)
+if lending_monitor.new_record?
+  lending_monitor.lent_at = Time.current
+  lending_monitor.due_at = Time.current.since(7.days)
+  # 💡 バリデーション（貸出中チェックなど）を無視して強制保存！
+  lending_monitor.save(validate: false)
 end
 
 # ② 山田太郎が技術書を借りていて、期限切れになっている（督促テスト用）
-Lending.find_or_create_by!(item: item_book, user: test_user1, returned_at: nil) do |lending|
-  lending.lent_at = Time.current.ago(14.days)
-  lending.due_at = Time.current.ago(7.days)
+lending_book = Lending.find_or_initialize_by(item: item_book, user: test_user1, returned_at: nil)
+if lending_book.new_record?
+  lending_book.lent_at = Time.current.ago(14.days)
+  lending_book.due_at = Time.current.ago(7.days)
+  # 💡 バリデーション（期限が過去であってはいけない等）を無視して強制保存！
+  lending_book.save(validate: false) 
 end
 
 puts "📦 貸出状況の作成が完了しました"
