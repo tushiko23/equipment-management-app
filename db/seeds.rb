@@ -73,7 +73,7 @@ item_mac.tags = [tag_mac, tag_typec] unless item_mac.tags.present?
 item_monitor = Item.find_or_create_by!(unique_id: "MN-001") do |item|
   item.name = "Dell 27インチ 4Kモニター"
   item.category = cat_monitor
-  item.state = :lent_out
+  item.state = :lent_at
 end
 item_monitor.tags = [tag_typec] unless item_monitor.tags.present?
 
@@ -81,7 +81,7 @@ item_monitor.tags = [tag_typec] unless item_monitor.tags.present?
 item_book = Item.find_or_create_by!(unique_id: "BK-001") do |item|
   item.name = "プロを目指す人のためのRuby入門"
   item.category = cat_book
-  item.state = :lent_out
+  item.state = :lent_at
 end
 item_book.tags = [tag_ruby] unless item_book.tags.present?
 
