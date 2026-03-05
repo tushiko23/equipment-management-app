@@ -2,8 +2,11 @@
 require 'rails_helper'
 
 RSpec.describe "Lendings (裏口攻撃の防御)", type: :request do
-  let!(:user) { User.create!(email: "attacker@example.com", password: "password123", name: "攻撃者さん") }
-  let!(:category) { Category.create!(name: "PC周辺機器") }
+  let!(:user) do
+  User.find_by(email: "attacker@example.com") ||
+  User.create!(email: "attacker@example.com", password: "password123", name: "攻撃者")
+  end
+  let!(:category) { Category.find_or_create_by!(name: "PC周辺機器") }
   let!(:lent_item) { Item.create!(name: "誰かが使用中のMac", unique_id: "L02", category: category, state: :borrowed) }
 
   before do

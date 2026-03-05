@@ -3,12 +3,17 @@ require 'rails_helper'
 
 RSpec.describe "カテゴリー管理", type: :system do
   let!(:random_password) { (('a'..'z').to_a.sample(8) + ('0'..'9').to_a.sample(2)).shuffle.join }
-  let!(:admin_user) { User.create!(email: "admin@example.com", password: random_password, role: :admin, name: "admin_example") }
-  let!(:category_pc) { Category.create(name: "PC周辺機器") }
-  let!(:category_stationery) { Category.create(name: "文房具") }
-  let!(:category_clean) { Category.create!(name: "未使用カテゴリー") }
-  let!(:category_with_item) { Category.create!(name: "使用中カテゴリー") }
-  let!(:item) { Item.create!(name: "テストPC", category: category_with_item, unique_id: "0004") }
+  let!(:admin_user) do
+    User.find_by(email: "admin@example.com") || 
+    User.create!(email: "admin@example.com", password: random_password, role: :admin, name: "admin_example")
+  end
+  let!(:category_stationery) { Category.find_or_create_by!(name: "文房具") }
+  let!(:category_clean) { Category.find_or_create_by!(name: "未使用カテゴリー") }
+  let!(:category_with_item) { Category.find_or_create_by!(name: "使用中カテゴリー") }
+  let!(:item) do
+    Item.find_by(unique_id: "0004") || 
+    Item.create!(name: "テストPC", category: category_with_item, unique_id: "0004")
+  end
 
   before do
     login_as(admin_user)
@@ -50,8 +55,8 @@ RSpec.describe "カテゴリー管理", type: :system do
       expect(page).to have_content "カテゴリー作成"
     end
     it "新しいカテゴリーを作成できること" do
-      click_on "カテゴリー登録" # 画面上のボタン名に合わせて調整してください
-      fill_in "カテゴリー名", with: "キッチン用品" # ラベル名に合わせて調整
+      click_on "カテゴリー登録"
+      fill_in "カテゴリー名", with: "キッチン用品"
       click_on "カテゴリーの作成"
       
       expect(page).to have_content "カテゴリーが新規作成されました"
@@ -62,8 +67,7 @@ RSpec.describe "カテゴリー管理", type: :system do
 
   describe "編集機能" do
     it "既存のカテゴリーを編集できること" do
-      # PC周辺機器の横にある「編集」リンクをクリック
-      within "tr", text: "PC周辺機器" do
+      within "tr", text: "未使用カテゴリー" do
         click_on "編集する"
       end
 
@@ -72,14 +76,13 @@ RSpec.describe "カテゴリー管理", type: :system do
 
       expect(page).to have_content "カテゴリーが更新されました"
       expect(page).to have_content "ガジェット"
-      expect(page).to_not have_content "PC周辺機器"
+
+      expect(page).to_not have_content "未使用カテゴリー"
     end
 
     it "アイテムに紐づいていたら編集ボタンが押せないこと" do
       within "tr", text: "使用中カテゴリー" do
-        # 🌟 「編集不可」というただの文字が表示されていること
         expect(page).to have_content "編集不可"
-        # 🌟 クリックできる「編集」リンクが存在しないこと
         expect(page).not_to have_link "編集する"
       end
     end
