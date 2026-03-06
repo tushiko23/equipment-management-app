@@ -2,4 +2,4 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 
-import "./custom/role_permissions"
+import "custom/role_permissions"
