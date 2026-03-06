@@ -73,6 +73,9 @@ gem "enum_help"
 # envファイルをrailsで使うためのgem
 gem "dotenv-rails"
 
+# 画像をAmazonS3に保存
+gem "aws-sdk-s3", require: false
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
