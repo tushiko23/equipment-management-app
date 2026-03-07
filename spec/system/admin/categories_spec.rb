@@ -7,6 +7,7 @@ RSpec.describe "カテゴリー管理", type: :system do
     User.find_by(email: "admin@example.com") ||
     User.create!(email: "admin@example.com", password: random_password, role: :admin, name: "admin_example")
   end
+  let!(:category_pc) { Category.find_or_create_by!(name: "PC周辺機器") }
   let!(:category_stationery) { Category.find_or_create_by!(name: "文房具") }
   let!(:category_clean) { Category.find_or_create_by!(name: "未使用カテゴリー") }
   let!(:category_with_item) { Category.find_or_create_by!(name: "使用中カテゴリー") }

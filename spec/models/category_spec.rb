@@ -17,7 +17,7 @@ RSpec.describe Category, type: :model do
 
     context 'すでに同じ名前のカテゴリーが存在する場合' do
       it '無効（バリデーション失敗）になり、保存できないこと' do
-        Category.new(name: "PC周辺機器")
+        Category.create(name: "PC周辺機器")
         category = Category.new(name: "PC周辺機器")
         expect(category).to_not be_valid
         category.valid?
