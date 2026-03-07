@@ -9,7 +9,7 @@ ARG RUBY_VERSION=3.3.3
 FROM docker.io/library/ruby:$RUBY_VERSION-slim AS base
 
 # 環境変数の定義
-ENV APP_NAME="ToDo-app" \
+ENV APP_NAME="equipment-management-app" \
     USER_NAME="rails"
 
 # Rails app lives here
@@ -52,7 +52,7 @@ RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 # Final stage for app image
 FROM base
 
-ENV APP_NAME="ToDo-app" \
+ENV APP_NAME="equipment-management-app" \
     BUNDLE_PATH="/usr/local/bundle" \
     USER_NAME="rails"
 
@@ -69,8 +69,8 @@ RUN groupadd --system --gid 1000 "${USER_NAME}" && \
 USER 1000:1000
 
 # Entrypoint prepares the database.
-# ToDo-appにはアプリケーション名(${APP_NAME})を定義
-ENTRYPOINT ["/ToDo-app/bin/docker-entrypoint"]
+# equipment-management-appにはアプリケーション名(${APP_NAME})を定義
+ENTRYPOINT ["/equipment-management-app/bin/docker-entrypoint"]
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 3000

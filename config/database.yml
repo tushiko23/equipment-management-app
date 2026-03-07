@@ -26,7 +26,7 @@ default: &default
 
 development:
   <<: *default
-  database: ToDo_app_development
+  database: equipment_management_app_development
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
@@ -60,7 +60,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: to_do_app_test
+  database: equipment_management_app_test
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -84,6 +84,6 @@ test:
 #
 production:
   <<: *default
-  database: to_do_app_production
-  username: to_do_app
-  password: <%= ENV["TO_DO_APP_DATABASE_PASSWORD"] %>
+  database: equipment_management_app_production
+  username: equipment_management_app_app
+  password: <%= ENV["EQUIPMENT_MANAGEMENT_APP_DATABASE_PASSWORD"] %>
