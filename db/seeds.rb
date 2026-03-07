@@ -18,7 +18,7 @@ puts "🌱 サンプルデータの作成を開始します..."
 
 # 🌟 ゲストログイン用：ゲスト管理者
   guest_admin = User.find_or_create_by!(email: "admin_guest@example.com") do |user|
-  user.name = "ゲスト管理者"
+  user.name = "管理者ゲスト"
   user.password = (('a'..'z').to_a.sample(8) + ('0'..'9').to_a.sample(2)).shuffle.join
   user.password_confirmation = user.password
   user.role = "admin"
@@ -27,9 +27,9 @@ puts "🌱 サンプルデータの作成を開始します..."
   user.can_delete_general_users = false
 end
 
-# 🌟 ゲストログイン用：ゲスト一般ユーザー
+# 🌟 ゲストログイン用：一般ゲストユーザー
 guest_user = User.find_or_create_by!(email: "guest@example.com") do |user|
-  user.name = "ゲストユーザー"
+  user.name = "一般ゲスト"
   user.password = (('a'..'z').to_a.sample(8) + ('0'..'9').to_a.sample(2)).shuffle.join
   user.password_confirmation = user.password
   user.role = "general"
@@ -69,7 +69,7 @@ item_mac = Item.find_or_create_by!(unique_id: "PC-001") do |item|
 end
 item_mac.tags = [tag_mac, tag_typec] unless item_mac.tags.present?
 
-# ② 貸出中のアイテム（ゲストユーザーが現在借りている）
+# ② 貸出中のアイテム（一般ゲストが現在借りている）
 item_monitor = Item.find_or_create_by!(unique_id: "MN-001") do |item|
   item.name = "Dell 27インチ 4Kモニター"
   item.category = cat_monitor
@@ -100,7 +100,7 @@ puts "💻 アイテムの作成が完了しました"
 # ===================================================
 # 4. 貸出データ（Lending）の作成
 # ===================================================
-# ① ゲストユーザーがモニターを借りている（期限内）
+# ① 一般ゲストがモニターを借りている（期限内）
 lending_monitor = Lending.find_or_initialize_by(item: item_monitor, user: guest_user, returned_at: nil)
 if lending_monitor.new_record?
   lending_monitor.lent_at = Time.current
