@@ -70,7 +70,7 @@
             <div class="d-grid gap-2">
               <% if @item.available? %>
                 <button class="btn btn-primary btn-lg rounded-pill py-3 shadow-sm" type="button" onclick="new bootstrap.Modal(document.getElementById('borrowModal')).show()">
-                  この備品を借りる
+                  このアイテムを借りる
                 </button>
               <% elsif @item.borrowed? %>
                 <button class="btn btn-danger btn-lg rounded-pill py-3" disabled="true">

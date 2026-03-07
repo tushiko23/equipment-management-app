@@ -10,13 +10,13 @@
 
 puts "🌱 サンプルデータの作成を開始します..."
 
-# ===================================================
-# 1. ユーザーデータの作成
-# ===================================================
-# （悠人さんが書いた スーパー管理者、管理者、一般ユーザー、山田太郎、佐藤花子 のコードはそのまま残します）
-# ... [悠人さんの既存のユーザー作成コード] ...
+  # ===================================================
+  # 1. ユーザーデータの作成
+  # ===================================================
+  # （悠人さんが書いた スーパー管理者、管理者、一般ユーザー、山田太郎、佐藤花子 のコードはそのまま残します）
+  # ... [悠人さんの既存のユーザー作成コード] ...
 
-# 🌟 ゲストログイン用：ゲスト管理者
+  # 🌟 ゲストログイン用：ゲスト管理者
   guest_admin = User.find_or_create_by!(email: "admin_guest@example.com") do |user|
   user.name = "管理者ゲスト"
   user.password = (('a'..'z').to_a.sample(8) + ('0'..'9').to_a.sample(2)).shuffle.join
@@ -65,9 +65,9 @@ puts "🏷️ カテゴリーとタグの作成が完了しました"
 item_mac = Item.find_or_create_by!(unique_id: "PC-001") do |item|
   item.name = "MacBook Pro 14インチ (M2)"
   item.category = cat_pc
-  item.state = :available 
+  item.state = :available
 end
-item_mac.tags = [tag_mac, tag_typec] unless item_mac.tags.present?
+item_mac.tags = [ tag_mac, tag_typec ] unless item_mac.tags.present?
 
 # ② 貸出中のアイテム（一般ゲストが現在借りている）
 item_monitor = Item.find_or_create_by!(unique_id: "MN-001") do |item|
@@ -76,7 +76,7 @@ item_monitor = Item.find_or_create_by!(unique_id: "MN-001") do |item|
   # 💡 修正ポイント1：モデルのenumで定義している名前にしてください！（ここでは仮で :lent にしています）
   item.state = :borrowed
 end
-item_monitor.tags = [tag_typec] unless item_monitor.tags.present?
+item_monitor.tags = [ tag_typec ] unless item_monitor.tags.present?
 
 # ③ 貸出中・しかも期限切れのアイテム
 item_book = Item.find_or_create_by!(unique_id: "BK-001") do |item|
@@ -84,7 +84,7 @@ item_book = Item.find_or_create_by!(unique_id: "BK-001") do |item|
   item.category = cat_book
   item.state = :borrowed# 💡 ここも同様に修正
 end
-item_book.tags = [tag_ruby] unless item_book.tags.present?
+item_book.tags = [ tag_ruby ] unless item_book.tags.present?
 
 # ④ メンテナンス中のアイテム
 item_win = Item.find_or_create_by!(unique_id: "PC-002") do |item|
@@ -92,7 +92,7 @@ item_win = Item.find_or_create_by!(unique_id: "PC-002") do |item|
   item.category = cat_pc
   item.state = :maintenance # 💡 ここも必要に応じて修正
 end
-item_win.tags = [tag_win] unless item_win.tags.present?
+item_win.tags = [ tag_win ] unless item_win.tags.present?
 
 puts "💻 アイテムの作成が完了しました"
 
@@ -115,7 +115,7 @@ if lending_book.new_record?
   lending_book.lent_at = Time.current.ago(14.days)
   lending_book.due_at = Time.current.ago(7.days)
   # 💡 バリデーション（期限が過去であってはいけない等）を無視して強制保存！
-  lending_book.save(validate: false) 
+  lending_book.save(validate: false)
 end
 
 puts "📦 貸出状況の作成が完了しました"

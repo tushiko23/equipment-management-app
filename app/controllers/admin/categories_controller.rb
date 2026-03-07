@@ -35,7 +35,7 @@ class Admin::CategoriesController < Admin::BaseController
     if @category.destroy
       redirect_to admin_categories_path, notice: "カテゴリーが削除されました"
     else
-      redirect_to admin_categories_path, alert: "備品に紐づいているため削除できません。"
+      redirect_to admin_categories_path, alert: "アイテムに紐づいているため削除できません。"
     end
   end
 
