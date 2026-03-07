@@ -46,7 +46,7 @@ RSpec.describe "Lendings (裏口攻撃の防御)", type: :request do
       lending
     end
 
-    context "他人が借りている備品を勝手に返却しようとした場合（異常系）" do
+    context "他人が借りているアイテムを勝手に返却しようとした場合（異常系）" do
       it "返却処理が行われず、元の状態が維持されること" do
         patch item_lending_path(borrowed_item, target_lending)
         expect(response).to have_http_status(:redirect)

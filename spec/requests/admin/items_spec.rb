@@ -6,7 +6,7 @@ RSpec.describe "Admin::Items (管理者権限の防御)", type: :request do
   end
 
   let!(:category) { Category.find_or_create_by!(name: "テストカテゴリ") }
-  let!(:item) { Item.create!(name: "ターゲット備品", unique_id: "T-#{SecureRandom.hex(2)}", category: category, state: :available) }
+  let!(:item) { Item.create!(name: "ターゲットアイテム", unique_id: "T-#{SecureRandom.hex(2)}", category: category, state: :available) }
 
   before do
     sign_in general_user
@@ -15,11 +15,11 @@ RSpec.describe "Admin::Items (管理者権限の防御)", type: :request do
   describe "POST /admin/items (アイテムの不正作成)" do
     it "一般ユーザーが直接URLを叩いてアイテムを作成しようとすると、弾かれてリダイレクトされること" do
       post admin_items_path, params: {
-        item: { name: "不正な備品", unique_id: "BAD-01", category_id: category.id }
+        item: { name: "不正なアイテム", unique_id: "BAD-01", category_id: category.id }
       }
 
       expect(response).to have_http_status(:redirect)
-      expect(Item.find_by(name: "不正な備品")).to be_nil
+      expect(Item.find_by(name: "不正なアイテム")).to be_nil
     end
   end
 
@@ -30,7 +30,7 @@ RSpec.describe "Admin::Items (管理者権限の防御)", type: :request do
       }
 
       expect(response).to have_http_status(:redirect)
-      expect(item.reload.name).to eq "ターゲット備品"
+      expect(item.reload.name).to eq "ターゲットアイテム"
     end
   end
 

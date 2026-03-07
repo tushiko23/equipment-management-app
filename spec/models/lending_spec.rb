@@ -17,10 +17,10 @@ RSpec.describe Lending, type: :model do
   end
 
   it "貸出中のアイテムに対しては、新しく貸出データを登録できないこと" do
-    category = Category.find_or_create_by!(name: "備品")
+    category = Category.find_or_create_by!(name: "アイテム")
     user = User.find_by(email: "other@example.com") || User.create!(email: "other@example.com", password: random_password, name: "別の人")
 
-    lent_item = Item.create!(name: "既存の備品", unique_id: "X01-#{SecureRandom.hex(2)}", category: category, state: :borrowed)
+    lent_item = Item.create!(name: "既存のアイテム", unique_id: "X01-#{SecureRandom.hex(2)}", category: category, state: :borrowed)
     new_lending = Lending.new(item: lent_item, user: user, lent_at: Time.current, due_at: Time.current + 1)
 
     expect(new_lending).to be_invalid

@@ -1,7 +1,7 @@
 # spec/system/admin/items_spec.rb
 require 'rails_helper'
 
-RSpec.describe "アイテム（備品）管理", type: :system do
+RSpec.describe "アイテム管理", type: :system do
   let!(:random_password) { (('a'..'z').to_a.sample(8) + ('0'..'9').to_a.sample(2)).shuffle.join }
   let!(:admin_user) { User.create!(email: "admin@example.com", password: random_password, role: :admin, name: "admin_example") }
   let!(:category_pc) { Category.find_or_create_by!(name: "PC周辺機器") }

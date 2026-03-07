@@ -1,6 +1,6 @@
 <div class="container py-5">
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="fw-bold">備品一覧</h2>
+    <h2 class="fw-bold">アイテム一覧</h2>
   </div>
 
 
@@ -25,7 +25,7 @@
       <% end %>
     </div>
 
-  <% # 備品リスト（グリッド表示）%>
+  <% # アイテムリスト（グリッド表示）%>
   <h3 class="mb-3"><%= "#{@items.count}件のアイテム" %></h3>
   <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
     <% @items.includes(:category).each do |item| %>

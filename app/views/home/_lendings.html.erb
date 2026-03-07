@@ -1,7 +1,7 @@
 <% if @my_active_lendings.present? %>
   <div class="mt-2 mb-5">
     <div class="d-flex gap-3 mb-3 align-items-center">
-      <h5 class="fw-bold"><i class="bi bi-list-check text-success me-2"></i>現在借りている備品</h5>
+      <h5 class="fw-bold"><i class="bi bi-list-check text-success me-2"></i>現在借りているアイテム</h5>
       <%= link_to lendings_path, class: "text-decoration-none fw-bold small" do %>
         一覧を確認<i class="bi bi-chevron-right"></i>
       <% end %>
@@ -42,7 +42,7 @@
         </h3>
         
         <div class="mt-3">
-          <%= link_to "借りている備品を見る", lendings_path, class: "text-decoration-none fw-bold small text-primary" %>
+          <%= link_to "借りているアイテムを見る", lendings_path, class: "text-decoration-none fw-bold small text-primary" %>
         </div>
 
       </div>
@@ -74,7 +74,7 @@
 <%# アクションボタン %>
 <div class="d-flex flex-column flex-md-row justify-content-center gap-3 mt-4 mb-5">
   <%= link_to items_path, class: "btn btn-primary btn-lg rounded-pill px-5 shadow-sm fw-bold" do %>
-    <i class="bi bi-card-list me-2"></i>備品を探す
+    <i class="bi bi-card-list me-2"></i>アイテムを探す
   <% end %>
 
   <%= link_to lendings_path, class: "btn btn-outline-primary btn-lg rounded-pill px-5 shadow-sm fw-bold" do %>

@@ -7,7 +7,7 @@ RSpec.describe "Comments", type: :request do
   let!(:item) { Item.create!(name: "MacBook", unique_id: "10001", category: category, state: :available) }
 
   # 被害者が書いたコメント
-  let!(:target_comment) { Comment.create!(content: "素晴らしい備品ですね！", user: victim, item: item) }
+  let!(:target_comment) { Comment.create!(content: "素晴らしいアイテムですね！", user: victim, item: item) }
 
   before do
     # 攻撃者がログインする
@@ -38,7 +38,7 @@ RSpec.describe "Comments", type: :request do
         patch item_comment_path(item, target_comment), params: {
           comment: { content: "攻撃者によって書き換えられた悪意あるコメント！" }
         }
-        expect(target_comment.reload.content).to eq "素晴らしい備品ですね！"
+        expect(target_comment.reload.content).to eq "素晴らしいアイテムですね！"
         expect(response).to have_http_status(:redirect)
       end
     end

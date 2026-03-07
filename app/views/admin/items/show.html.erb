@@ -71,7 +71,7 @@
                   返却後、編集可能です
                 <% end %>
 
-                <%= link_to admin_item_path(@item), data: { turbo_method: :delete, turbo_confirm: "本当にこの備品を削除しますか？" }, class: "btn btn-outline-danger btn-lg rounded-pill py-3 shadow-sm disabled" do %>
+                <%= link_to admin_item_path(@item), data: { turbo_method: :delete, turbo_confirm: "本当にこのアイテムを削除しますか？" }, class: "btn btn-outline-danger btn-lg rounded-pill py-3 shadow-sm disabled" do %>
                   返却後、削除可能です
                 <% end %>
               <% else %>
@@ -79,7 +79,7 @@
                   編集する
                 <% end %>
 
-                <%= link_to admin_item_path(@item), data: { turbo_method: :delete, turbo_confirm: "本当にこの備品を削除しますか？" }, class: "btn btn-outline-danger btn-lg rounded-pill py-3 shadow-sm" do %>
+                <%= link_to admin_item_path(@item), data: { turbo_method: :delete, turbo_confirm: "本当にこのアイテムを削除しますか？" }, class: "btn btn-outline-danger btn-lg rounded-pill py-3 shadow-sm" do %>
                   削除する
                 <% end %>
               <% end %>

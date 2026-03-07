@@ -13,7 +13,7 @@ class Lending < ApplicationRecord
     return if item.blank?
 
     if item.lendings.where(returned_at: nil).exists?
-      errors.add(:base, "この備品は現在他の人が借りています")
+      errors.add(:base, "このアイテムは現在他の人が借りています")
     end
   end
 

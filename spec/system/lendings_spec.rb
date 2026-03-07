@@ -14,22 +14,22 @@ RSpec.describe "貸出管理", type: :system do
 
   it "貸出可のアイテムはボタンが表示され、借りることができる" do
     visit item_path(available_item)
-    expect(page).to have_button "この備品を借りる"
-    click_on "この備品を借りる"
+    expect(page).to have_button "このアイテムを借りる"
+    click_on "このアイテムを借りる"
     within("#borrowModal", visible: true) do
       expect(page).to have_content "貸出の手続き"
       fill_in "返却予定日", with: (Date.today + 1).to_s
       click_on "確定して借りる"
     end
     expect(page).to have_content "貸出処理が完了しました"
-    expect(page).not_to have_button "この備品を借りる"
+    expect(page).not_to have_button "このアイテムを借りる"
     expect(Lending.count).to eq 1
   end
 
   it "貸出中のアイテムで貸出ボタンが押せず現在貸出中と表示されること" do
     visit item_path(lent_item)
 
-    expect(page).to_not have_button "この備品を借りる"
+    expect(page).to_not have_button "このアイテムを借りる"
 
     expect(page).to have_button "現在貸出中です", disabled: true
 
@@ -40,7 +40,7 @@ RSpec.describe "貸出管理", type: :system do
     visit item_path(maintenance_item)
 
     expect(page).to_not have_button "現在貸出中です"
-    expect(page).to_not have_button "この備品を借りる"
+    expect(page).to_not have_button "このアイテムを借りる"
 
     expect(page).to have_button "現在メンテ中です", disabled: true
   end
@@ -62,6 +62,6 @@ RSpec.describe "貸出管理", type: :system do
     expect(page).not_to have_button "返却する"
 
     visit item_path(lent_item)
-    expect(page).to have_content "この備品を借りる"
+    expect(page).to have_content "このアイテムを借りる"
   end
 end
