@@ -23,6 +23,12 @@ class Admin::ItemsController < Admin::BaseController
   def create
     @item = current_user.created_items.build(item_params)
 
+    if @item.state == "borrowed"
+      @item.errors.add(:state, "は手動で「貸出中」に設定することはできません")
+      render :new, status: :unprocessable_entity
+      return
+    end
+
     if @item.save
       redirect_to admin_items_path, notice: "アイテムが新規作成されました"
     else
@@ -37,7 +43,15 @@ class Admin::ItemsController < Admin::BaseController
   end
 
   def update
-    if @item.update(item_params)
+    @item.assign_attributes(item_params)
+
+    if @item.state == "borrowed"
+      @item.errors.add(:state, "は手動で「貸出中」に設定することはできません")
+      render :edit, status: :unprocessable_entity
+      return
+    end
+
+    if @item.save
       redirect_to admin_item_path(@item), notice: "アイテムの情報が更新されました"
     else
       render :edit, status: :unprocessable_entity
