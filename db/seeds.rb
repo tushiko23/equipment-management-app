@@ -38,15 +38,15 @@ end
 # 使いやすいように変数に入れておく
 admin_user = User.find_or_create_by!(email: "admin@example.com") do |user|
   user.name = "管理者"
-  user.password = "password"
-  user.password_confirmation = "password"
+  user.password =  (('a'..'z').to_a.sample(8) + ('0'..'9').to_a.sample(2)).shuffle.join
+  user.password_confirmation = user.password
   user.role = "admin"
 end
 
 test_user1 = User.find_or_create_by!(email: "test1@example.com") do |user|
   user.name = "山田太郎"
-  user.password = "password"
-  user.password_confirmation = "password"
+  user.password =  (('a'..'z').to_a.sample(8) + ('0'..'9').to_a.sample(2)).shuffle.join
+  user.password_confirmation = user.password
   user.role = "general"
 end
 
