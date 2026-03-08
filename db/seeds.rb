@@ -27,7 +27,7 @@ puts "🌱 サンプルデータの作成を開始します..."
   user.can_delete_general_users = false
 end
 
-# 🌟 ゲストログイン用：一般ゲストユーザー
+
 guest_user = User.find_or_create_by!(email: "guest@example.com") do |user|
   user.name = "一般ゲスト"
   user.password = (('a'..'z').to_a.sample(8) + ('0'..'9').to_a.sample(2)).shuffle.join
@@ -36,8 +36,19 @@ guest_user = User.find_or_create_by!(email: "guest@example.com") do |user|
 end
 
 # 使いやすいように変数に入れておく
-admin_user = User.find_by(email: "admin@example.com")
-test_user1 = User.find_by(email: "test1@example.com")
+admin_user = User.find_or_create_by!(email: "admin@example.com") do |user|
+  user.name = "管理者"
+  user.password = "password"
+  user.password_confirmation = "password"
+  user.role = "admin"
+end
+
+test_user1 = User.find_or_create_by!(email: "test1@example.com") do |user|
+  user.name = "山田太郎"
+  user.password = "password"
+  user.password_confirmation = "password"
+  user.role = "general"
+end
 
 puts "👤 ユーザーの作成が完了しました"
 
@@ -122,7 +133,7 @@ puts "📦 貸出状況の作成が完了しました"
 
 
 # ===================================================
-# 5. 通知・督促（Notification）の作成
+# 5. 通知（Notification）の作成
 # ===================================================
 # ゲストユーザーがログインした時に「通知が来ている！」と分かるようにするテストデータ
 Notification.find_or_create_by!(user: guest_user, item: item_monitor) do |notification|
