@@ -3,7 +3,14 @@ class NotificationsController < ApplicationController
   before_action :set_notification, only: [ :update ]
 
   def create
-    @notification = Notification.new(notification_params)
+  lending = Lending.find(params[:notification][:lending_id])
+
+  # 2. その貸出記録に紐づく「本物のユーザーID」「本物のアイテムID」を使って通知を作る
+  @notification = Notification.new(
+    user_id: lending.user_id,
+    item_id: lending.item_id,
+    message: "【至急】「#{lending.item.name}」の返却期限が過ぎています..."
+  )
 
     if @notification.save
       redirect_to root_path, notice: "ユーザーに通知を送信しました！"
@@ -47,6 +54,6 @@ class NotificationsController < ApplicationController
   end
 
   def notification_params
-    params.require(:notification).permit(:user_id, :item_id, :message, :reply_message, :checked)
+    params.require(:notification).permit(:reply_message, :checked)
   end
 end

@@ -75,9 +75,7 @@
             <%= lending.due_at.strftime('%m/%d') %> 期限
           </span>
           <%= form_with(model: Notification.new, local: true, class: "m-0") do |f| %>
-            <%= f.hidden_field :user_id, value: lending.user_id %>
-            <%= f.hidden_field :item_id, value: lending.item_id %>
-            <%= f.hidden_field :message, value: "【至急】「#{lending.item.name}」の返却期限が過ぎています。速やかにご返却をお願いいたします。" %>
+            <%= f.hidden_field :lending_id, value: lending.id %>
             <%= f.button type: 'submit', class: "btn btn-sm btn-outline-danger rounded-pill", data: { turbo_confirm: "#{lending.user.name}さんに通知を送りますか？" } do %>
               <i class="bi bi-send-fill"></i>お知らせする
             <% end %>
