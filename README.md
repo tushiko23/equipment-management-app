@@ -36,22 +36,18 @@ https://equipment-management-app-cdd9a767bd1d.herokuapp.com/
 <img src="app/assets/images/demo/item_list.png" width="70%">
 
 #### ダッシュボード一覧 
-<img src="app/assets/images/demo/dashboard_admin.png" width="70%">
+<img src="app/assets/images/demo/dashboard_admin.png" width="70%" height="70%" >
 
 #### 貸出・返却時の動作 gif
 
 貸出時
 
-<video src="https://github.com/tushiko23/equipment-management-app/raw/develop/app/assets/videos/lending_demo.mp4" width="640" height="360" controls>
-  ブラウザが動画タグをサポートしていません。
-</video>
-
+![貸出時のデモ動画](app/assets/videos/lending_demo.gif)
 
 返却時
 
-<video src="https://github.com/tushiko23/equipment-management-app/raw/develop/app/assets/videos/returning_demo.mp4" width="640" height="360" controls>
-  ブラウザが動画タグをサポートしていません。
-</video>
+![貸出時のデモ動画](app/assets/videos/returning_demo.gif)
+
 ---
 
 ## 1. 制作背景・目的
