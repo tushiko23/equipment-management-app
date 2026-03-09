@@ -94,6 +94,9 @@ https://equipment-management-app-cdd9a767bd1d.herokuapp.com/
 
 ## 4. 設計図（インフラ構成・ER図）
 
+### インフラ構成図
+<img src="app/assets/images/infrastructure.png" width="80%">
+
 ### ER図
 ```mermaid
 erDiagram
