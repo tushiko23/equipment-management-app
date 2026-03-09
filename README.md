@@ -42,14 +42,14 @@ https://equipment-management-app-cdd9a767bd1d.herokuapp.com/
 
 貸出時
 
-<video src="https://github.com/tushiko23/equipment-management-app/blob/develop/app/assets/videos/lending_demo.mp4" width="640" height="360" controls>
+<video src="https://github.com/tushiko23/equipment-management-app/raw/develop/app/assets/videos/lending_demo.mp4" width="640" height="360" controls>
   ブラウザが動画タグをサポートしていません。
 </video>
 
 
 返却時
 
-<video src="https://github.com/tushiko23/equipment-management-app/blob/develop/app/assets/videos/returning_demo.mp4" width="640" height="360" controls>
+<video src="https://github.com/tushiko23/equipment-management-app/raw/develop/app/assets/videos/returning_demo.mp4" width="640" height="360" controls>
   ブラウザが動画タグをサポートしていません。
 </video>
 ---
