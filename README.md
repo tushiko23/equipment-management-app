@@ -42,25 +42,25 @@ https://equipment-management-app-cdd9a767bd1d.herokuapp.com/
 
 貸出時
 
-<video src="app/assets/videos/lending_demo.mp4" width="640" height="360" controls>
+<video src="https://github.com/tushiko23/equipment-management-app/blob/develop/app/assets/videos/lending_demo.mp4" width="640" height="360" controls>
   ブラウザが動画タグをサポートしていません。
 </video>
 
 
 返却時
 
-<video src="app/assets/videos/returning_demo.mp4" width="640" height="360" controls>
+<video src="https://github.com/tushiko23/equipment-management-app/blob/develop/app/assets/videos/returning_demo.mp4" width="640" height="360" controls>
   ブラウザが動画タグをサポートしていません。
 </video>
 ---
 
-## 🎯 1. 制作背景・目的
+## 1. 制作背景・目的
 就労支援移行事業所で、いつも貸し出しPCや充電器が行方不明となっていて、毎回探す手間がかかっている状況でした。
 
 「誰がどのアイテムを貸し借りしているのかを可視化」すれば、「探す手間や管理する手間を減らすことができる」と考え、Web上でリアルタイムに管理するアプリを開発しました。
 
-## ✨ 2. 主要機能
-### 👤　全ユーザー共通
+## 2. 主要機能
+### 全ユーザー共通
 - アイテムの閲覧・検索<br>（アイテム・カテゴリ・タグ名で絞り込み可能）
 - アイテムの貸出・返却機能
 - 自身が借りているアイテムの確認
@@ -68,7 +68,7 @@ https://equipment-management-app-cdd9a767bd1d.herokuapp.com/
 - アイテムへのコメント機能
 - ユーザー・プロフィール情報の確認・変更<br>※ゲストログインでは変更・削除不可
 
-### 👑 管理者向け（権限管理機能あり）
+### 管理者向け（権限管理機能あり）
 - アイテムの登録・編集・削除（S3への画像アップロード対応）
 - 全ユーザーの貸出状況の確認（ダッシュボード機能）
 - 期限切れユーザーへのワンクリック通知（Turboを利用した非同期送信）
@@ -76,7 +76,7 @@ https://equipment-management-app-cdd9a767bd1d.herokuapp.com/
 
 ---
 
-## 🛠 3. 使用技術（技術スタック）
+## 3. 使用技術（技術スタック）
 - **バックエンド:** Ruby 3.3.3, Ruby on Rails 7.2.3
 - **フロントエンド:** 
   - **Hotwire (Turbo):** コメントの投稿・編集・削除時などにおける、画面全体の再読み込みを伴わないスムーズな非同期DOM更新（Turbo Streams）に使用。
@@ -96,7 +96,7 @@ https://equipment-management-app-cdd9a767bd1d.herokuapp.com/
   - **コード品質管理:** `rubocop-rails` (静的コード解析・フォーマット), `rspec-rails` (自動テスト)
   - **開発効率化 (DX):** `annotate` (DBスキーマの可視化), `better_errors` / `binding_of_caller` (デバッグ効率化)
 
-## 📐 4. 設計図（インフラ構成・ER図）
+## 4. 設計図（インフラ構成・ER図）
 
 ### ER図
 ```mermaid
@@ -188,7 +188,7 @@ erDiagram
 
 ---
 
-## 🔥 5. 工夫した点・苦労した点
+## 5. 工夫した点・苦労した点
 
 ### ① 貸し借り機能実装時のトランザクション処理
 LendingsControllerでLendingsテーブルのカラムに貸出日(lent_at)を保存するのと同時にItemテーブルの状態を貸出可から貸出中に変更する実装をしてから、View側で備品のステータス（貸出可能・貸出中・メンテ中）の画面変更を行う処理を実装しました。
@@ -209,7 +209,7 @@ View側で `reject` を用いて選択肢から除外するだけでなく、Con
 
 ---
 
-## 🚀 6. 今後の展望（追加したい機能）
+## 6. 今後の展望（追加したい機能）
 - バーコードやQRコード読み取りによる、スマホからのワンタッチ貸出機能
 - 返却忘れを防ぐための、期限前日の自動メール通知機能 (Amazon SMSとの連携)
 - 外部API連携によるGoogleアカウントによるログインを追加
