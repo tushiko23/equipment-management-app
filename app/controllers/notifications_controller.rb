@@ -9,7 +9,7 @@ class NotificationsController < ApplicationController
   @notification = Notification.new(
     user_id: lending.user_id,
     item_id: lending.item_id,
-    message: "【至急】「#{lending.item.name}」の返却期限が過ぎています..."
+    message: "【至急】「#{lending.item.name}」の返却期限または期限が過ぎています..."
   )
 
     if @notification.save

@@ -11,7 +11,7 @@ RSpec.describe Notification, type: :model do
       notification = Notification.new(
         user: user,
         item: item,
-        message: "返却期限が過ぎています。"
+        message: "返却期限または期限が過ぎています。"
       )
       expect(notification).to be_valid
     end
