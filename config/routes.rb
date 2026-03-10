@@ -1,4 +1,34 @@
 Rails.application.routes.draw do
+  root to: "home#index"
+
+  devise_for :users, skip: [ :registrations ]
+  devise_scope :user do
+    get "/users/edit", to: "users/registrations#edit", as: "edit_user_registration"
+    put "/users", to: "users/registrations#update", as: "user_registration"
+
+    post "/users/guest_sign_in", to: "users/sessions#guest_sign_in"
+    post "/admins/guest_sign_in", to: "users/sessions#admin_guest_sign_in"
+  end
+
+  resources :users, only: [ :show ]
+
+  resources :items, only: [ :index, :show ] do
+    resources :lendings, only: [ :create, :update ]
+    resources :comments, only: [ :index, :create, :edit, :update, :destroy ]
+  end
+
+  namespace :admin do
+    resources :users
+    resources :items
+    resources :categories, except: [ :show ]
+  end
+
+  # 【追加】マイページへのルート
+  resources :lendings, only: [ :index ]
+
+  # 通知機能のルーティング（作成と更新のみ）
+  resources :notifications, only: [ :create, :update ]
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

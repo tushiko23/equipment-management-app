@@ -1,0 +1,9 @@
+  <%# --- 共通のログイン挨拶ヘッダー --- %>
+  <div class="row mb-4">
+    <div class="col-12 gap-2">
+      <h2 class="fw-bold">
+        お疲れ様です。<%= current_user.name.present? ? current_user.name : current_user.email.split('@').first %>さん！
+      </h2>
+      <p>本日のアイテムの貸出状況一覧です</p>
+    </div>
+  </div>

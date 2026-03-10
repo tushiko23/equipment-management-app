@@ -1,0 +1,30 @@
+  <div class="container py-5">
+  <% if user_signed_in? %>
+    <%# 共通ヘッダー %>
+    <%= render 'home/common' %>
+
+    <%# 一般ユーザー向け表示エリア %>
+    <% if current_user.general? %>
+      <%= render 'home/general/general' %>
+
+      <%# 借りているアイテム %>
+      <%= render 'home/lendings' %>
+
+      <%# おすすめアイテム %>
+      <%= render 'home/general/recommend_items' %>
+
+    <%# 管理者向け表示エリア %>
+    <% elsif current_user.admin? || current_user.super_admin? %>
+      <%= render 'home/admin/admin' %>
+
+      <%# 借りているアイテム %>
+      <%= render 'home/lendings' %>
+    <% end %>
+
+  <% else %>
+
+    <%# 未ログイン画面 %>
+    <%= render 'home/guest' %>
+  <% end %>
+
+</div>

@@ -1,0 +1,89 @@
+<div class="row justify-content-center text-center py-5 mt-5">
+  <div class="col-lg-8">
+    <h1 class="display-4 fw-bold mb-4">
+      アイテムの貸し借りを、<br>もっと<span class="text-primary">可視化</span>しよう。
+    </h1>
+    <p class="lead text-muted mb-5">
+      Kashi-Kari は、誰が・何を・いつまで借りているかを一目で把握できる、<br>
+      スマートなアイテム管理アプリケーションです。
+    </p>
+    
+    <div class="d-grid gap-3 d-sm-flex justify-content-sm-center mt-4">
+      <%= link_to "ログイン", new_user_session_path, class: "btn btn-primary btn-lg rounded-pill px-4 shadow-sm" %>
+      <%= button_to "一般ゲストログイン", "/users/guest_sign_in", method: :post, class: "btn btn-outline-primary btn-lg rounded-pill px-4" %>
+      <%= button_to "管理者ゲストログイン", "/admins/guest_sign_in", method: :post, class: "btn btn-outline-danger btn-lg rounded-pill px-4" %>
+    </div>
+  </div>
+</div>
+
+<div class="py-5 border-top mt-4">
+  <div class="text-center mb-5">
+    <h2 class="fw-bold">なぜ Kashi-Kari が選ばれるのか？</h2>
+    <p class="text-muted">管理の煩わしさをゼロにする、3つの強力な機能</p>
+  </div>
+  
+  <div class="row g-4 text-center">
+    <div class="col-md-4">
+      <div class="p-4 bg-white rounded-4 h-100 shadow-sm border">
+        <div class="text-primary mb-3">
+          <i class="bi bi-search" style="font-size: 3rem;"></i>
+        </div>
+        <h4 class="fw-bold">一目でわかる在庫状況</h4>
+        <p class="text-muted small mt-3">誰が何を借りているか、今すぐ借りられるアイテムはどれかがリアルタイムで可視化されます。</p>
+      </div>
+    </div>
+    
+    <div class="col-md-4">
+      <div class="p-4 bg-white rounded-4 h-100 shadow-sm border">
+        <div class="text-danger mb-3">
+          <i class="bi bi-bell" style="font-size: 3rem;"></i>
+        </div>
+        <h4 class="fw-bold">期限切れを自動アラート</h4>
+        <p class="text-muted small mt-3">返却期限が近づいているアイテムや、期限を過ぎたアイテムをダッシュボードで即座にお知らせします。</p>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="p-4 bg-white rounded-4 h-100 shadow-sm border">
+        <div class="text-success mb-3">
+          <i class="bi bi-phone" style="font-size: 3rem;"></i>
+        </div>
+        <h4 class="fw-bold">スマホでもカンタン操作</h4>
+        <p class="text-muted small mt-3">レスポンシブ対応で、外出先や倉庫の中からでもスマートフォンでサクッと貸出・返却が可能です。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="py-5 mt-2 bg-light rounded-4 px-3 px-md-5 mb-5">
+  <div class="text-center mb-5">
+    <h2 class="fw-bold">使い方は驚くほどシンプル</h2>
+    <p class="text-muted">たった3ステップで、アイテムの貸し借りが完了します</p>
+  </div>
+      
+  <div class="row text-center g-5 mt-2">
+    <div class="col-md-4">
+      <div class="card border-0 shadow-lg rounded-4 overflow-hidden mb-4">
+        <%= image_tag 'home/search_items.png', class: "img-fluid w-100", style: "height: 250px; object-fit: contain; background-color: #E4F0F9;", alt: "探す" %>
+      </div>
+      <h5 class="fw-bold">1. 探す</h5>
+      <p class="text-muted small">カテゴリやキーワードから<br>必要なアイテムを見つけます。</p>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card border-0 shadow-lg rounded-4 overflow-hidden mb-4">
+        <%= image_tag 'home/borrow_items.png', class: "img-fluid w-100", style: "height: 250px; object-fit: contain; background-color: #E4F0F9;", alt: "借りる" %>
+      </div>
+      <h5 class="fw-bold">2. 借りる</h5>
+      <p class="text-muted small">返却予定日を入力して<br>ワンクリックで貸出完了。</p>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card border-0 shadow-lg rounded-4 overflow-hidden mb-4">
+        <%= image_tag 'home/return_items.png', class: "img-fluid w-100", style: "height: 250px; object-fit: contain; background-color: #E4F0F9;", alt: "返す" %>
+      </div>
+      <h5 class="fw-bold">3. 返す</h5>
+      <p class="text-muted small">使い終わったらマイページから<br>サクッと返却処理をします。</p>
+    </div>
+  </div>
+</div>

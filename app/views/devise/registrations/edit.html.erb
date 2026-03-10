@@ -1,0 +1,129 @@
+<% 
+  selected_tab = params[:active_tab]
+
+  if selected_tab == 'account' || resource.errors[:base].any? || resource.errors[:email].any? || resource.errors[:password].any? || resource.errors[:current_password].any?
+
+    profile_class = ""
+    profile_show = ""
+    profile_area = "false"
+
+    account_class = "active"
+    account_show = "show active"
+    account_area = "true"
+  
+  else
+
+    profile_class = "active"
+    profile_show = "show active"
+    profile_area = "true"
+
+    account_class = ""
+    account_show = ""
+    account_area = "false"
+  end
+%>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      
+      <h2 class="text-center mb-4">ユーザ設定</h2>
+
+      <ul class="nav nav-tabs mb-4" id="settingTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link <%= profile_class %>" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="<%= profile_area %>">
+            プロフィール編集
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link <%= account_class %>" id="account-tab" data-bs-toggle="tab" data-bs-target="#account" type="button" role="tab" aria-controls="account" aria-selected="<%= account_area %>">
+            アカウント設定
+          </button>
+        </li>
+      </ul>
+
+      <div class="tab-content" id="settingTabContent">
+        
+        <div class="tab-pane fade <%= profile_show %>" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+          <div class="card shadow-sm border-0">
+            <div class="card-body">
+              <%= form_with model: resource, url: user_registration_path, method: :put, local: true do |f| %>
+                <%= hidden_field_tag :active_tab, 'profile' %>
+                <div class="mb-4 text-center">
+                  <% if resource.persisted? && resource.avatar.attached? && !resource.errors.include?(:avatar)%>
+                    <%= image_tag resource.avatar, class: "img-thumbnail mb-3", style: "width: 80%; height: 200px; object-fit: fill;" %>
+                  <% else %>
+                    <%= image_tag 'default-avatar.png', class: "rounded-circle img-thumbnail mb-3", style: "width: 150px; height: 150px; object-fit: cover;" %>
+                  <% end %>
+                  <% if resource.errors.include?(:avatar) %>
+                    <div style="color: red;" class="my-3"><%= resource.errors.full_messages_for(:avatar).first %></div>
+                  <% end %>
+                  <div class="input-group justify-content-center">
+                    <%= f.file_field :avatar, class: "form-control", id: "inputGroupFile04" %>
+                  </div>
+                  <div class="form-text mt-2">新しいアイコン画像を選択</div>
+                </div>
+
+                <div class="mb-3">
+                  <%= f.label :name, "ユーザー名", class: "form-label fw-bold" %>
+                  <%= f.text_field :name, class: "form-control", placeholder: "表示名を入力" %>
+                </div>
+
+                <div class="d-grid gap-2 mt-4">
+                  <%= f.submit "プロフィールを更新", class: "btn btn-primary" %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-pane fade <%= account_show %>" id="account" role="tabpanel" aria-labelledby="account-tab">
+          <div class="card shadow-sm border-0">
+            <div class="card-body">
+              <%= form_with model: resource, url: user_registration_path, method: :put, local: true do |f| %>
+                  <%= hidden_field_tag :active_tab, 'account' %>
+              <%= render "devise/shared/error_messages", resource: resource %>
+
+                <div class="mb-3">
+                  <%= f.label :email, "メールアドレス", class: "form-label fw-bold" %>
+                  <%= f.email_field :email, class: "form-control", autocomplete: "email" %>
+                    <%# メールアドレス用の個別エラー表示 %>
+                  <% if resource.errors.include?(:email) %>
+                    <div style="color: red;", class="mt-3"><%= resource.errors.full_messages_for(:email).first %></div>
+                  <% end %>
+                </div>
+
+                <div class="mb-3">
+                  <%= f.label :password, "新しいパスワード", class: "form-label fw-bold" %>
+                  <p class="form-text">8文字以上20字以内で入力してください</p>
+                  <%= f.password_field :password, class: "form-control", autocomplete: "new-password", placeholder: "変更しない場合は空欄" %>
+                  <% if resource.errors.include?(:password) %>
+                    <div style="color: red;", class="mt-3"><%= resource.errors.full_messages_for(:password).first %></div>
+                  <% end %>
+                </div>
+
+                <div class="mb-3">
+                  <%= f.label :current_password, "現在のパスワード", class: "form-label fw-bold text-danger" %>
+                  <p class="form-text text-danger">メールアドレスやパスワードを変更する場合は入力が必要です</p>
+                  <%= f.password_field :current_password, class: "form-control border-danger", autocomplete: "current-password", placeholder: "変更には必須です" %>
+                  <% if resource.errors.include?(:current_password) %>
+                    <div style="color: red;", class="mt-3" ><%= resource.errors.full_messages_for(:current_password).first %></div>
+                  <% end %>
+                </div>
+
+                <div class="d-grid gap-2 mt-4">
+                  <%= f.submit "アカウント情報を更新", class: "btn btn-danger" %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div> 
+
+      <div class="mt-3 text-center">
+        <%= link_to "戻る", :back, class: "text-muted text-decoration-none" %>
+      </div>
+
+    </div>
+  </div>
+</div>

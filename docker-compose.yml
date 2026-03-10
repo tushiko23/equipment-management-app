@@ -13,11 +13,11 @@ services:
       - 'db-volume:/var/lib/postgressql/data'
   web-app:
     build: .
-    working_dir: /ToDo-app
+    working_dir: /equipment-management-app
     ports:
       - '3000:3000'
     volumes:
-      - '.:/ToDo-app'
+      - '.:/equipment-management-app'
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -26,3 +26,10 @@ services:
       - db
     tty: true
     stdin_open: true
+    command: tail -f /dev/null
+  
+  chrome:
+    image: seleniarm/standalone-chromium:latest
+    ports:
+      - "4444:4444"
+    shm_size: '2gb'

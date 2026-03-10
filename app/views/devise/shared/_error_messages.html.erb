@@ -1,0 +1,7 @@
+<% if resource.errors[:base].any? %>
+  <div id="error_explanation" data-turbo-temporary>
+      <% resource.errors[:base].each do |message| %>
+        <p style="color: red;", class="text-center"><%= message %></p>
+      <% end %>
+  </div>
+<% end %>

@@ -1,0 +1,69 @@
+<div class="container py-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold">カテゴリー一覧</h2>
+    <%= link_to new_admin_category_path, class: "btn btn-primary rounded-pill px-4" do %>
+      <i class="bi bi-plus-lg"></i>
+      カテゴリー登録
+    <% end %>
+  </div>
+
+  <div class="card shadow-sm mb-5 border-0">
+    <div class="card-body p-4">
+      <%= search_form_for @q, url: admin_categories_path, class: "row g-3" do |f| %>
+        <div class="col-md-10">
+          <%= f.search_field :name_cont, value: params.dig(:q, :name_cont), placeholder: "カテゴリー名で検索", class: "form-control form-control-lg" %>
+        </div>
+        <div class="col-md-2">
+          <%= f.submit "検索", class: "btn btn-primary w-100 btn-lg" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <%= link_to "javascript:history.back()", class: "text-decoration-none text-secondary" do %>
+      &laquo; 戻る
+    <% end %>
+  </div>
+
+  <h3 class="mb-3"><%= "#{@categories.count}件のカテゴリー" %></h3>
+    <%# 1. テーブル全体を囲んでスマホ対応にする %>
+  <div class="table-responsive">
+    <table class="table table-hover align-middle">
+      
+      <%# 2. 表の見出し（ヘッダー） %>
+      <thead>
+        <tr>
+          <th>番号</th>
+          <th>名前</th>
+          <th>更新日</th>
+          <th>アクション</th>
+        </tr>
+      </thead>
+
+      <%# 3. 表の中身（データ） %>
+      <tbody>
+        <% @categories.each_with_index do |category, i| %>
+          <tr>
+            <td><%= i + 1 %></td>
+            <td><%= category.name %></td>
+            <td><%= category.updated_at.strftime("%Y-%m-%d") %></td>
+            <td>
+              <div class="d-flex gap-3 flex-column flex-md-row align-items-center">
+                <% if category.items.any? %>
+                  <%# アイテムを持っている場合は disabled をつけて押せなくする %>
+                  <button class="btn btn-sm btn-secondary disabled">編集不可</button>
+                  <%= link_to "削除する", admin_category_path(category), data: { turbo_method: :delete, turbo_confirm: "本当にこのカテゴリーを削除しますか？" }, class: "btn btn-sm btn-outline-danger disabled" %>
+                <% else %>
+                  <%# アイテムを持っていない場合は通常のリンクを表示 %>
+                  <%= link_to "編集する", edit_admin_category_path(category), class: "btn btn-sm btn-outline-primary" %>
+                  <%= link_to "削除する", admin_category_path(category), data: { turbo_method: :delete, turbo_confirm: "本当にこのカテゴリーを削除しますか？" }, class: "btn btn-sm btn-outline-danger" %>
+                <% end %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

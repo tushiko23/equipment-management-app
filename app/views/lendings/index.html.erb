@@ -1,0 +1,135 @@
+<div class="container py-5">
+
+  <div class="mb-4">
+    <%= link_to "javascript:history.back()", class: "text-decoration-none text-secondary" do %>
+      &laquo; 戻る
+    <% end %>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <div class="d-flex align-items-center mb-5 border-bottom pb-4">
+        <div class="bg-warning text-dark rounded-circle d-flex justify-content-center align-items-center me-3" style="width: 64px; height: 64px; font-size: 1.5rem;">
+          <i class="bi bi-box-seam"></i>
+        </div>
+        <div>
+          <h2 class="fw-bold mb-0">貸出中のアイテムリスト</h2>
+          <p class="text-muted mb-0">あなたが借りているアイテムの一覧です</p>
+        </div>
+      </div>
+
+      <% if @borrowing_items.any? %>
+        <div class="row g-4">
+          <% @borrowing_items.each do |borrowing_item| %>
+            <div class="col-md-6">
+              <div class="card shadow-sm h-100 border-0">
+                <div class="card-body p-4">
+                  <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                      <% if borrowing_item.due_at.to_date < Date.current %>
+                      <li class="d-flex justify-content-center mb-3">
+                        <span class="fw-bold text-danger">返却期限を過ぎています</span>
+                      </li>
+                      <% elsif borrowing_item.due_at.to_date == Date.current %>
+                      <li class="d-flex justify-content-center mb-3">
+                        <span class="fw-bold text-danger">本日が返却期限です</span>
+                      </li>
+                      <% end %>
+                      <h5 class="card-title fw-bold mb-1"><%= borrowing_item.item.name %></h5>
+                      <%# 詳細ページへのリンク %>
+                      <%= link_to "詳細を見る", item_path(borrowing_item.item.id), class: "small text-decoration-none" %>
+                    </div>
+
+                    <div style="height: 200px; font-size: 6rem;" class="bg-light rounded-3 d-flex justify-content-center align-items-center text-secondary shadow-sm">
+                      <% if borrowing_item.item.persisted? && borrowing_item.item.image.attached? %>
+                        <%= image_tag borrowing_item.item.image, class: "img-thumbnail", style: "width: 80%; height: 80%; object-fit: fill;" %>
+                      <% else %>
+                        <%= image_tag 'default-avatar.png', class: "rounded-lg img-thumbnail mb-3", style: "width: 150px; height: 150px; object-fit: cover;" %>
+                      <% end %>
+                    </div>
+                  </div>
+
+                  <ul class="list-unstyled mb-4 bg-light p-3 rounded">
+                    <li class="d-flex justify-content-between mb-2">
+                      <span class="text-muted">借りた日</span>
+                      <span class="fw-bold"><%= borrowing_item.lent_at.strftime("%Y/%m/%d") %></span>
+                    </li>
+                    <li class="d-flex justify-content-between">
+                      <span class="text-muted">返却期限</span>
+                      <span class="fw-bold"><%= borrowing_item.due_at.strftime("%Y/%m/%d") %></span>
+                    </li>
+                  </ul>
+
+                  <div class="d-grid">
+                    <button class="btn btn-primary w-100" type="button" onclick="new bootstrap.Modal(document.getElementById('returnedModal-<%= borrowing_item.item.id%>')).show()">返却する</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+              <%# モーダルメニューで返却するを表示する %>
+              <div id="returnedModal-<%= borrowing_item.item.id%>" class="modal fade" tabindex="-1" aria-labelledby="borrowModalLabel" aria-hidden="true" >
+                <div class="modal-dialog modal-dialog-centered" >
+                  <div class="modal-content">
+                    <div class="modal-header border-0">
+                      <h5 id="returnedModalLabel" class="modal-title fw-bold">返却の手続き</h5>
+                      <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                      <div class="modal-body">
+                        <p><%= "#{borrowing_item.item.name}を返却しますか？" %></p>
+
+                        <div style="height: 200px; font-size: 6rem;" class="bg-light rounded-3 d-flex justify-content-center align-items-center text-secondary shadow-sm">
+                          <% if borrowing_item.item.persisted? && borrowing_item.item.image.attached? %>
+                            <%= image_tag borrowing_item.item.image, class: "img-thumbnail", style: "width: 100%; height: 100%; object-fit: fill;" %>
+                          <% else %>
+                            <%= image_tag 'default-avatar.png', class: "rounded-lg img-thumbnail mb-3", style: "width: 150px; height: 150px; object-fit: cover;" %>
+                          <% end %>
+                        </div>
+
+                        <ul class="list-unstyled mb-4 bg-light p-3 rounded">
+                          <li class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">借りた日</span>
+                            <span class="fw-bold"><%= borrowing_item.lent_at.strftime("%Y/%m/%d") %></span>
+                          </li>
+                          <li class="d-flex justify-content-between">
+                            <span class="text-muted">返却期限</span>
+                            <span class="fw-bold"><%= borrowing_item.due_at.strftime("%Y/%m/%d") %></span>
+                          </li>
+                        </ul>
+                      </div>
+
+                      <div class="modal-footer border-0">
+                        <button class="btn btn-light" type="button" data-bs-dismiss="modal">キャンセル</button>
+                        <%= button_to "返却する", item_lending_path(borrowing_item.item, borrowing_item), method: :patch, class: "btn btn-primary w-100" %>
+                      </div>
+                  </div>
+                </div>
+              </div>
+
+          <% end %>
+        </div>
+
+      <% else %>
+        <div class="text-center py-5 bg-light rounded-3">
+          <div class="fs-1 mb-3">🍃</div>
+          <p class="text-muted mb-0">現在借りているアイテムはありません。</p>
+          <%= link_to "アイテム一覧から探す", items_path, class: "btn btn-primary mt-3" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<%#　返却期日または返却期限なら、モーダルメッセージを表示する %>
+<% if notice.blank? && @borrowing_items.any? { |borrowing_item| borrowing_item.due_at.to_date <= Date.current }%>
+  <div class="flash-container position-fixed top-0 start-50 translate-middle-x mt-3 p-3 mention alert alert-danger" style="z-index: 1100; width: 100%; max-width: 500px; pointer-events: none; transition: opacity 1s ease; opacity: 1;" data-controller="mention">
+      <div class="d-flex align-items-center justify-content-center">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        <% if @borrowing_items.any? { |item| item.due_at.to_date < Date.current } %>
+          <span class="text-danger fw-bold fs-5 mb-0">返却を過ぎているアイテムがあります。</span>
+        <% elsif @borrowing_items.any? { |item| item.due_at.to_date == Date.current } %>
+          <span class="text-danger fw-bold fs-5 mb-0">返却期日のアイテムがあります。</span>
+        <% end %>
+      </div>
+  </div>
+<% end %>

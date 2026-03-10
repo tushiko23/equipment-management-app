@@ -1,0 +1,82 @@
+<div class="container py-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold">登録ユーザー</h2>
+    <%# 1. 強い権限から順番に判定する！ %>
+    <% if current_user.super_admin? || current_user.can_create_admin_users? %>
+      <% button_message = "ユーザーを追加" %>
+    <% elsif current_user.can_create_general_users? %>
+      <% button_message = "一般ユーザーを追加" %>
+    <% else %>
+      <% button_message = nil %>
+    <% end %>
+
+    <%# 2. 重複を消して、ボタンを1つだけにする！ %>
+    <% if button_message.present? %>
+      <%= link_to new_admin_user_path, class: "btn btn-primary rounded-pill px-4" do %>
+        <i class="bi bi-plus-lg"></i>
+        <%= button_message %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="card shadow-sm mb-5 border-0">
+    <div class="card-body p-4">
+      <%= search_form_for @q, url: admin_users_path, class: "row g-3" do |f| %>
+        <div class="col-md-10">
+          <%= f.search_field :name_or_email_cont, value: params.dig(:q, :name_or_email_cont), placeholder: "ユーザ名やメールで検索", class: "form-control form-control-lg" %>
+        </div>
+        <div class="col-md-2">
+          <%= f.submit "検索", class: "btn btn-primary w-100 btn-lg" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <% #　アイテムリスト（グリッド表示）%>
+  <h3 class="mb-3"><%= "#{@users.count}件のユーザー" %></h3>
+  <% if params[:q].present? %>
+    <div class="mb-4">
+      <%= link_to admin_users_path, class: "text-decoration-none text-secondary" do %>
+        &laquo; 一覧に戻る
+      <% end %>
+    </div>
+  <% end %>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <% @users.each do |user| %>
+      <div class="col">
+        <div style="transition: transform 0.2s;" class="card h-100 shadow-sm border-0">
+          <% # 画像プレースホルダー（将来的に画像機能を入れたらここを置き換え）%>
+          <div style="height: 200px; border-radius: 0.5rem 0.5rem 0 0;" class="bg-light d-flex justify-content-center align-items-center">
+            <% if user.persisted? && user.avatar.attached? %>
+              <%= image_tag user.avatar, class: "img-thumbnail", style: "width: 100%; height: 100%; object-fit: fill;" %>
+            <% else %>
+              <%= image_tag 'default-avatar.png', class: "rounded-lg img-thumbnail mb-3", style: "width: 150px; height: 150px; object-fit: cover;" %>
+            <% end %>
+          </div>
+
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <% # カテゴリバッジ %>
+              <span class="badge bg-light text-dark border">
+                <%= user.role_i18n %>
+              </span>
+
+            </div>
+            
+            <h5 class="card-title fw-bold mt-2"><%= user.name %></h5>
+            <p class="card-text text-muted small text-truncate">
+              <%= user.email %>
+            </p>
+          </div>
+
+          <div class="card-footer bg-white border-0 pb-3">
+            <%= link_to admin_user_path(user), class: "btn btn-primary w-100 rounded-pill" do %>
+            詳細を見る
+            <% end %>
+          </div>
+
+        </div>
+      </div>
+  <% end %>
+  </div>
+</div>

@@ -1,0 +1,100 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+
+          <h2 class="text-center mb-4 fw-bold">アイテムの編集</h2>
+
+          <%= form_with model: [:admin, @item], local: true do |f| %>
+
+            <%# ▼ アイテム画像 ▼ %>
+            <div class="mb-3 text-center">
+              <% if @item.persisted? && @item.image.attached? && !@item.errors.include?(:image) %>
+                <%= image_tag @item.image, class: "img-thumbnail mb-3", style: "width: 80%; height: 200px; object-fit: fill;" %>
+              <% else %>
+                <%= image_tag 'default-avatar.png', class: "rounded-lg img-thumbnail mb-3", style: "width: 200px; height: 200px; object-fit: cover;" %>
+              <% end %>
+              <% if @item.errors.include?(:image) %>
+                <div style="color: red;" class="my-3"><%= @item.errors.full_messages_for(:image).first %></div>
+              <% end %>
+              <div class="input-group justify-content-center">
+                <%= f.file_field :image, class: "form-control", id: "inputGroupFile04" %>
+              </div>
+              <div class="form-text mt-2">新しいアイコン画像を選択</div>
+            </div>
+            <div class="mb-3">
+              <%= f.label :name, class: "form-label" %>
+              <%= f.text_field :name, autofocus: true, autocomplete: "name", class: "form-control", placeholder: "アイテム名を入力", id: "item_name" %>
+              <% if @item.errors.include?(:name) %>
+                <div style="color: red;" class="mt-3"><%= @item.errors.full_messages_for(:name).first %></div>
+              <% end %>
+            </div>
+
+            <%# ▼ アイテム整理番号 ▼ %>
+            <div class="mb-3">
+              <%= f.label :unique_id, class: "form-label" %>
+              <%= f.text_field :unique_id, autocomplete: "unique_id", class: "form-control", placeholder: "例: 12-45", id: "unique_id" %>
+              <% if @item.errors.include?(:unique_id) %>
+                <div style="color: red;" class="mt-3"><%= @item.errors.full_messages_for(:unique_id).first %></div>
+              <% end %>
+            </div>
+
+            <%# ▼ カテゴリー選択 ▼ %>
+            <div class="mb-3">
+              <%= f.label :category_id, class: "form-label" %>
+              <% category_class = @item.errors.include?(:category) ? "form-select is-invalid" : "form-select" %>
+              <%= f.collection_select(:category_id, Category.all, :id, :name, { prompt: "選択してください" }, { class: category_class }) %>
+              <% if @item.errors.include?(:category) %>
+                <div class="invalid-feedback mt-3"  style="color: red;">
+                  <%= @item.errors.full_messages_for(:category).first %>
+                </div>
+              <% end %>
+            </div>
+
+            <%# ▼ 貸出可・貸出中・メンテ中の選択 ▼ %>
+            <div class="mb-3">
+              <%= f.label :state, class: "form-label" %>
+              <%= f.select :state, Item.states_i18n.except("borrowed").invert, {}, class: "form-control" %>
+              <% if @item.errors.include?(:state) %>
+                <div style="color: red;" class="mt-3"><%= @item.errors.full_messages_for(:state).first %></div>
+              <% end %>
+            </div>
+
+            <%# ▼ 説明文 ▼ %>
+            <div class="mb-3">
+              <div class="d-flex justify-content-between align-items-center">
+                <%= f.label :description, class: "form-label" %>
+              </div>
+              <%= f.text_area :description, autocomplete: "new-description", class: "form-control", style: "height: 100px;" %>
+              <% if @item.errors.include?(:description) %>
+                <div style="color: red;" class="mt-3"><%= @item.errors.full_messages_for(:description).first %></div>
+              <% end %>
+            </div>
+
+            <div class="mb-3">
+              <%= f.label :tag_names, class: "form-label" %>
+              <%= f.text_field :tag_names, value: @item.tags.map { |tag| tag.name }.join(' '), autocomplete: "tag_names", class: "form-control", placeholder: "スペース区切りで入力（例：PC スマホ）" %>
+              <% if @item.errors.include?(:tag_names) %>
+                <div style="color: red;" class="mt-3"><%= @item.errors.full_messages_for(:tag_names).first %></div>
+              <% end %>
+            </div>
+            <%# ▼ 登録ボタン ▼ %>
+            <div class="d-grid gap-2 mt-4">
+              <%= f.submit "編集する", class: "btn btn-primary" %>
+            </div>
+            
+          <% end %>
+
+          <%# ▼ ログイン画面へのリンクなど ▼ %>
+          <div class="mt-4 text-center">
+            <%= link_to admin_item_path(@item), class: "btn btn-outline-secondary w-100 rounded-pill" do %>
+              アイテム詳細に戻る
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,78 @@
+<header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-2">
+    <div class="container">
+      
+      <%# --- ロゴ部分 --- %>
+      <%= link_to root_path, class: "navbar-brand d-flex align-items-center text-decoration-none" do %>
+        <%= image_tag "header-logo.png", style: "height: 40px;", class: "d-none d-md-block", alt: "ヘッダーアイコン"%>
+        <%= image_tag "default-favicon.png", style: "height: 40px;", class: "d-md-none ", alt: "ヘッダーアイコン"%>
+      <% end %>
+
+      <%# --- ハンバーガーボタン --- %>
+      <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <%# --- メニュー項目 --- %>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <%# スマホ時のみ表示される仕切り線 %>
+        <hr class="d-lg-none my-2 text-black-50">
+
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+          <% if user_signed_in? %>
+            <%# --- ユーザー情報セクション --- %>
+            <li class="nav-item d-flex align-items-center py-2 px-lg-3">
+              <%= image_tag 'default-avatar.png', class: "rounded-circle border shadow-sm me-2", style: "width: 32px; height: 32px; object-fit: cover;" %>
+              <span class="small fw-bold text-secondary">
+                <% if current_user.name.present? %>
+                  <%= current_user.name %>さん
+                <% else %>
+                  <%= current_user.email.split('@').first %> さん
+                <% end %>
+              </span>
+            </li>
+
+            <%# --- 一般メニュー --- %>
+            <li class="nav-item">
+              <%= link_to items_path, class: "nav-link py-3 py-lg-2 fw-bold text-dark d-flex align-items-center" do %>
+                <i class="bi bi-search me-2 text-primary"></i>アイテムを探す
+              <% end %>
+            </li>
+            <li class="nav-item">
+              <%= link_to lendings_path, class: "nav-link py-3 py-lg-2 fw-bold text-dark d-flex align-items-center" do %>
+                <i class="bi bi-card-checklist me-2 text-success"></i>借りているアイテム
+              <% end %>
+            </li>
+
+            <%# --- 管理者メニュー（スマホでも見やすく） --- %>
+            <% if current_user.admin? || current_user.super_admin? %>
+              <li class="nav-item dropdown my-1 my-lg-0 mx-lg-2">
+                <a class="nav-link dropdown-toggle py-3 py-lg-2 px-3 bg-light rounded fw-bold text-danger" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="bi bi-gear-fill me-2"></i>管理者メニュー
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0" aria-labelledby="adminDropdown">
+                  <li><%= link_to "ユーザー管理", admin_users_path, class: "dropdown-item py-2" %></li>
+                  <li><%= link_to "アイテム管理", admin_items_path, class: "dropdown-item py-2" %></li>
+                  <li><%= link_to "カテゴリ管理", admin_categories_path, class: "dropdown-item py-2" %></li>
+                </ul>
+              </li>
+            <% end %>
+
+            <%# --- アクションボタン --- %>
+            <li class="nav-item mt-3 mt-lg-0 me-lg-2">
+              <%= link_to "マイページ", user_path(current_user.id), class: "btn btn-outline-secondary w-100 rounded-pill px-4" %>
+            </li>
+            <li class="nav-item mt-2 mt-lg-0">
+              <%= button_to "ログアウト", destroy_user_session_path, method: :delete, class: "btn btn-outline-danger w-100 rounded-pill px-4" %>
+            </li>
+
+          <% else %>
+            <li class="nav-item mt-2 mt-lg-0">
+              <%= link_to "ログイン", new_user_session_path, class: "btn btn-primary w-100 rounded-pill px-4 text-white shadow-sm" %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>

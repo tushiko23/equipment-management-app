@@ -1,4 +1,7 @@
-#!/bin/bash -e
+#!/bin/bash
+
+# Rails 特有の「前回の消し忘れ」を削除
+rm -f /equipment-management-app/tmp/pids/server.pid
 
 # Enable jemalloc for reduced memory usage and latency.
 if [ -z "${LD_PRELOAD+x}" ] && [ -f /usr/lib/*/libjemalloc.so.2 ]; then

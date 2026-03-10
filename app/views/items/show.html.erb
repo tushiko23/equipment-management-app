@@ -1,0 +1,118 @@
+<div class="container py-5">
+
+  <% # パンくずリスト風の「戻る」リンク %>
+    <div class="mb-4">
+      <%= link_to "javascript:history.back()", class: "text-decoration-none text-secondary" do %>
+        &laquo; 戻る
+      <% end %>
+    </div>
+
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <div class="card shadow border-0">
+        <div class="card-body p-4 p-md-5">
+          <% # ヘッダー部分：名前とステータス %>
+          <div class="d-flex justify-content-between align-items-start mb-4 border-bottom pb-3">
+            <div>
+              <h1 class="fw-bold mb-2"><%= @item.name %></h1>
+              <span class="text-muted small"><%= "ID: #{@item.unique_id}" %></span>
+            </div>
+
+            <% if @item.available? %>
+              <span class="badge bg-success fs-6 px-3 py-2">貸出可</span>
+            <% elsif @item.borrowed? %>
+              <span class="badge bg-danger fs-6 px-3 py-2">貸出中</span>
+            <% else %>
+              <span class="badge bg-secondary fs-6 px-3 py-2">メンテ中</span>
+            <% end %>
+          </div>
+
+          <div class="row g-5">
+            <div class="col-md-5">
+              <div style="height: 300px; font-size: 6rem;" class="bg-light rounded-3 d-flex justify-content-center align-items-center text-secondary shadow-sm">
+                <% if @item.persisted? && @item.image.attached? %>
+                  <%= image_tag @item.image, class: "img-thumbnail", style: "width: 100%; height: 100%; object-fit: fill;" %>
+                <% else %>
+                  <%= image_tag 'default-avatar.png', class: "rounded-lg img-thumbnail mb-3", style: "width: 150px; height: 150px; object-fit: cover;" %>
+                <% end %>
+              </div>
+            </div>
+
+            <div class="col-md-7">
+              <h5 class="fw-bold text-primary mb-3">
+                <i class="bi bi-info-circle me-2">
+                基本情報
+                </i>
+              </h5>
+
+              <dl class="row mb-5">
+                <dt class="col-sm-4 text-muted">カテゴリ</dt>
+                <dd class="col-sm-8"><%= @item.category.name %></dd>
+
+                <dt class="col-sm-4 text-muted">詳細説明</dt>
+                <dd class="col-sm-8"><%= simple_format(@item.description) %></dd>
+                
+
+                <dt class="col-sm-4 text-muted">登録日</dt>
+                <dd class="col-sm-8"><%= @item.created_at.strftime("%Y年%m月%d日")%></dd>
+              
+                <dt class="col-sm-4 text-muted mb-2">タグ一覧</dt>
+                <dd class="col-sm-8 d-flex flex-wrap gap-2">
+                  <% @item.tags.each do |tag| %>
+                    <span class="badge bg-secondary rounded-pill fs-6"><%= tag.name %></span>
+                  <% end %>
+                </dd>
+
+                <%= link_to "コメントを見る", item_comments_path(@item), class: "col-sm-4 text-muted" %>
+              </dl>
+            </div>
+
+            <div class="d-grid gap-2">
+              <% if @item.available? %>
+                <button class="btn btn-primary btn-lg rounded-pill py-3 shadow-sm" type="button" onclick="new bootstrap.Modal(document.getElementById('borrowModal')).show()">
+                  このアイテムを借りる
+                </button>
+              <% elsif @item.borrowed? %>
+                <button class="btn btn-danger btn-lg rounded-pill py-3" disabled="true">
+                  現在貸出中です
+                </button>
+              <% else %>
+                <button class="btn btn-secondary btn-lg rounded-pill py-3" disabled="true">
+                  現在メンテ中です
+                </button>
+              <% end %>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="borrowModal" class="modal fade" tabindex="-1" aria-labelledby="borrowModalLabel" aria-hidden="true" >
+  <div class="modal-dialog modal-dialog-centered" >
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <h5 id="borrowModalLabel" class="modal-title fw-bold">貸出の手続き</h5>
+        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <%= form_with model: [ @item, Lending.new ], url: item_lendings_path(@item) do |f| %>
+        <div class="modal-body">
+          <p><%= "#{@item.name}を借りますか？" %></p>
+          <div class="mb-3">
+            <%= f.label :due_at, "返却予定日", class: "form-label fw-bold" %>
+            <%= f.date_field :due_at, class: "form-control", min: Date.current, required: true %>
+          </div>
+        </div>
+
+        <div class="modal-footer border-0">
+          <button class="btn btn-light" type="button" data-bs-dismiss="modal">キャンセル</button>
+          <%= f.submit "確定して借りる", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

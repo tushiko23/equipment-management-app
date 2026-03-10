@@ -40,6 +40,9 @@ gem "sassc-rails"
 # schema.rbにテーブル・カラムをメモするため
 gem "annotate"
 
+# Active Strage に画像をリサイズした時に表示するためのgem
+gem "image_processing", "~> 1.2"
+
 # 開発用にダミーデータを使用するときのため
 gem "faker"
 # errorメッセージを見やすくする&chrome上でコンソールを使えるようにする
@@ -65,8 +68,13 @@ gem "rails-i18n", "~> 7.0"
 gem "devise-i18n"
 gem "devise-i18n-views"
 
+# enumメッセージの日本語化
+gem "enum_help"
 # envファイルをrailsで使うためのgem
 gem "dotenv-rails"
+
+# 画像をAmazonS3に保存
+gem "aws-sdk-s3", require: false
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -77,6 +85,9 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+
+  # Rspecの導入
+  gem "rspec-rails"
 end
 
 group :development do
